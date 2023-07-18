@@ -1,39 +1,40 @@
-'use client'
-
 import React from 'react';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import { Link } from '@mui/material';
 
 interface SideNavItemProps {
   text: string;
-  index: number;
   open: boolean;
+  icon: any;
+  path: string;
 }
 
-const SideNavItem = ({ text, index, open }: SideNavItemProps) => (
-  <ListItem disablePadding sx={{ display: 'block' }}>
-    <ListItemButton
-      sx={{
-        minHeight: 48,
-        justifyContent: open ? 'initial' : 'center',
-        px: 2.5,
-      }}
-    >
-      <ListItemIcon
+
+const SideNavItem = ({ text, open, icon, path}: SideNavItemProps) => (
+  <ListItem disablePadding sx={{ display: 'block'}}>
+    <Link href={path}>
+      <ListItemButton
         sx={{
-          minWidth: 0,
-          mr: open ? 3 : 'auto',
-          justifyContent: 'center',
+          minHeight: 48,
+          justifyContent: open ? 'initial' : 'center',
+          px: 2.5,
         }}
       >
-        {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-      </ListItemIcon>
-      <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-    </ListItemButton>
+        <ListItemIcon
+          sx={{
+            minWidth: 0,
+            mr: open ? 3 : 'auto',
+            justifyContent: 'center',
+          }}
+        >
+          {icon}
+        </ListItemIcon>
+        <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+      </ListItemButton>
+    </Link>
   </ListItem>
 );
 

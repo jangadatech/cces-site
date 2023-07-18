@@ -28,7 +28,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             <TopNav open={open} handleDrawerOpen={handleDrawerOpen} />
             <SideNav open={open} handleDrawerClose={handleDrawerClose}>
             </SideNav>
-            <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+            <Box component="main" sx={{ flexGrow: 1, p: 10 }}>
               {children}
             </Box>
           </Box>
