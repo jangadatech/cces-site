@@ -2,11 +2,11 @@
 import palette from './palette';
 import typography from './typography';
 
-const theme = {
+const themes = {
   palette,
   typography,
   drawerWidth: 240,
   drawerWidthMin: 54
 };
 
-export default theme;
+export default themes;

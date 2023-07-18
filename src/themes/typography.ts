@@ -1,6 +1,6 @@
 // theme/typography.js
 const typography = {
-    fontFamily: 'Inter, Arial, sans-serif',
+    fontFamily: 'Roboto, Arial, sans-serif',
     fontSize: {
       base: '16px',
       sm: '18px',

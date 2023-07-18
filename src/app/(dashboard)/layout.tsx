@@ -2,7 +2,7 @@
 import React from 'react';
 import TopNav from './top-nav';
 import SideNav from './side-nav';
-import { Box, CssBaseline, Typography } from '@mui/material';
+import { Box, CssBaseline} from '@mui/material';
 
 interface RootLayoutProps {
   children: React.ReactNode;

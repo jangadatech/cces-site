@@ -6,6 +6,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import palette from '@/themes/palette';
 
 interface TopNavWrapperProps {
   theme: Theme;
@@ -41,10 +42,9 @@ const TopNav = ({ open, handleDrawerOpen }: TopNavProps) => {
   const theme = useTheme();
 
   return (
-    <TopNavWrapper position="fixed" open={open} theme={theme}>
+    <TopNavWrapper position="fixed" open={open} theme={theme} color={'default'}>
       <Toolbar>
         <IconButton
-          color="inherit"
           aria-label="open drawer"
           onClick={handleDrawerOpen}
           edge="start"
@@ -55,9 +55,6 @@ const TopNav = ({ open, handleDrawerOpen }: TopNavProps) => {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" noWrap component="div">
-          Mini variant drawer
-        </Typography>
       </Toolbar>
     </TopNavWrapper>
   );
