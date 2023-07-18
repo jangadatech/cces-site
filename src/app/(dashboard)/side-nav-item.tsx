@@ -5,7 +5,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { Link } from '@mui/material';
 import palette from '@/themes/palette';
-import { Palette } from '@mui/icons-material';
 
 interface SideNavItemProps {
   text: string;
@@ -14,30 +13,37 @@ interface SideNavItemProps {
   path: string;
 }
 
+const SideNavItem = ({ text, open, icon, path }: SideNavItemProps) => {
+  const isSelected = window.location.pathname === path;
 
-const SideNavItem = ({ text, open, icon, path}: SideNavItemProps) => (
-  <ListItem disablePadding sx={{ display: 'block'}}>
-    <Link href={path} underline="none" sx={{color: palette.text.primary }}>
-      <ListItemButton
-        sx={{
-          minHeight: 48,
-          justifyContent: open ? 'initial' : 'center',
-          px: 2.5,
-        }}
-      >
-        <ListItemIcon
+  return (
+      <Link href={path} underline="none" sx={{ color: palette.text.primary }}>
+    <ListItem disablePadding sx={{ display: 'block' }} selected={isSelected}>
+        <ListItemButton
           sx={{
-            minWidth: 0,
-            mr: open ? 3 : 'auto',
-            justifyContent: 'center',
+            minHeight: 48,
+            justifyContent: open ? 'initial' : 'center',
+            px: 2.5,
+            m: 1,
+            backgroundColor: isSelected ? palette.background.dark : 'transparent',
+            borderRadius: '4px',
           }}
         >
-          {icon}
-        </ListItemIcon>
-        <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-      </ListItemButton>
-    </Link>
-  </ListItem>
-);
+          <ListItemIcon
+            sx={{
+              minWidth: 0,
+              mr: open ? 3 : 'auto',
+              justifyContent: 'center',
+              color: isSelected ? 'white' : 'inherit',
+            }}
+          >
+            {icon}
+          </ListItemIcon>
+          <ListItemText primary={text} sx={{ opacity: open ? 1 : 0, color: isSelected ? 'white' : 'inherit' }} />
+        </ListItemButton>
+    </ListItem>
+      </Link>
+  );
+};
 
 export default SideNavItem;

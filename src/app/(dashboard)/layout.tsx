@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, { useState } from 'react';
 import TopNav from './top-nav';
 import SideNav from './side-nav';
 import { Box, CssBaseline} from '@mui/material';
@@ -9,7 +9,7 @@ interface RootLayoutProps {
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(true);
 
   const handleDrawerOpen = () => {
     setOpen(true);

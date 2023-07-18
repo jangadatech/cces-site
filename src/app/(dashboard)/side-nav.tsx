@@ -10,7 +10,6 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import typography from '@/themes/typography';
 import SideNavItem from './side-nav-item';
 import palette from '@/themes/palette';
-import { useRouter } from 'next/router';
 
 interface SideNavProps {
   open: boolean;
@@ -65,14 +64,14 @@ const SideNav = ({ open, handleDrawerClose, children }: SideNavProps) => {
         </IconButton>
       </DrawerHeader>
       <SideNavItem 
-        icon={<CardIcon sx={{ color: palette.text.primary }}/>} 
+        icon={<CardIcon />} 
         open={open} 
         path={'/'} 
         text='Dashboard'
         />
-      <SideNavItem icon={<CardIcon sx={{ color: palette.text.primary }} />} open={open} path={'/input-output'} text='Entrada e Saída'/>
+      <SideNavItem icon={<CardIcon />} open={open} path={'/input-output'} text='Entrada e Saída'/>
       <Divider />
-      <SideNavItem icon={<CardIcon sx={{ color: palette.text.primary }} />} open={open} path={'/sign-out'} text='Sair'/>
+      <SideNavItem icon={<CardIcon />} open={open} path={'/sign-out'} text='Sair'/>
     </SideNavWrapper>
   );
 };

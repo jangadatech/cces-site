@@ -14,6 +14,7 @@ const palette = {
     secondary: '#CCCCCC', //text-white
   },
   background: {
+    dark: '#333333',
     default: '#F3F4F6',  //bg-gray-100
     paper: '#FFFFFF', //bg-white
   },
