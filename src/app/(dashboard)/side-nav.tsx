@@ -13,7 +13,7 @@ import palette from '@/themes/palette';
 
 interface SideNavProps {
   open: boolean;
-  handleDrawerClose: () => void;
+  handleDrawer: () => void;
   children: React.ReactNode;
 }
 
@@ -53,22 +53,17 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   fontSize: typography.fontSize.lg, 
 }));
 
-const SideNav = ({ open, handleDrawerClose, children }: SideNavProps) => {
-  const theme = useTheme();
+const SideNav = ({ open, handleDrawer, children }: SideNavProps) => {
 
   return (
     <SideNavWrapper variant="permanent" open={open}>
       <DrawerHeader>
-        <IconButton onClick={handleDrawerClose}>
-          {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+        <IconButton onClick={handleDrawer}>
+          {open?  <ChevronLeftIcon />: <ChevronRightIcon />}
         </IconButton>
       </DrawerHeader>
       <SideNavItem 
-        icon={<CardIcon />} 
-        open={open} 
-        path={'/'} 
-        text='Dashboard'
-        />
+        icon={<CardIcon />} open={open} path={'/'} text='Dashboard'/>
       <SideNavItem icon={<CardIcon />} open={open} path={'/input-output'} text='Entrada e Saída'/>
       <Divider />
       <SideNavItem icon={<CardIcon />} open={open} path={'/sign-out'} text='Sair'/>

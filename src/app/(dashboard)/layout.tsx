@@ -1,6 +1,5 @@
 'use client'
 import React, { useState } from 'react';
-import TopNav from './top-nav';
 import SideNav from './side-nav';
 import { Box, CssBaseline} from '@mui/material';
 
@@ -11,12 +10,8 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
   const [open, setOpen] = useState(true);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
+  const handleDrawer = () => {
+    setOpen(!open);
   };
 
   return (
@@ -25,8 +20,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <body>
           <Box sx={{ display: 'flex' }}>
             <CssBaseline />
-            <TopNav open={open} handleDrawerOpen={handleDrawerOpen} />
-            <SideNav open={open} handleDrawerClose={handleDrawerClose}>
+            {/* <TopNav open={open} handleDrawerOpen={handleDrawerOpen} /> */}
+            <SideNav open={open} handleDrawer={handleDrawer}>
             </SideNav>
             <Box component="main" sx={{ flexGrow: 1, p: 10 }}>
               {children}
