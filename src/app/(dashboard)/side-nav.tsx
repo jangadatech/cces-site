@@ -1,4 +1,5 @@
 'use client'
+
 import React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Drawer from '@mui/material/Drawer';
@@ -10,7 +11,6 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import typography from '@/themes/typography';
 import SideNavItem from './side-nav-item';
 import palette from '@/themes/palette';
-
 interface SideNavProps {
   open: boolean;
   handleDrawer: () => void;
@@ -63,8 +63,8 @@ const SideNav = ({ open, handleDrawer, children }: SideNavProps) => {
         </IconButton>
       </DrawerHeader>
       <SideNavItem 
-        icon={<CardIcon />} open={open} path={'/'} text='Dashboard'/>
-      <SideNavItem icon={<CardIcon />} open={open} path={'/input-output'} text='Entrada e Saída'/>
+        icon={<CardIcon />} open={open} path={'/'} text='Dashboard' />
+      <SideNavItem icon={<CardIcon />} open={open} path={'/input-output'} text='Entrada e Saída' />
       <Divider />
       <SideNavItem icon={<CardIcon />} open={open} path={'/sign-out'} text='Sair'/>
     </SideNavWrapper>
