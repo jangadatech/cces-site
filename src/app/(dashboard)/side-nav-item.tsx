@@ -35,6 +35,7 @@ const SideNavItem = ({ text, open, icon, path }: SideNavItemProps) => {
             '&:hover': {
               backgroundColor: isSelected ? palette.background.dark : palette.background.default,
             },
+            overflowX: 'hidden'
           }}
         >
           <ListItemIcon

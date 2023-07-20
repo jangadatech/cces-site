@@ -1,8 +1,9 @@
-import { useTheme } from '@mui/material/styles';
+'use client'
+
+import themes from "@/themes";
 
 export const Logo = () => {
-  const theme = useTheme();
-  const fillColor = theme.palette.secondary.dark;
+  const fillColor = themes.palette.secondary.dark;
 
   return (
     <svg

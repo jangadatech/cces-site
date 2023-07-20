@@ -11,8 +11,9 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import typography from '@/themes/typography';
 import SideNavItem from './side-nav-item';
 import palette from '@/themes/palette';
-import { Logo } from '../components/Logo';
 import { Box } from '@mui/material';
+import { Logo } from '@/components/Logo';
+
 interface SideNavProps {
   open: boolean;
   handleDrawer: () => void;
@@ -21,7 +22,7 @@ interface SideNavProps {
 
 const SideNavWrapper = styled(Drawer, { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
-    width: open ? 240: 54,
+    width: open ? 240 : 54,
     flexShrink: 0,
     whiteSpace: 'nowrap',
     boxSizing: 'border-box',
@@ -52,16 +53,21 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
-  fontSize: typography.fontSize.lg, 
+  fontSize: typography.fontSize.lg,
 }));
 
-const SideNav = ({ open, handleDrawer, children }: SideNavProps) => {
+const BottomNavContainer = styled('div')({
+  position: 'absolute',
+  bottom: 10,
+  width: '100%',
+});
 
+const SideNav = ({ open, handleDrawer, children }: SideNavProps) => {
   return (
     <SideNavWrapper variant="permanent" open={open}>
       <DrawerHeader>
         <IconButton onClick={handleDrawer}>
-          {open?  <ChevronLeftIcon />: <ChevronRightIcon />}
+          {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
         </IconButton>
       </DrawerHeader>
       <Box
@@ -69,7 +75,8 @@ const SideNav = ({ open, handleDrawer, children }: SideNavProps) => {
           display: 'flex',
           width: '100%',
           justifyContent: 'center',
-          p: open ? 3: 1,
+          p: open ? 3 : 1,
+          mb: 3
         }}
       >
         <Box
@@ -82,11 +89,15 @@ const SideNav = ({ open, handleDrawer, children }: SideNavProps) => {
           <Logo />
         </Box>
       </Box>
-      <SideNavItem 
-        icon={<CardIcon />} open={open} path={'/'} text='Dashboard' />
-      <SideNavItem icon={<CardIcon />} open={open} path={'/input-output'} text='Entrada e Saída' />
-      <Divider />
-      <SideNavItem icon={<CardIcon />} open={open} path={'/sign-out'} text='Sair'/>
+      <div>
+        <SideNavItem icon={<CardIcon />} open={open} path={'/'} text="Dashboard" />
+        <SideNavItem icon={<CardIcon />} open={open} path={'/input-output'} text="Entrada e Saída" />
+        <SideNavItem icon={<CardIcon />} open={open} path={'/auth/signin'} text="Login" />
+      </div>
+      <BottomNavContainer>
+        <Divider /> 
+        <SideNavItem icon={<CardIcon />} open={open} path={'/sign-out'} text="Sair" />
+      </BottomNavContainer>
     </SideNavWrapper>
   );
 };
