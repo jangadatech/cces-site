@@ -11,6 +11,8 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import typography from '@/themes/typography';
 import SideNavItem from './side-nav-item';
 import palette from '@/themes/palette';
+import { Logo } from '../components/Logo';
+import { Box } from '@mui/material';
 interface SideNavProps {
   open: boolean;
   handleDrawer: () => void;
@@ -62,6 +64,24 @@ const SideNav = ({ open, handleDrawer, children }: SideNavProps) => {
           {open?  <ChevronLeftIcon />: <ChevronRightIcon />}
         </IconButton>
       </DrawerHeader>
+      <Box
+        sx={{
+          display: 'flex',
+          width: '100%',
+          justifyContent: 'center',
+          p: open ? 3: 1,
+        }}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            height: 32,
+            width: 32,
+          }}
+        >
+          <Logo />
+        </Box>
+      </Box>
       <SideNavItem 
         icon={<CardIcon />} open={open} path={'/'} text='Dashboard' />
       <SideNavItem icon={<CardIcon />} open={open} path={'/input-output'} text='Entrada e Saída' />
