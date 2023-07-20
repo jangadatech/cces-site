@@ -1,60 +1,23 @@
-'use client'
 import React from 'react';
-import { Theme, styled, useTheme } from '@mui/material/styles';
-import AppBar, { AppBarProps } from '@mui/material/AppBar';
+import { styled } from '@mui/material/styles';
+import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import palette from '@/themes/palette';
+import Avatar from '@mui/material/Avatar';
 
-interface TopNavWrapperProps {
-  theme: Theme;
-  open: boolean;
-}
+const TopNavWrapper = styled(AppBar)(({ theme }) => ({
+  backgroundColor: 'transparent',
+  width: '100%',
+  marginLeft: 0,
+  color: theme.palette.text.primary, 
+  boxShadow: 'none'
+}));
 
-const drawerWidth = 240;
-
-const TopNavWrapper = styled(AppBar, { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme, open }: TopNavWrapperProps) => ({
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    ...(open && {
-      marginLeft: drawerWidth,
-      width: `calc(100% - ${drawerWidth}px)`,
-      transition: theme.transitions.create(['width', 'margin'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-    }),
-  })
-);
-
-interface TopNavProps extends AppBarProps {
-  open: boolean;
-  handleDrawerOpen: () => void;
-}
-
-const TopNav = ({ open, handleDrawerOpen }: TopNavProps) => {
-  const theme = useTheme();
-
+const TopNav = () => {
   return (
-    <TopNavWrapper position="fixed" open={open} theme={theme} color={'default'}>
+    <TopNavWrapper position="fixed">
       <Toolbar>
-        <IconButton
-          aria-label="open drawer"
-          onClick={handleDrawerOpen}
-          edge="start"
-          sx={{
-            marginRight: 5,
-            ...(open && { display: 'none' }),
-          }}
-        >
-          <MenuIcon />
-        </IconButton>
+        <div style={{ flexGrow: 1 }} />
+        <Avatar alt="Remy Sharp" src="https://www.w3schools.com/howto/img_avatar.png" />
       </Toolbar>
     </TopNavWrapper>
   );

@@ -13,6 +13,7 @@ import SideNavItem from './side-nav-item';
 import palette from '@/themes/palette';
 import { Box } from '@mui/material';
 import { Logo } from '@/components/Logo';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 interface SideNavProps {
   open: boolean;
@@ -96,7 +97,7 @@ const SideNav = ({ open, handleDrawer, children }: SideNavProps) => {
       </div>
       <BottomNavContainer>
         <Divider /> 
-        <SideNavItem icon={<CardIcon />} open={open} path={'/sign-out'} text="Sair" />
+        <SideNavItem icon={<LogoutIcon />} open={open} path={'/sign-out'} text="Sair" />
       </BottomNavContainer>
     </SideNavWrapper>
   );
