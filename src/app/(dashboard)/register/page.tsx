@@ -22,20 +22,26 @@ const profiles = [
 ];
 
 async function createUser(data: User) {
-  const res = await fetch(`${URL}/users`, {})
-  if (!res.ok) {
+  try {
+    const res = await fetch(`${URL}/api/users`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    })
+
+    return res.json()
+  } catch (error) {
     throw new Error('Failed to fetch data')
   }
- 
-  return res.json()
 }
 
 const Register = () => {
   const handleSubmit = async (values: FormikValues, { setSubmitting, resetForm }: any) => {
     try {
-        // const db = await connectToDatabase();
-        // const collection = db.collection('users');
-        // await collection.insertOne(values);
+
+      await createUser(values as User)
 
       resetForm();
 
@@ -67,7 +73,7 @@ const Register = () => {
           <div>
             <Formik
               initialValues={{
-                email: '',
+                username: '',
                 password: '',
                 profile: '',
               }}
@@ -80,8 +86,8 @@ const Register = () => {
                       as={TextField}
                       fullWidth
                       label="Username"
-                      name="email"
-                      type="email"
+                      name="username"
+                      type="text"
                     />
                     <Field
                       as={TextField}
