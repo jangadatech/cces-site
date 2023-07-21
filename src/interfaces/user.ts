@@ -7,5 +7,6 @@ export enum Profile {
 export interface User {
   username: string;
   password: string;
-  profile: Profile;
+  profile: Profile | string;
+  created_at?: string;
 }

@@ -94,7 +94,7 @@ const SideNav = ({ open, handleDrawer, children }: SideNavProps) => {
         <SideNavItem icon={<CardIcon />} open={open} path={'/'} text="Dashboard" />
         <SideNavItem icon={<CardIcon />} open={open} path={'/input-output'} text="Entrada e Saída" />
         <SideNavItem icon={<CardIcon />} open={open} path={'/auth/signin'} text="Login" />
-        <SideNavItem icon={<CardIcon />} open={open} path={'/register'} text="Novo Usuário" />
+        <SideNavItem icon={<CardIcon />} open={open} path={'/users'} text="Usuários" />
       </div>
       <BottomNavContainer>
         <Divider /> 

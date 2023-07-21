@@ -6,7 +6,7 @@ export default function Home() {
         <title>
           CCES | Dasboard
         </title>
-      <h1>OII</h1>
+      <h1>Dashboard</h1>
     </>
   )
 }
