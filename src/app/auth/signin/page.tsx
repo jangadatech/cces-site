@@ -102,7 +102,7 @@ const SignIn = () => {
                 type="submit"
                 variant="contained"
               >
-                Continue
+                Entrar
               </Button>
               <Button
                 fullWidth
