@@ -1,129 +1,75 @@
-'use client'
-
 import Head from 'next/head';
 import NextLink from 'next/link';
 import {
-  Alert,
   Box,
   Button,
-  FormHelperText,
-  Link,
+  Container,
   Stack,
-  Tab,
-  Tabs,
   TextField,
   Typography
 } from '@mui/material';
 
 const SignIn = () => {
-
   return (
     <>
       <Head>
-        Login | CCES
+        <title>Login | Central de Controle de Entrada e Saída - CCES</title>
       </Head>
       <Box
         sx={{
           backgroundColor: 'background.paper',
-          flex: '1 1 auto',
-          alignItems: 'center',
+          minHeight: '90vh',
           display: 'flex',
+          alignItems: 'center',
           justifyContent: 'center'
         }}
       >
-        <Box
-          sx={{
-            maxWidth: 550,
-            px: 3,
-            py: '100px',
-            width: '100%'
-          }}
-        >
-          <div>
+        <Container maxWidth="md">
+          <Box
+            sx={{
+              my: 4,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center'
+            }}
+          >
+            <Typography variant="h4" align="center">
+              Bem-vindo ao CCES
+            </Typography>
+            <Typography variant="body1" align="center">
+              Central de Controle de Entrada e Saída
+            </Typography>
             <Stack
-              spacing={1}
-              sx={{ mb: 3 }}
-            >
-              <Typography variant="h4">
-                Login
-              </Typography>
-              <Typography
-                color="text.secondary"
-                variant="body2"
-              >
-                Don&apos;t have an account?
-                &nbsp;
-                <Link
-                  component={NextLink}
-                  href="/auth/register"
-                  underline="hover"
-                  variant="subtitle2"
-                >
-                  Register
-                </Link>
-              </Typography>
-            </Stack>
-            <Tabs
-              sx={{ mb: 3 }}
-            >
-              <Tab
-                label="Email"
-                value="email"
-              />
-              <Tab
-                label="Phone Number"
-                value="phoneNumber"
-              />
-            </Tabs>
-            <form
+              component="form"
               noValidate
+              spacing={3}
+              sx={{ mt: 3 }}
             >
-              <Stack spacing={3}>
-                <TextField
-                  fullWidth
-                  label="Email Address"
-                  name="email"
-                  type="email"
-                />
-                <TextField
-                  fullWidth
-                  label="Password"
-                  name="password"
-                  type="password"
-                />
-              </Stack>
-              <FormHelperText sx={{ mt: 1 }}>
-                Optionally you can skip.
-              </FormHelperText>
+              <TextField
+                fullWidth
+                label="username"
+                name="username"
+                type="username"
+                variant="outlined"
+              />
+              <TextField
+                fullWidth
+                label="Senha"
+                name="password"
+                type="password"
+                variant="outlined"
+              />
               <Button
                 fullWidth
                 size="large"
-                sx={{ mt: 3 }}
                 type="submit"
                 variant="contained"
               >
                 Entrar
               </Button>
-              <Button
-                fullWidth
-                size="large"
-                sx={{ mt: 3 }}
-              >
-                <Link href='/'>
-                  DASHBOARD
-                </Link>
-              </Button>
-              <Alert
-                severity="info"
-                sx={{ mt: 3 }}
-              >
-                <div>
-                  You can use <b>demo@devias.io</b> and password <b>Password123!</b>
-                </div>
-              </Alert>
-            </form>
-          </div>
-        </Box>
+            </Stack>
+          </Box>
+        </Container>
       </Box>
     </>
   );
