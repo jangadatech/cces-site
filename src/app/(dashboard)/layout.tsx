@@ -1,8 +1,11 @@
 'use client'
+
 import React, { useState } from 'react';
 import SideNav from './side-nav';
-import { Box, CssBaseline} from '@mui/material';
+import { Box, CssBaseline } from '@mui/material';
 import TopNav from './top-nav';
+import NextAuthProvider from '@/components/NextAuthProvider';
+import { useSession } from 'next-auth/react';
 
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -19,15 +22,15 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <>
       <html>
         <body>
-          <Box sx={{ display: 'flex' }}>
-            <CssBaseline />
-            <TopNav />
-            <SideNav open={open} handleDrawer={handleDrawer}>
-            </SideNav>
-            <Box component="main" sx={{ flexGrow: 1, p: 10 }}>
-              {children}
+            <Box sx={{ display: 'flex' }}>
+              <CssBaseline />
+              <TopNav />
+              <SideNav open={open} handleDrawer={handleDrawer}>
+              </SideNav>
+              <Box component="main" sx={{ flexGrow: 1, p: 10 }}>
+                {children}
+              </Box>
             </Box>
-          </Box>
         </body>
       </html>
     </>

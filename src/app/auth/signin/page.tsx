@@ -1,5 +1,7 @@
+'use client'
+
+import { useState } from 'react';
 import Head from 'next/head';
-import NextLink from 'next/link';
 import {
   Box,
   Button,
@@ -8,8 +10,28 @@ import {
   TextField,
   Typography
 } from '@mui/material';
+import { signIn } from 'next-auth/react';
+
 
 const SignIn = () => {
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    const credentials = { username, password };
+    const result = await signIn('credentials', { ...credentials, redirect: false });
+
+    if (result?.error) {
+      // Handle login error
+      console.error('Login failed:', result.error);
+    } else {
+      // Redirect to dashboard on successful login
+      window.location.href = '/dashboard';
+    }
+  };
+
   return (
     <>
       <Head>
@@ -51,6 +73,7 @@ const SignIn = () => {
                 name="username"
                 type="username"
                 variant="outlined"
+                onChange={(e) => setUsername(e.target.value)}
               />
               <TextField
                 fullWidth
@@ -58,12 +81,14 @@ const SignIn = () => {
                 name="password"
                 type="password"
                 variant="outlined"
+                onChange={(e) => setPassword(e.target.value)}
               />
               <Button
                 fullWidth
                 size="large"
                 type="submit"
                 variant="contained"
+                onClick={handleSubmit}
               >
                 Entrar
               </Button>
