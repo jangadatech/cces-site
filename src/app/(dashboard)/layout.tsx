@@ -4,8 +4,9 @@ import React, { useState } from 'react';
 import SideNav from './side-nav';
 import { Box, CssBaseline } from '@mui/material';
 import TopNav from './top-nav';
-import NextAuthProvider from '@/components/NextAuthProvider';
 import { useSession } from 'next-auth/react';
+import { redirect } from 'next/navigation';
+import { URL } from '@/http/config';
 
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -13,6 +14,13 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   const [open, setOpen] = useState(true);
+
+  const {data: session, status} = useSession({
+    required: true,
+    onUnauthenticated(){
+      redirect(`/auth/signin?callbackUrl=${URL}&error=SessionRequired`)
+    }
+  })
 
   const handleDrawer = () => {
     setOpen(!open);

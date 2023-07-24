@@ -24,19 +24,15 @@ const SignIn = () => {
     const result = await signIn('credentials', { ...credentials, redirect: false });
 
     if (result?.error) {
-      // Handle login error
       console.error('Login failed:', result.error);
     } else {
-      // Redirect to dashboard on successful login
-      window.location.href = '/dashboard';
+      window.location.href = '/';
     }
   };
 
   return (
     <>
-      <Head>
-        <title>Login | Central de Controle de Entrada e Saída - CCES</title>
-      </Head>
+      <title>Login | Central de Controle de Entrada e Saída - CCES</title>
       <Box
         sx={{
           backgroundColor: 'background.paper',
