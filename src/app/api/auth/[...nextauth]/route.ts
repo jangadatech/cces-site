@@ -1,12 +1,11 @@
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { AuthOptions} from 'next-auth';
 
-const authOptions: AuthOptions = {
+const authOption = {
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
     CredentialsProvider({
-      name: "Credentials",
+      name: "credentials",
       credentials: {
         username: { label: "Username", type: "text", placeholder: "jsmith" },
         password: { label: "Password", type: "password" }
@@ -18,6 +17,7 @@ const authOptions: AuthOptions = {
         const usuarioFicticio = { id: "1", name: "Usuário Fictício", email: "ficticio@example.com", username: "teste", password: "123" };
         
         if (username === usuarioFicticio.username && password === usuarioFicticio.password) {
+          // Retorna o usuário fictício somente se as credenciais coincidirem
           return usuarioFicticio;
         } else {
           return null;
@@ -31,6 +31,6 @@ const authOptions: AuthOptions = {
   }
 }
 
-const handler = NextAuth(authOptions)
+const handler = NextAuth(authOption)
 
 export { handler as GET, handler as POST };

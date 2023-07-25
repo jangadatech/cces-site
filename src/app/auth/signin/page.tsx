@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   Box,
   Button,
@@ -15,7 +15,6 @@ import { useRouter } from 'next/navigation';
 
 const SignInPage = () => {
 
-  const { status } = useSession();
   const router = useRouter();
 
   const [username, setUsername] = useState('');
