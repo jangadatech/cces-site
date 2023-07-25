@@ -10,10 +10,16 @@ import {
   TextField,
   Typography
 } from '@mui/material';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 
 const SignIn = () => {
+
+  const {status} = useSession()
+  const router = useRouter()
+
+  if(status === 'authenticated')return router.replace('/');
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -26,7 +32,7 @@ const SignIn = () => {
     if (result?.error) {
       console.error('Login failed:', result.error);
     } else {
-      window.location.href = '/';
+      router.replace('/');
     }
   };
 

@@ -21,22 +21,21 @@ const UserInfoContainer = styled('div')({
 });
 
 const UserName = styled('span')({
-  marginLeft: '8px',
+  marginRight: '8px',
   fontWeight: 'bold',
 });
 
 const TopNav = () => {
   const {data: session, status} = useSession()
-  console.log(session)
-  const username = 'John Doe';
+  const username = session?.user?.name;
 
   return (
     <TopNavWrapper position="fixed">
       <Toolbar>
         <div style={{ flexGrow: 1 }} />
         <UserInfoContainer>
-          <Avatar alt={username} src="https://www.w3schools.com/howto/img_avatar.png" />
           <UserName>{username}</UserName>
+          <Avatar alt={username!} src="https://www.w3schools.com/howto/img_avatar.png" />
         </UserInfoContainer>
       </Toolbar>
     </TopNavWrapper>

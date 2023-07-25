@@ -10,13 +10,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
 
   return (
     <>
-      <html>
-        <body>
-          <NextAuthProvider>
-            {children}
-          </NextAuthProvider>
-        </body>
-      </html>
+      <NextAuthProvider>
+        {children}
+      </NextAuthProvider>
     </>
   );
 }

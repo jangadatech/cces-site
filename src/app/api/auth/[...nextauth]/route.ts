@@ -1,3 +1,4 @@
+import { signOut } from 'next-auth/react';
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -23,17 +24,16 @@ export const authOption = {
         
         if (username === usuarioFicticio.username && password === usuarioFicticio.password) {
           // Retorna o usuário fictício somente se as credenciais coincidirem
-          console.log('RETORNOU OK')
           return usuarioFicticio;
         } else {
-          console.log('RETORNOU NULL')
           return null;
         }
       }
     })
   ],
   pages: {
-    signIn: '/auth/signin'
+    signIn: '/auth/signin',
+    signOut: '/auth/signin'
   }
 }
 

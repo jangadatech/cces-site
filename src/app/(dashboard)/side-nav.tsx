@@ -14,11 +14,12 @@ import palette from '@/themes/palette';
 import { Box } from '@mui/material';
 import { Logo } from '@/components/Logo';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { signOut } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 interface SideNavProps {
   open: boolean;
   handleDrawer: () => void;
-  children: React.ReactNode;
 }
 
 const SideNavWrapper = styled(Drawer, { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -63,7 +64,18 @@ const BottomNavContainer = styled('div')({
   width: '100%',
 });
 
-const SideNav = ({ open, handleDrawer, children }: SideNavProps) => {
+const SideNav = ({ open, handleDrawer }: SideNavProps) => {
+
+  const router = useRouter()
+
+
+  const handlerSignOut = async () => {
+    await signOut({
+      redirect: false
+    })
+    router.replace('/auth/signin')
+  }
+
   return (
     <SideNavWrapper variant="permanent" open={open}>
       <DrawerHeader>
@@ -98,7 +110,7 @@ const SideNav = ({ open, handleDrawer, children }: SideNavProps) => {
       </div>
       <BottomNavContainer>
         <Divider /> 
-        <SideNavItem icon={<LogoutIcon />} open={open} path={'/sign-out'} text="Sair" />
+        <SideNavItem icon={<LogoutIcon />} open={open} text="Sair" handlerSignOut={handlerSignOut}/>
       </BottomNavContainer>
     </SideNavWrapper>
   );
