@@ -13,12 +13,15 @@ import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 
-const SignIn = () => {
+const SignInPage = () => {
 
-  const {status} = useSession()
-  const router = useRouter()
+  const { status } = useSession();
+  const router = useRouter();
 
-  if(status === 'authenticated')return router.replace('/');
+  if (status === 'authenticated') {
+    router.replace('/');
+    return null; // Adicione este retorno para a saída antecipada
+  }
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -29,12 +32,11 @@ const SignIn = () => {
     const result = await signIn('credentials', { ...credentials, redirect: false });
 
     if (result?.error) {
-      console.error('Login failed:', result.error);
+      console.error('Login falhou:', result.error);
     } else {
       router.replace('/');
     }
   };
-
   return (
     <>
       <title>Login | Central de Controle de Entrada e Saída - CCES</title>
@@ -101,4 +103,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default SignInPage;
