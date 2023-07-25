@@ -6,6 +6,7 @@ import { Box, Button, Container, Stack, SvgIcon, Typography } from '@mui/materia
 import BackupIcon from '@mui/icons-material/Backup';
 import DownloadIcon from '@mui/icons-material/Download';
 import AddIcon from '@mui/icons-material/Add';
+import InputOutputTable from '@/components/input-outputTable';
 
 const inputOutput = () => {
   return (
@@ -17,7 +18,6 @@ const inputOutput = () => {
         component="main"
         sx={{
           flexGrow: 1,
-          py: 8
         }}
       >
         <Container maxWidth="xl">
@@ -59,6 +59,7 @@ const inputOutput = () => {
                 </Stack>
               </Stack>
             </Stack>
+            <InputOutputTable />
             {/* <Coponent Aqui Dentro /> */}
           </Stack>
         </Container>
