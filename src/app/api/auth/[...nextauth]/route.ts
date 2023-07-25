@@ -1,17 +1,12 @@
-import { signOut } from 'next-auth/react';
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { AuthOptions} from 'next-auth';
 
-export const authOption = {
+const authOptions: AuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
     CredentialsProvider({
-      // The name to display on the sign in form (e.g. "Sign in with...")
       name: "Credentials",
-      // `credentials` is used to generate a form on the sign in page.
-      // You can specify which fields should be submitted, by adding keys to the `credentials` object.
-      // e.g. domain, username, password, 2FA token, etc.
-      // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {
         username: { label: "Username", type: "text", placeholder: "jsmith" },
         password: { label: "Password", type: "password" }
@@ -23,7 +18,6 @@ export const authOption = {
         const usuarioFicticio = { id: "1", name: "Usuário Fictício", email: "ficticio@example.com", username: "teste", password: "123" };
         
         if (username === usuarioFicticio.username && password === usuarioFicticio.password) {
-          // Retorna o usuário fictício somente se as credenciais coincidirem
           return usuarioFicticio;
         } else {
           return null;
@@ -37,6 +31,6 @@ export const authOption = {
   }
 }
 
-const handler = NextAuth(authOption)
+const handler = NextAuth(authOptions)
 
 export { handler as GET, handler as POST };
