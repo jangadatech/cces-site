@@ -14,7 +14,8 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
   const [open, setOpen] = useState(true);
   const router = useRouter()
-  const {data: session, status} = useSession({
+
+  useSession({
     required: true,
     onUnauthenticated(){
       router.replace('/auth/signin')
