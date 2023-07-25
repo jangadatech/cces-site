@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -17,11 +17,6 @@ const SignInPage = () => {
 
   const { status } = useSession();
   const router = useRouter();
-
-  if (status === 'authenticated') {
-    router.replace('/');
-    return null; // Adicione este retorno para a saída antecipada
-  }
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
