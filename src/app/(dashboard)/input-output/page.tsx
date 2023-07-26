@@ -6,7 +6,7 @@ import BackupIcon from '@mui/icons-material/Backup';
 import DownloadIcon from '@mui/icons-material/Download';
 import AddIcon from '@mui/icons-material/Add';
 import InputOutputTable from '@/components/input-outputTable';
-import palette from '@/themes/palette';
+import { theme } from '@/themes';
 
 const inputOutput = () => {
   return (
@@ -39,6 +39,7 @@ const inputOutput = () => {
                 >
                   <Button
                     color="inherit"
+                    sx={{textTransform: 'none'}}
                     startIcon={(
                       <SvgIcon fontSize="small">
                         <BackupIcon />
@@ -49,6 +50,7 @@ const inputOutput = () => {
                   </Button>
                   <Button
                     color="inherit"
+                    // sx={{textTransform: 'none'}}
                     startIcon={(
                       <SvgIcon fontSize="small">
                         <DownloadIcon />
@@ -69,9 +71,9 @@ const inputOutput = () => {
                       )}
                       variant="contained"
                       sx={{
-                        backgroundColor: palette.background.dark,
+                        backgroundColor: theme.colors.neutral_800,
                         '&:hover': {
-                          backgroundColor: palette.background.dark,
+                          backgroundColor: theme.colors.neutral_700,
                         },
                         borderRadius: '8px',
                         textTransform: 'none'

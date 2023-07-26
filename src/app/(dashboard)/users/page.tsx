@@ -7,7 +7,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import AddIcon from '@mui/icons-material/Add';
 import UsersTable from '@/components/UsersTable';
 import Link from 'next/link';
-import palette from '@/themes/palette';
+import { theme } from '@/themes';
 
 const data = [
   {
@@ -121,9 +121,9 @@ const Users = () => {
                   )}
                   variant="contained"
                   sx={{
-                    backgroundColor: palette.background.dark,
+                    backgroundColor: theme.colors.neutral_800,
                     '&:hover': {
-                      backgroundColor: palette.background.dark,
+                      backgroundColor: theme.colors.neutral_800,
                     }
                   }}
                 >
