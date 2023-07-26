@@ -39,7 +39,6 @@ const inputOutput = () => {
                 >
                   <Button
                     color="inherit"
-                    sx={{textTransform: 'none'}}
                     startIcon={(
                       <SvgIcon fontSize="small">
                         <BackupIcon />
@@ -76,7 +75,6 @@ const inputOutput = () => {
                           backgroundColor: theme.colors.neutral_700,
                         },
                         borderRadius: '8px',
-                        textTransform: 'none'
                       }}
                     >
                       Novo

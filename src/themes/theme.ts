@@ -40,32 +40,32 @@ export default {
       info: '#2196F3,',
     },
     fonts: {
-      poppins: {
+      jakarta: {
         bold: {
-          family: 'Poppins-Bold',
+          family: 'Plus Jakarta Sans',
           weight: 700,
         },
         light: {
-          family: 'Poppins-Light',
-          weight: 30,
+          family: 'Plus Jakarta Sans',
+          weight: 300,
         },
         regular: {
-          family: 'Poppins-Regular',
+          family: 'Plus Jakarta Sans',
           weight: 400,
         },
       },
   
-      comfortaa: {
+      inter: {
         bold: {
-          family: 'Comfortaa-Bold',
+          family: 'Inter',
           weight: 700,
         },
         light: {
-          family: 'Comfortaa-Light',
-          weight: 30,
+          family: 'Inter',
+          weight: 300,
         },
         regular: {
-          family: 'Comfortaa-Regular',
+          family: 'Inter',
           weight: 400,
         },
       },

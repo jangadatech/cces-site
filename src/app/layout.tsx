@@ -1,6 +1,7 @@
 'use client'
 
 import NextAuthProvider from "@/components/NextAuthProvider";
+import '../themes/styles.css';
 
 interface RootLayoutProps {
   children: React.ReactNode;

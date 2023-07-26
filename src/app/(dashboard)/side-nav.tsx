@@ -14,7 +14,6 @@ import { Logo } from '@/components/Logo';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { theme as styles } from '@/themes';
 
 interface SideNavProps {
   open: boolean;
@@ -42,7 +41,6 @@ const SideNavWrapper = styled(Drawer, { shouldForwardProp: (prop) => prop !== 'o
       },
     }),
     fontFamily: 'sans-serif',
-    backgroundColor: styles.colors.neutral_800,
   }),
 );
 
