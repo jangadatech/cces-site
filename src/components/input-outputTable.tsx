@@ -15,30 +15,28 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { TablePagination } from '@mui/material';
 
 function createData(
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number,
+  driver: string,
+  prefix: number,
+  odometer: number,
+  input_date: string,
+  output_date: string | null,
+  status: string,
   price: number,
 ) {
   return {
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
+    driver,
+    prefix,
+    odometer,
+    input_date,
+    output_date,
+    status,
     price,
-    history: [
+    details: [
       {
-        date: '2020-01-05',
-        customerId: '11091700',
-        amount: 3,
-      },
-      {
-        date: '2020-01-02',
-        customerId: 'Anonymous',
-        amount: 1,
+        description: 'Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum, e mais recentemente',
+        destiny: 'São Mateus',
+        kilometer: 3,
+        odometer_before: 3,
       },
     ],
   };
@@ -51,7 +49,7 @@ function Row(props: { row: ReturnType<typeof createData> }) {
   return (
     <React.Fragment>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-        <TableCell sx={{ py: 0 }}>
+        <TableCell sx={{ py: 0, width: 2 }}>
           <IconButton
             aria-label="expand row"
             size="small"
@@ -61,40 +59,39 @@ function Row(props: { row: ReturnType<typeof createData> }) {
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row" sx={{ py: 0 }}>
-          {row.name}
+          {row.driver}
         </TableCell>
-        <TableCell align="right" sx={{ py: 0 }}>{row.calories}</TableCell>
-        <TableCell align="right" sx={{ py: 0 }}>{row.fat}</TableCell>
-        <TableCell align="right" sx={{ py: 0 }}>{row.carbs}</TableCell>
-        <TableCell align="right" sx={{ py: 0 }}>{row.protein}</TableCell>
+        <TableCell align="right" sx={{ py: 0 }}>{row.prefix}</TableCell>
+        <TableCell align="right" sx={{ py: 0 }}>{row.odometer}</TableCell>
+        <TableCell align="right" sx={{ py: 0 }}>{row.input_date}</TableCell>
+        <TableCell align="right" sx={{ py: 0 }}>{row.output_date}</TableCell>
+        <TableCell align="right" sx={{ py: 0 }}>{row.status}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
-                History
+                Detalhes
               </Typography>
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Customer</TableCell>
-                    <TableCell align="right">Amount</TableCell>
-                    <TableCell align="right">Total price ($)</TableCell>
+                    <TableCell>Observação</TableCell>
+                    <TableCell>Destino</TableCell>
+                    <TableCell align="right">Kilometro (L)</TableCell>
+                    <TableCell align="right">Odometro anterior</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.history.map((historyRow) => (
-                    <TableRow key={historyRow.date}>
-                      <TableCell component="th" scope="row">
-                        {historyRow.date}
+                  {row.details.map((detailsRow) => (
+                    <TableRow key={detailsRow.description}>
+                      <TableCell align="left" sx={{maxWidth: '20vw'}}>
+                        {detailsRow.description}
                       </TableCell>
-                      <TableCell>{historyRow.customerId}</TableCell>
-                      <TableCell align="right">{historyRow.amount}</TableCell>
-                      <TableCell align="right">
-                        {Math.round(historyRow.amount * row.price * 100) / 100}
-                      </TableCell>
+                      <TableCell>{detailsRow.destiny}</TableCell>
+                      <TableCell align="right">{detailsRow.kilometer}</TableCell>
+                      <TableCell align="right">{detailsRow.odometer_before}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -108,31 +105,31 @@ function Row(props: { row: ReturnType<typeof createData> }) {
 }
 
 const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0, 3.99),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3, 4.99),
-  createData('Eclair', 262, 16.0, 24, 6.0, 3.79),
-  createData('Cupcake', 305, 3.7, 67, 4.3, 2.5),
-  createData('Gingerbread', 356, 16.0, 49, 3.9, 1.5),
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0, 3.99),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3, 4.99),
-  createData('Eclair', 262, 16.0, 24, 6.0, 3.79),
-  createData('Cupcake', 305, 3.7, 67, 4.3, 2.5),
-  createData('Gingerbread', 356, 16.0, 49, 3.9, 1.5),
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0, 3.99),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3, 4.99),
-  createData('Eclair', 262, 16.0, 24, 6.0, 3.79),
-  createData('Cupcake', 305, 3.7, 67, 4.3, 2.5),
-  createData('Gingerbread', 356, 16.0, 49, 3.9, 1.5),
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0, 3.99),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3, 4.99),
-  createData('Eclair', 262, 16.0, 24, 6.0, 3.79),
-  createData('Cupcake', 305, 3.7, 67, 4.3, 2.5),
-  createData('Gingerbread', 356, 16.0, 49, 3.9, 1.5),
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0, 3.99),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3, 4.99),
-  createData('Eclair', 262, 16.0, 24, 6.0, 3.79),
-  createData('Cupcake', 305, 3.7, 67, 4.3, 2.5),
-  createData('Gingerbread', 356, 16.0, 49, 3.9, 1.5),
+  createData('Frozen yoghurt', 159, 135696, '07:00 - 26/07', null, 'Entrada',3.99),
+  createData('Ice cream sandwich', 237, 205696, '07:00 - 26/07', null, 'Entrada',4.99),
+  createData('Eclair', 262, 139600, '07:00 - 26/07', null, 'Entrada',3.79),
+  createData('Cupcake', 305, 145696, '07:00 - 26/07', '18:00 - 26/07', 'Saída',2.5),
+  createData('Gingerbread', 356, 130001, '07:00 - 26/07', '18:00 - 26/07', 'Saída',1.5),
+  createData('Frozen yoghurt', 159, 257785, '07:00 - 26/07', '18:00 - 26/07', 'Saída',3.99),
+  createData('Ice cream sandwich', 237, 309096, '07:00 - 26/07', '18:00 - 26/07', 'Saída',4.99),
+  createData('Eclair', 262, 409096, '07:00 - 26/07', '18:00 - 26/07', 'Saída',3.79),
+  createData('Cupcake', 305, 309996, '07:00 - 26/07', '18:00 - 26/07', 'Saída',2.5),
+  createData('Gingerbread', 356, 301099, '07:00 - 26/07', '18:00 - 26/07', 'Saída',1.5),
+  createData('Frozen yoghurt', 115896, 6.0, '07:00 - 26/07', '18:00 - 26/07', 'Saída',3.99),
+  createData('Ice cream sandwich', 237, 305196, '07:00 - 26/07', '18:00 - 26/07', 'Saída',4.99),
+  createData('Eclair', 262, 909098, '07:00 - 26/07', '18:00 - 26/07', 'Saída',3.79),
+  createData('Cupcake', 305, 458896, '07:00 - 26/07', '18:00 - 26/07', 'Saída',2.5),
+  createData('Gingerbread', 309096, 16.0, '07:00 - 26/07', '18:00 - 26/07', 'Saída',1.5),
+  createData('Frozen yoghurt', 309096, 6.0, '07:00 - 26/07', '18:00 - 26/07', 'Saída',3.99),
+  createData('Ice cream sandwich', 237, 309096, '07:00 - 26/07', '18:00 - 26/07', 'Saída',4.99),
+  createData('Eclair', 262, 309096, '07:00 - 26/07', '18:00 - 26/07', 'Saída',3.79),
+  createData('Cupcake', 305, 309096, '07:00 - 26/07', '18:00 - 26/07', 'Saída',2.5),
+  createData('Gingerbread', 356, 309096, '07:00 - 26/07', '18:00 - 26/07', 'Saída',1.5),
+  createData('Frozen yoghurt', 159, 309096, '07:00 - 26/07', '18:00 - 26/07', 'Saída',3.99),
+  createData('Ice cream sandwich', 237, 309096, '07:00 - 26/07', '18:00 - 26/07', 'Saída',4.99),
+  createData('Eclair', 262, 309096, '07:00 - 26/07', '18:00 - 26/07', 'Saída',3.79),
+  createData('Cupcake', 305, 309096, '07:00 - 26/07', '18:00 - 26/07', 'Saída',2.5),
+  createData('Gingerbread', 356, 309096, '07:00 - 26/07', '18:00 - 26/07', 'Saída',1.5),
 ];
 
 export default function InputOutputTable() {
@@ -157,15 +154,17 @@ export default function InputOutputTable() {
             <TableCell>Motorista</TableCell>
             <TableCell align="right">Prefixo</TableCell>
             <TableCell align="right">Odômetro</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+            <TableCell align="right">Entrada</TableCell>
+            <TableCell align="right">Saída</TableCell>
+            <TableCell align="right">Status</TableCell>
+            <TableCell align="right"></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map((row) => (
-              <Row key={row.name} row={row} />
+              <Row key={row.driver} row={row} />
             ))}
         </TableBody>
       </Table>
