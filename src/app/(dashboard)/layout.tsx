@@ -5,7 +5,7 @@ import SideNav from './side-nav';
 import { Box, CssBaseline } from '@mui/material';
 import TopNav from './top-nav';
 import { useSession } from 'next-auth/react';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -29,7 +29,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <>
       <html>
-        <body>
+        <body >
             <Box sx={{ display: 'flex' }}>
               <CssBaseline />
               <TopNav />

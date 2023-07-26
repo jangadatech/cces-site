@@ -6,7 +6,7 @@ import { Formik, Form, Field, FormikValues } from 'formik';
 import { User } from '@/interfaces/user';
 import { URL } from '@/http/config';
 import Link from 'next/link';
-import palette from '@/themes/palette';
+import { theme } from '@/themes';
 
 const profiles = [
   {
@@ -140,9 +140,9 @@ const Register = () => {
                             size="large"
                             sx={{ 
                               mt: 3, 
-                              backgroundColor: palette.background.dark,
+                              backgroundColor: theme.colors.neutral_800,
                               '&:hover': {
-                                backgroundColor: palette.background.dark,
+                                backgroundColor: theme.colors.neutral_700,
                               }
                             }}
                             type="submit"

@@ -1,16 +1,14 @@
 'use client'
 
 import React from 'react';
-import { styled, useTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import Drawer from '@mui/material/Drawer';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import CardIcon from '@mui/icons-material/CardGiftcard';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import typography from '@/themes/typography';
 import SideNavItem from './side-nav-item';
-import palette from '@/themes/palette';
 import { Box } from '@mui/material';
 import { Logo } from '@/components/Logo';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -42,9 +40,7 @@ const SideNavWrapper = styled(Drawer, { shouldForwardProp: (prop) => prop !== 'o
         width: 54,
       },
     }),
-    fontFamily: typography.fontFamily,
-    fontSize: typography.fontSize.base,
-    backgroundColor: palette.background.default,
+    fontFamily: 'sans-serif',
   }),
 );
 
@@ -55,7 +51,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
-  fontSize: typography.fontSize.lg,
 }));
 
 const BottomNavContainer = styled('div')({

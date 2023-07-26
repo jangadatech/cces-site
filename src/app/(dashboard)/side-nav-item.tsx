@@ -6,8 +6,8 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { Link } from '@mui/material';
-import palette from '@/themes/palette';
 import { usePathname } from 'next/navigation'
+import { theme } from '@/themes';
 
 interface SideNavItemProps {
   text: string;
@@ -23,7 +23,7 @@ const SideNavItem = ({ text, open, icon, path, handlerSignOut }: SideNavItemProp
   const isSelected = pathname === path;
 
   return (
-      <Link href={path} underline="none" sx={{ color: palette.text.primary }}>
+      <Link href={path} underline="none" sx={{ color: theme.colors.neutral_800 }}>
         <ListItem disablePadding sx={{ display: 'block' }} selected={isSelected} onClick={handlerSignOut}>
             <ListItemButton
               sx={{
@@ -31,10 +31,11 @@ const SideNavItem = ({ text, open, icon, path, handlerSignOut }: SideNavItemProp
                 justifyContent: open ? 'initial' : 'center',
                 px: 2.5,
                 m: 1,
-                backgroundColor: isSelected ? palette.background.dark : 'transparent',
+                backgroundColor: isSelected ? theme.colors.neutral_800 : 'transparent',
                 borderRadius: '4px',
                 '&:hover': {
-                  backgroundColor: isSelected ? palette.background.dark : palette.background.default,
+                  backgroundColor: isSelected ? theme.colors.neutral_700 : theme.colors.neutral_200,
+                  color: theme.colors.neutral_800
                 },
                 overflowX: 'hidden'
               }}
