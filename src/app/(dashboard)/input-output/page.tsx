@@ -29,7 +29,7 @@ const inputOutput = () => {
               spacing={4}
             >
               <Stack spacing={1}>
-                <Typography variant="h4">
+                <Typography variant="h4" className='title-bold'>
                   Entrada e Saída
                 </Typography>
                 <Stack

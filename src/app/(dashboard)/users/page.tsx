@@ -82,7 +82,7 @@ const Users = () => {
               spacing={4}
             >
               <Stack spacing={1}>
-                <Typography variant="h4">
+                <Typography variant="h4" className='title-bold'>
                   Usuários
                 </Typography>
                 <Stack
