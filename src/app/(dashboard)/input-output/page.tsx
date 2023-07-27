@@ -1,18 +1,30 @@
 'use client'
 
-import React from 'react'
+import { useState } from 'react'
 import { Box, Button, Container, Stack, SvgIcon, Typography } from '@mui/material'
 import BackupIcon from '@mui/icons-material/Backup';
 import DownloadIcon from '@mui/icons-material/Download';
 import AddIcon from '@mui/icons-material/Add';
-import InputOutputTable from '@/components/input-outputTable';
 import { theme } from '@/themes';
+import InputOutputTable from '@/sections/input-output/input-output-table';
+import InputOutputModal from '@/sections/input-output/input-output-modal';
 
 const inputOutput = () => {
+
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <>
       <title>
-        Usuários | CCES
+        Entrada e Saída | CCES
       </title>
       <Box
         component="main"
@@ -49,7 +61,6 @@ const inputOutput = () => {
                   </Button>
                   <Button
                     color="inherit"
-                    // sx={{textTransform: 'none'}}
                     startIcon={(
                       <SvgIcon fontSize="small">
                         <DownloadIcon />
@@ -63,6 +74,7 @@ const inputOutput = () => {
               <Stack>
                 <div>
                   <Button
+                      onClick={handleClickOpen}
                       startIcon={(
                         <SvgIcon fontSize="small">
                           <AddIcon />
@@ -74,7 +86,7 @@ const inputOutput = () => {
                         '&:hover': {
                           backgroundColor: theme.colors.neutral_700,
                         },
-                        borderRadius: '8px',
+                        borderRadius: '4px',
                       }}
                     >
                       Novo
@@ -87,6 +99,7 @@ const inputOutput = () => {
           </Stack>
         </Container>
       </Box>
+      <InputOutputModal open={open} handleClose={handleClose}/>
     </>
   )
 }

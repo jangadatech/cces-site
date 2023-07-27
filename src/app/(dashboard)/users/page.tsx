@@ -124,7 +124,8 @@ const Users = () => {
                     backgroundColor: theme.colors.neutral_800,
                     '&:hover': {
                       backgroundColor: theme.colors.neutral_800,
-                    }
+                    },
+                    borderRadius: '4px'
                   }}
                 >
                   Novo
