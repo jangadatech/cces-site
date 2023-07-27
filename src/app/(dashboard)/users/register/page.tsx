@@ -139,11 +139,7 @@ const Register = () => {
                             fullWidth
                             size="large"
                             sx={{ 
-                              mt: 3, 
-                              backgroundColor: theme.colors.neutral_800,
-                              '&:hover': {
-                                backgroundColor: theme.colors.neutral_700,
-                              }
+                              mt: 3
                             }}
                             type="submit"
                             variant="contained"

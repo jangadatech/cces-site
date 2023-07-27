@@ -5,12 +5,11 @@ import { Box, Button, Container, Stack, SvgIcon, Typography } from '@mui/materia
 import BackupIcon from '@mui/icons-material/Backup';
 import DownloadIcon from '@mui/icons-material/Download';
 import AddIcon from '@mui/icons-material/Add';
-import { theme } from '@/themes';
 import InputOutputTable from '@/sections/input-output/input-output-table';
 import InputOutputModal from '@/sections/input-output/input-output-modal';
 import useKeyboardShortcut from 'use-keyboard-shortcut';
 
-const inputOutput = () => {
+const InputOutput = () => {
 
   const [open, setOpen] = useState(false);
 
@@ -22,15 +21,15 @@ const inputOutput = () => {
     setOpen(false);
   };
 
-  const  { flushHeldKeys }  =  useKeyboardShortcut( 
+  useKeyboardShortcut(
     [ "Shift" ,  "N" ], 
-      atalhoKeys  =>  handleClickOpen(), 
+    () => handleClickOpen(), 
     {  
       overrideSystem : false , 
       ignoreInputFields : false ,  
       repeatOnHold : false  
     } 
-  ) ;
+  );
 
   return (
     <>
@@ -110,4 +109,4 @@ const inputOutput = () => {
   )
 }
 
-export default inputOutput
+export default InputOutput
