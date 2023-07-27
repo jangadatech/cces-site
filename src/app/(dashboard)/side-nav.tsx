@@ -8,12 +8,16 @@ import IconButton from '@mui/material/IconButton';
 import CardIcon from '@mui/icons-material/CardGiftcard';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ImportExportIcon from '@mui/icons-material/ImportExport';
+import PieChartIcon from '@mui/icons-material/PieChart';
+import GroupIcon from '@mui/icons-material/Group';
 import SideNavItem from './side-nav-item';
 import { Box } from '@mui/material';
 import { Logo } from '@/components/Logo';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { theme } from '@/themes';
 
 interface SideNavProps {
   open: boolean;
@@ -98,14 +102,14 @@ const SideNav = ({ open, handleDrawer }: SideNavProps) => {
         </Box>
       </Box>
       <div>
-        <SideNavItem icon={<CardIcon />} open={open} path={'/'} text="Dashboard" />
-        <SideNavItem icon={<CardIcon />} open={open} path={'/input-output'} text="Entrada e Saída" />
-        <SideNavItem icon={<CardIcon />} open={open} path={'/auth/signin'} text="Login" />
-        <SideNavItem icon={<CardIcon />} open={open} path={'/users'} text="Usuários" />
+        <SideNavItem icon={<PieChartIcon />} open={open} path={'/'} text="Dashboard" />
+        <SideNavItem icon={<ImportExportIcon />} open={open} path={'/input-output'} text="Entrada e Saída" />
+        <SideNavItem icon={<GroupIcon />} open={open} path={'/users'} text="Usuários" />
+        {/* <SideNavItem icon={<CardIcon />} open={open} path={'/auth/signin'} text="Login" /> */}
       </div>
       <BottomNavContainer>
         <Divider /> 
-        <SideNavItem icon={<LogoutIcon />} open={open} text="Sair" handlerSignOut={handlerSignOut}/>
+        <SideNavItem icon={<LogoutIcon />} open={open} text="Sair" color={theme.colors.danger} handlerSignOut={handlerSignOut}/>
       </BottomNavContainer>
     </SideNavWrapper>
   );
