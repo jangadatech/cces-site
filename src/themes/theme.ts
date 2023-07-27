@@ -19,19 +19,19 @@ export default {
       secondary_700: '#7D2200',
   
       // Neutral Colors
-      neutral_000: '#FFFFFF',
-      neutral_100: '#F4F4F8',
-      neutral_150: '#F9F9F9',
-      neutral_200: '#E3E6E9',
-      neutral_350: '#BDD2E8', //cor original
-      neutral_300: '#CBD5E1',
-      neutral_400: '#94A3B8',
-      neutral_500: '#64748B',
-      neutral_600: '#505D6F',
-      neutral_700: '#3C4653',
-      neutral_800: '#282E38',
-      neutral_900: '#14171C',
-      neutral_alt: '#7C7C7C',
+      neutral_100: '#FFFFFF',
+      neutral_200: '#F4F4F8',
+      neutral_300: '#E3E6E9',
+      neutral_400: '#BDD2E8', //cor original
+      neutral_500: '#CBD5E1',
+      neutral_600: '#64748B',
+     
+      dark_100: '#505D6F',
+      dark_200: '#3C4653',
+      dark_300: '#282E38',
+      dark_400: '#14171C',
+      dark_500: '#7C7C7C',
+      dark_600: '#000000',
   
       // Status Colors
       success: '#00C853',

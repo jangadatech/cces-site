@@ -18,7 +18,7 @@ interface SideNavItemProps {
   handlerSignOut?: () => void;
 }
 
-const SideNavItem = ({ text, open, icon, path, handlerSignOut, color = theme.colors.neutral_800 }: SideNavItemProps) => {
+const SideNavItem = ({ text, open, icon, path, handlerSignOut, color }: SideNavItemProps) => {
   const pathname = usePathname()
 
   const isSelected = pathname === path;
@@ -32,11 +32,8 @@ const SideNavItem = ({ text, open, icon, path, handlerSignOut, color = theme.col
                 justifyContent: open ? 'initial' : 'center',
                 px: 2.5,
                 m: 1,
-                backgroundColor: isSelected ? color : 'transparent',
                 borderRadius: '4px',
                 '&:hover': {
-                  backgroundColor: isSelected ? theme.colors.neutral_700 : theme.colors.neutral_200,
-                  color: color
                 },
                 overflowX: 'hidden'
               }}
@@ -46,12 +43,11 @@ const SideNavItem = ({ text, open, icon, path, handlerSignOut, color = theme.col
                   minWidth: 0,
                   mr: open ? 3 : 'auto',
                   justifyContent: 'center',
-                  color: isSelected ? 'white' : 'inherit',
                 }}
               >
                 {icon}
               </ListItemIcon>
-              <ListItemText primary={text} sx={{ opacity: open ? 1 : 0, color: isSelected ? 'white' : 'inherit' }} />
+              <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
         </ListItem>
       </Link>
