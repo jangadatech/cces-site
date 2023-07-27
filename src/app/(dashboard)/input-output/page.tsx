@@ -8,6 +8,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { theme } from '@/themes';
 import InputOutputTable from '@/sections/input-output/input-output-table';
 import InputOutputModal from '@/sections/input-output/input-output-modal';
+import useKeyboardShortcut from 'use-keyboard-shortcut';
 
 const inputOutput = () => {
 
@@ -20,6 +21,16 @@ const inputOutput = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const  { flushHeldKeys }  =  useKeyboardShortcut( 
+    [ "Shift" ,  "N" ], 
+      atalhoKeys  =>  handleClickOpen(), 
+    {  
+      overrideSystem : false , 
+      ignoreInputFields : false ,  
+      repeatOnHold : false  
+    } 
+  ) ;
 
   return (
     <>

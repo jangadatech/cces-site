@@ -180,6 +180,7 @@ export default function InputOutputModal({ handleClose, open }: InputOutputModal
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
+                  disabled={showDatetimeInput ? false : true}
                   label="Odômetro"
                   name="odometer"
                   type="text"
@@ -189,7 +190,7 @@ export default function InputOutputModal({ handleClose, open }: InputOutputModal
                   placeholder="Odometer"
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={12}>
                 <TextField
                   fullWidth
                   label="Destino"
