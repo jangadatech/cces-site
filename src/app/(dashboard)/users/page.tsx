@@ -121,10 +121,6 @@ const Users = () => {
                   )}
                   variant="contained"
                   sx={{
-                    backgroundColor: theme.colors.neutral_800,
-                    '&:hover': {
-                      backgroundColor: theme.colors.neutral_800,
-                    },
                     borderRadius: '4px'
                   }}
                 >
