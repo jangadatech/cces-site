@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { DialogActions } from '@mui/material';
+import { Autocomplete, DialogActions, TextareaAutosize } from '@mui/material';
 import getCurrentDateTime from '@/utils/current-date-time';
 
 interface InputOutputModalProps {
@@ -37,20 +37,39 @@ const style = {
   p: 4,
 };
 
+const drivers = [
+  { label: 'João' },
+  { label: 'Almeida' },
+  { label: 'Lúcio' },
+  { label: 'Maranhão' },
+  { label: 'Ronaldo' },
+  { label: 'Juan' },
+  { label: 'Birola' }
+]
+
+const prefix = [
+  { label: '105' },
+  { label: '314' },
+  { label: '302' },
+  { label: '220' },
+  { label: '325' },
+  { label: '500' },
+  { label: '111' }
+]
+
 
 
 export default function InputOutputModal({ handleClose, open }: InputOutputModalProps) {
   const [formData, setFormData] = useState(inputOutputInit);
   const [showDatetimeInput, setShowDatetimeInput] = useState(true);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: value,
     }));
   };
-
   const handleStatusChange = (event: React.MouseEvent<HTMLElement>, newStatus: string) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
@@ -92,14 +111,23 @@ export default function InputOutputModal({ handleClose, open }: InputOutputModal
                 </ToggleButtonGroup>
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Motorista"
-                  name="driver"
-                  value={formData.driver}
-                  onChange={handleChange}
-                  variant="outlined"
-                  placeholder="Nome"
+                <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  options={drivers}
+                  getOptionLabel={(option) => option.label} // Define o campo usado como label na lista de opções
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      fullWidth
+                      label="Motorista"
+                      name="driver"
+                      value={formData.driver}
+                      onChange={handleChange}
+                      variant="outlined"
+                      placeholder="Nome"
+                    />
+                  )}
                 />
               </Grid>
               {showDatetimeInput ? (
@@ -112,7 +140,7 @@ export default function InputOutputModal({ handleClose, open }: InputOutputModal
                     value={formData.datetime_input || getCurrentDateTime()}
                     onChange={handleChange}
                     variant="outlined"
-                    placeholder="Date and Time of Input"
+                    placeholder="Entrada"
                   />
                 </Grid>
               ) : (
@@ -125,16 +153,36 @@ export default function InputOutputModal({ handleClose, open }: InputOutputModal
                     value={formData.datetime_output || getCurrentDateTime()}
                     onChange={handleChange}
                     variant="outlined"
-                    placeholder="Date and Time of Output"
+                    placeholder="Saída"
                   />
                 </Grid>
               )}
               <Grid item xs={12} sm={6}>
+                <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  options={prefix}
+                  getOptionLabel={(option) => option.label} // Define o campo usado como label na lista de opções
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      fullWidth
+                      label="Prefixo"
+                      name="prefix"
+                      value={formData.prefix}
+                      onChange={handleChange}
+                      variant="outlined"
+                      placeholder="Prefixo"
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
-                  label="Odometer"
+                  label="Odômetro"
                   name="odometer"
-                  type="number"
+                  type="text"
                   value={formData.odometer}
                   onChange={handleChange}
                   variant="outlined"
@@ -144,46 +192,24 @@ export default function InputOutputModal({ handleClose, open }: InputOutputModal
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
-                  label="Prefix"
-                  name="prefix"
-                  value={formData.prefix}
-                  onChange={handleChange}
-                  variant="outlined"
-                  placeholder="Prefix"
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Description"
-                  name="description"
-                  value={formData.description}
-                  onChange={handleChange}
-                  variant="outlined"
-                  placeholder="Description"
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Destiny"
+                  label="Destino"
                   name="destiny"
                   value={formData.destiny}
                   onChange={handleChange}
                   variant="outlined"
-                  placeholder="Destiny"
+                  placeholder="Destino"
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Travelled Distance"
-                  name="travelled_distance"
-                  type="number"
-                  value={formData.travelled_distance}
+              <Grid item xs={12} sm={12}>
+                <TextareaAutosize
+                  minRows={3}
+                  maxRows={6}
+                  aria-label="Descrição"
+                  placeholder="Descrição"
+                  name="description"
+                  value={formData.description}
                   onChange={handleChange}
-                  variant="outlined"
-                  placeholder="Travelled Distance"
+                  style={{ width: '100%', padding: '10px', border: '', borderRadius: '4px' }}
                 />
               </Grid>
             </Grid>
