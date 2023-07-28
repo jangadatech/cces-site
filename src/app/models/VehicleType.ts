@@ -7,5 +7,5 @@ const VehicleTypeSchema = new mongoose.Schema({
     updated_at: { type: Date, default: null }
   });
   
-  const VehicleType = mongoose.models.VehicleType || mongoose.model('VehicleType', VehicleTypeSchema);
+  const VehicleType = mongoose.models.Vehicle_type || mongoose.model('Vehicle_type', VehicleTypeSchema);
   export default VehicleType 
