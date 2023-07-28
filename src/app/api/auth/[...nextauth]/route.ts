@@ -1,3 +1,4 @@
+import { URL } from "@/http/config";
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -14,11 +15,17 @@ const authOption = {
 
         const { username, password } = credentials!;
 
-        const usuarioFicticio = { id: "1", name: "Usuário Fictício", email: "ficticio@example.com", username: "teste", password: "123" };
+        const loginResponse = await fetch(`${URL}/api/auth/login`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username, password }),
+        });
         
-        if (username === usuarioFicticio.username && password === usuarioFicticio.password) {
-          // Retorna o usuário fictício somente se as credenciais coincidirem
-          return usuarioFicticio;
+        if (loginResponse.ok) {  
+          const user = await loginResponse.json();
+          return user;
         } else {
           return null;
         }
