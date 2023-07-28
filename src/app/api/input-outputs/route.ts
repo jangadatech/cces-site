@@ -1,83 +1,66 @@
-import { connectToDatabase } from '@/config/mongo';
+import InputOutput from '@/app/models/InputOutput';
+import connectMongoose from '@/config/mongoose';
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
-  const db = await connectToDatabase();
-  const collection = db.collection('objects');
+  await connectMongoose();
 
   try {
-    // Obtendo o parâmetro de query 'filterDate' da URL, se houver
     const params = request.nextUrl.searchParams;
     const filterDate = params.get('date');
 
     let query = {};
-    
+
     if (filterDate) {
+      const dateFiltered = new Date(filterDate)
+      const startOfDay = new Date(dateFiltered.getFullYear(), dateFiltered.getMonth(), dateFiltered.getDate());
+      const endOfDay = new Date(dateFiltered.getFullYear(), dateFiltered.getMonth(), dateFiltered.getDate() + 2);
+      
       query = {
-        datetime_input: { $lte: new Date(filterDate) }
+        register_at: { $gte: startOfDay, $lt: endOfDay },
       };
+
     } else {
       const currentDate = new Date();
       const startOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
       const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + 1);
 
       query = {
-        datetime_input: { $gte: startOfDay, $lt: endOfDay }
+        register_at: { $gte: startOfDay, $lt: endOfDay },
       };
     }
 
-    // Buscando os objetos no banco de dados de acordo com a query
-    const data = await collection.find(query).toArray();
+    const data = await InputOutput.find(query);
 
-    return NextResponse.json({ data })
-  } catch (error) {
-    return NextResponse.json({ error }, { status: 500 })
+    return NextResponse.json(data);
+  } catch (error: any) {
+    return NextResponse.json(error, { status: 500 });
   }
 }
 
 export async function POST(request: NextRequest) {
-  
-  const db = await connectToDatabase();
-  const collection = db.collection('input_outputs');
+  await connectMongoose();
 
   try {
-    const data = await request.json();
+    const { driver, vehicle, register_at, odometer, description, destiny, status } = await request.json();
 
-    const requiredKeys = [
-      "driver",
-      "datetime_input",
-      "datetime_output",
-      "odometer",
-      "prefix",
-      "description",
-      "destiny",
-      "status"
-    ];
+    const inputOutputData = {
+      driver,
+      vehicle,
+      register_at,
+      odometer,
+      description,
+      destiny,
+      status,
+    };
 
-    for (const key of requiredKeys) {
-      if (!data.hasOwnProperty(key)) {
-        return new Response(`Objeto inválido. A chave "${key}" é obrigatória.`, { status: 400 });
-      }
+    const newInputOutput = await InputOutput.create(inputOutputData);
+
+    return NextResponse.json(newInputOutput);
+  } catch (error: any) {
+    if (error.code === 11000) {
+      return NextResponse.json({ error: 'InputOutput with this driver and vehicle already exists' }, { status: 400 });
     }
-
-    // Adicionando o objeto ao banco de dados
-    const result = await collection.insertOne({
-      driver: data.driver,
-      datetime_input: data.datetime_input,
-      datetime_output: data.datetime_output,
-      odometer: data.odometer,
-      prefix: data.prefix,
-      description: data.description,
-      destiny: data.destiny,
-      odometer_before: null,
-      travelled_distance: null,
-      status: data.status,
-      created_at: new Date(),
-      updated_at: null,
-    });
-
-    return NextResponse.json({ result })
-  } catch (error) {
-    return error
+    return NextResponse.json({ error: 'Error saving InputOutput' }, { status: 500 });
   }
 }
