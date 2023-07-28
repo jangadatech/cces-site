@@ -33,6 +33,6 @@ export async function POST(request: Request) {
     if (error.code === 11000) {
       return NextResponse.json({ error: 'Username already exists' }, { status: 400 });
     }
-    return NextResponse.json({ error: 'Error saving user' }, { status: 500 });
+    return NextResponse.json(error, { status: 500 });
   }
 }
