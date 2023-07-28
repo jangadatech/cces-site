@@ -1,33 +1,37 @@
-import { connectToDatabase } from '@/config/mongo';
+import User from '@/app/models/User';
+import connectMongoose from '@/config/mongoose';
 import { NextResponse } from 'next/server'
+import bcrypt from 'bcrypt'
  
 export async function GET() {
-  
-  const db = await connectToDatabase();
-  const collection = db.collection('users');
+  await connectMongoose();
+  const users = await User.find();
 
-  const users = await collection.find().toArray();
-
-  return NextResponse.json({users})
+  return NextResponse.json(users)
 }
 
 export async function POST(request: Request) {
-  const db = await connectToDatabase();
-  const collection = db.collection('users');
+  await connectMongoose();
 
   try {
-
     const { username, password, profile } = await request.json();
-  
-    const users = await collection.insertOne({
+
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    const user = new User({
       username,
-      password,
+      password: hashedPassword,
       profile,
-      created_at: new Date()
     });
-  
-    return NextResponse.json({users})
-  } catch (error) {
-    return error
+
+    const newUser = await user.save();
+
+    return NextResponse.json(newUser);
+  } catch (error: any) {
+    if (error.code === 11000) {
+      return NextResponse.json({ error: 'Username already exists' }, { status: 400 });
+    }
+    return NextResponse.json({ error: 'Error saving user' }, { status: 500 });
   }
 }

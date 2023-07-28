@@ -51,8 +51,6 @@ export async function POST(request: NextRequest) {
       "prefix",
       "description",
       "destiny",
-      "odometer_before",
-      "travelled_distance",
       "status"
     ];
 
