@@ -12,13 +12,13 @@ export async function POST(request: Request) {
   await connectMongoose();
 
   try {
-    const { plate, active, prefix, vehicle_type_id } = await request.json();
+    const { plate, active, prefix, vehicle_type } = await request.json();
 
     const vehicleData = {
       plate,
       active,
       prefix,
-      vehicleType: vehicle_type_id
+      vehicle_type
     };
 
     const vehicle = new Vehicle(vehicleData);
