@@ -12,6 +12,8 @@ import {
 } from '@mui/material';
 import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const SignInPage = () => {
 
@@ -29,10 +31,14 @@ const SignInPage = () => {
 
     if (result?.error) {
       console.error('Login falhou:', result.error);
-      setIsLoading(false)
+      setIsLoading(false);
+      toast.error("Credenciais Ínválidas", {
+        position: "top-right",
+        theme: "colored",
+        });
     } else {
       router.replace('/');
-      setIsLoading(false)
+      setIsLoading(false);
     }
   };
   return (
@@ -47,6 +53,7 @@ const SignInPage = () => {
           justifyContent: 'center'
         }}
       >
+        <ToastContainer />
         <Container maxWidth="md">
           <Box
             sx={{

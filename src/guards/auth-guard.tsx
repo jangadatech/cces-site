@@ -16,7 +16,6 @@ export const AuthGuard = ({ children }: AuthGuardProps) => {
     }
   })
 
-
   return (
     <>
       { !session && null }
