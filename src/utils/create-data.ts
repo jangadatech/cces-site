@@ -1,4 +1,5 @@
 export default function createDataUtil(
+    id: string,
     driver: string,
     prefix: string,
     odometer: number,
@@ -11,6 +12,7 @@ export default function createDataUtil(
     destiny: string
   ) {
     return {
+      id,
       driver,
       prefix,
       odometer,

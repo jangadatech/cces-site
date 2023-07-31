@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
@@ -13,15 +13,17 @@ import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { Chip, TablePagination } from '@mui/material';
+import axios from 'axios';
 import createDataUtil from '@/utils/create-data';
+import { URL } from '@/http/config';
 
 
 function Row(props: { row: ReturnType<typeof createDataUtil> }) {
   const { row } = props;
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   return (
-    <React.Fragment>
+    <>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
         <TableCell sx={{ py: 0, width: 2 }}>
           <IconButton
@@ -75,17 +77,19 @@ function Row(props: { row: ReturnType<typeof createDataUtil> }) {
           </Collapse>
         </TableCell>
       </TableRow>
-    </React.Fragment>
+    </>
   );
 }
 
 const rows = [
-  createDataUtil('Marcos', '123', 14580, '27 00:00', 'E', 'Testando', null, null, null, 'JD Varginha')
+  createDataUtil('1', 'Marcos', '123', 14580, '04:35', 'E', 'Testando', null, null, null, 'JD Varginha'),
+  createDataUtil('2', 'Marcos', '123', 14580, '04:35', 'S', 'Testando', null, null, null, 'JD Varginha')
 ];
 
 export default function InputOutputTable() {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [inputOutput, setInputOutput] = useState([]);
 
   const handleChangePage = (event: any, newPage: any) => {
     setPage(newPage);
@@ -96,6 +100,23 @@ export default function InputOutputTable() {
     setPage(0);
   };
 
+  useEffect(() => {
+    const url = `${URL}/api/input-outputs`;
+
+    const inputOutputLoad = async () => {
+      try {
+        const response = await axios.get(url);
+        setInputOutput(response.data);
+      } catch (error: any) {
+        console.error('Erro na requisição GET:', error.message);
+      }
+    };
+
+    inputOutputLoad();
+  }, []);
+
+  console.log(inputOutput)
+
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
@@ -105,8 +126,7 @@ export default function InputOutputTable() {
             <TableCell>Motorista</TableCell>
             <TableCell align="center">Prefixo</TableCell>
             <TableCell align="center">Odômetro</TableCell>
-            <TableCell align="center">Entrada</TableCell>
-            <TableCell align="center">Saída</TableCell>
+            <TableCell align="center">Horário</TableCell>
             <TableCell align="center">Status</TableCell>
             <TableCell align="right"></TableCell>
           </TableRow>
@@ -115,7 +135,7 @@ export default function InputOutputTable() {
           {rows
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map((row) => (
-              <Row key={row.driver} row={row} />
+              <Row key={row.id} row={row} />
             ))}
         </TableBody>
       </Table>
