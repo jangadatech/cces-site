@@ -80,7 +80,7 @@ function Row(props: { row: ReturnType<typeof createDataUtil> }) {
 }
 
 const rows = [
-  createDataUtil('Frozen yoghurt', '159', '135696', 144, '07:00 - 26/07', 'S',  '135001', 'São Mateus')
+  createDataUtil('Marcos', '123', 14580, '27 00:00', 'E', 'Testando', null, null, null, 'JD Varginha')
 ];
 
 export default function InputOutputTable() {
