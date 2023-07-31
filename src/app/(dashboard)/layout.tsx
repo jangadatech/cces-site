@@ -4,8 +4,7 @@ import React, { useState } from 'react';
 import SideNav from './side-nav';
 import { Box, CssBaseline } from '@mui/material';
 import TopNav from './top-nav';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { AuthGuard } from '@/guards/auth-guard';
 
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -13,15 +12,7 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   const [open, setOpen] = useState(true);
-  const router = useRouter()
   
-  const {data: session, status} = useSession({
-    required: true,
-    onUnauthenticated(){
-      router.replace('/auth/signin')
-    }
-  })
-
   const handleDrawer = () => {
     setOpen(!open);
   };
@@ -30,6 +21,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <>
       <html>
         <body >
+          <AuthGuard>
             <Box sx={{ display: 'flex' }}>
               <CssBaseline />
               <TopNav />
@@ -38,6 +30,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 {children}
               </Box>
             </Box>
+          </AuthGuard>
         </body>
       </html>
     </>

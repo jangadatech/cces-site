@@ -4,6 +4,7 @@ import { useState } from 'react';
 import {
   Box,
   Button,
+  CircularProgress,
   Container,
   Stack,
   TextField,
@@ -12,23 +13,26 @@ import {
 import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
-
 const SignInPage = () => {
 
   const router = useRouter();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: any) => {
+    setIsLoading(true)
     e.preventDefault();
     const credentials = { username, password };
     const result = await signIn('credentials', { ...credentials, redirect: false });
 
     if (result?.error) {
       console.error('Login falhou:', result.error);
+      setIsLoading(false)
     } else {
       router.replace('/');
+      setIsLoading(false)
     }
   };
   return (
@@ -87,7 +91,7 @@ const SignInPage = () => {
                 variant="contained"
                 onClick={handleSubmit}
               >
-                Entrar
+                {isLoading ? <CircularProgress color="secondary" size={24} /> : 'Entrar'} 
               </Button>
             </Stack>
           </Box>
