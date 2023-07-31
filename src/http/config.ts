@@ -1,8 +1,8 @@
 /* PROD */
-// export const URL = 'https://cces-site.vercel.app';
+export const URL = 'https://cces-site.vercel.app';
 
 /* DEVELOP */
-export const URL = 'https://cces-develop.vercel.app';
+// export const URL = 'https://cces-develop.vercel.app';
 
 /* LOCAL */
 // export const URL = 'http://localhost:3000';
