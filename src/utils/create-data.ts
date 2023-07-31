@@ -1,13 +1,12 @@
 export default function createDataUtil(
     driver: string,
-    prefix: number,
+    prefix: string,
     odometer: number,
-    inputDate: string | null,
-    outputDate: string | null,
+    register_at: string | null,
     status: string,
     description: string | null,
-    odometerBefore: number,
-    travelled_distance: number, //current_odometer - prev_odometer
+    odometerBefore: number | null,
+    travelled_distance: number | null, //current_odometer - prev_odometer
     liter_consumed: number | null,
     destiny: string
   ) {
@@ -15,17 +14,16 @@ export default function createDataUtil(
       driver,
       prefix,
       odometer,
-      inputDate,
-      outputDate,
+      register_at,
       status,
       description,
       details: [
         {
           description: description,
           destiny: destiny,
-          travelled_distance: travelled_distance,
-          odometer_before: odometerBefore,
-          liter_consumed: liter_consumed,
+          travelled_distance: null,
+          odometer_before: null,
+          liter_consumed: null,
         },
       ],
     };

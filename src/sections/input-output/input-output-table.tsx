@@ -37,8 +37,7 @@ function Row(props: { row: ReturnType<typeof createDataUtil> }) {
         </TableCell>
         <TableCell align="center" sx={{ py: 0 }}>{row.prefix}</TableCell>
         <TableCell align="center" sx={{ py: 0 }}>{row.odometer}</TableCell>
-        <TableCell align="center" sx={{ py: 0 }}>{row.inputDate}</TableCell>
-        <TableCell align="center" sx={{ py: 0 }}>{row.outputDate}</TableCell>
+        <TableCell align="center" sx={{ py: 0 }}>{row.register_at}</TableCell>
         <TableCell align="center" sx={{ py: 0 }}>
           <Chip label={row.status} color={row.status == 'E' ? 'secondary' : 'info'}  />
         </TableCell>
@@ -81,7 +80,7 @@ function Row(props: { row: ReturnType<typeof createDataUtil> }) {
 }
 
 const rows = [
-  createDataUtil('Frozen yoghurt', 159, 135696, null, '07:00 - 26/07', 'S', null, 135001, 45, null, 'São Mateus')
+  createDataUtil('Marcos', '123', 14580, '27 00:00', 'E', 'Testando', null, null, null, 'JD Varginha')
 ];
 
 export default function InputOutputTable() {
