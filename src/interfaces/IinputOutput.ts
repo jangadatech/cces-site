@@ -1,10 +1,10 @@
-import Vehicle from "./Vehicle";
-import Driver from "./driver";
+import IDriver from "./IDriver";
+import IVehicle from "./IVehicle";
 
-export default interface InputOutput {
+export default interface IInputOutput {
     _id: string;
-    driver: Driver;
-    vehicle: Vehicle;
+    driver: IDriver;
+    vehicle: IVehicle;
     register_at: string;
     odometer: number;
     description: string | null;

@@ -19,12 +19,12 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import axios from 'axios';
 import createDataUtil from '@/utils/create-data';
 import { URL } from '@/http/config';
-import InputOutput from '@/interfaces/input-output';
+import IInputOutput from '@/interfaces/IinputOutput';
 
 export default function InputOutputTable() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [inputOutput, setInputOutput] = useState<InputOutput[]>([]);
+  const [inputOutput, setInputOutput] = useState<IInputOutput[]>([]);
 
   useEffect(() => {
 
@@ -51,8 +51,8 @@ export default function InputOutputTable() {
     setPage(0);
   };
 
-  const transformDataToRows = (inputOutputData: InputOutput[]): ReturnType<typeof createDataUtil>[] => {
-    return inputOutputData.map((el: InputOutput) => {
+  const transformDataToRows = (inputOutputData: IInputOutput[]): ReturnType<typeof createDataUtil>[] => {
+    return inputOutputData.map((el: IInputOutput) => {
       return createDataUtil(el._id, el.driver.name, el.vehicle.prefix, el.odometer, el.register_at, el.status, el.description, null, null, null, el.destiny);
     });
   };

@@ -10,11 +10,11 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { Autocomplete, DialogActions, TextareaAutosize } from '@mui/material';
 import getCurrentDateTime from '@/utils/current-date-time';
-import Driver from '@/interfaces/driver';
-import Vehicle from '@/interfaces/Vehicle';
 import { URL } from '@/http/config';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import IDriver from '@/interfaces/IDriver';
+import IVehicle from '@/interfaces/IVehicle';
 
 interface InputOutputModalProps {
   handleClose: () => void;
@@ -68,11 +68,11 @@ export default function InputOutputModal({ handleClose, open }: InputOutputModal
     fetchInputOutputData();
   }, []);
 
-  const driversLabel = drivers.map((driver: Driver) => {
+  const driversLabel = drivers.map((driver: IDriver) => {
     return { label: driver.name, id: driver._id };
   });
   
-  const prefixLabel = vehicles.map((vehicle: Vehicle) => {
+  const prefixLabel = vehicles.map((vehicle: IVehicle) => {
     return { label: vehicle.prefix, id: vehicle._id };
   });
 

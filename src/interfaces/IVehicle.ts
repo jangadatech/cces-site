@@ -1,4 +1,4 @@
-export default interface Vehicle {
+export default interface IVehicle {
     _id: string;
     plate: string;
     active: boolean;

@@ -1,4 +1,4 @@
-export default interface Driver {
+export default interface IDriver {
     _id: string;
     name: string;
     full_name: string;

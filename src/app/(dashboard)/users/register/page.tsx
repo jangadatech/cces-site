@@ -3,10 +3,10 @@
 import React from 'react';
 import { Box, Stack, TextField, MenuItem, Button, Container, Typography } from '@mui/material';
 import { Formik, Form, Field, FormikValues } from 'formik';
-import { User } from '@/interfaces/user';
 import { URL } from '@/http/config';
 import Link from 'next/link';
 import { theme } from '@/themes';
+import { IUser } from '@/interfaces/IUser';
 
 const profiles = [
   {
@@ -23,7 +23,7 @@ const profiles = [
   },
 ];
 
-async function createUser(data: User) {
+async function createUser(data: IUser) {
   try {
     const res = await fetch(`${URL}/api/users`, {
       method: 'POST',
@@ -43,7 +43,7 @@ const Register = () => {
   const handleSubmit = async (values: FormikValues, { setSubmitting, resetForm }: any) => {
     try {
 
-      await createUser(values as User)
+      await createUser(values as IUser)
 
       resetForm();
 

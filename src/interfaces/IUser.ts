@@ -4,7 +4,7 @@ export const enum Profile {
   HUMAN_RESOURCES = 'human-resources',
 }
 
-export interface User {
+export interface IUser {
   full_name: string;
   username: string;
   password: string;
