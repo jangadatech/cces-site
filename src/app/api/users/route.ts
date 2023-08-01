@@ -14,14 +14,14 @@ export async function POST(request: Request) {
   await connectMongoose();
 
   try {
-    const { username, password, full_name, profile } = await request.json();
+    const { full_name, username, password, profile } = await request.json();
 
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     const user = new User({
-      username,
       full_name,
+      username,
       password: hashedPassword,
       profile,
     });

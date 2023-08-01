@@ -5,6 +5,7 @@ export enum Profile {
 }
 
 export interface User {
+  full_name: string;
   username: string;
   password: string;
   profile: Profile | string;

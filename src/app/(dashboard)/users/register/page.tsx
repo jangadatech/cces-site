@@ -10,7 +10,7 @@ import { theme } from '@/themes';
 
 const profiles = [
   {
-    value: 'Admin',
+    value: 'admin',
     label: 'Administrador',
   },
   {
@@ -98,6 +98,7 @@ const Register = () => {
                 <div>
                   <Formik
                     initialValues={{
+                      full_name: '',
                       username: '',
                       password: '',
                       profile: '',
@@ -107,6 +108,13 @@ const Register = () => {
                     {({ isSubmitting }) => (
                       <Form>
                         <Stack spacing={3}>
+                          <Field
+                            as={TextField}
+                            fullWidth
+                            label="Nome completo"
+                            name="full_name"
+                            type="text"
+                          />
                           <Field
                             as={TextField}
                             fullWidth
