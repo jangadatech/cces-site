@@ -6,32 +6,7 @@ export async function GET(request: NextRequest) {
   await connectMongoose();
 
   try {
-    const params = request.nextUrl.searchParams;
-    const filterDate = params.get('date');
-
-    let query = {};
-
-    if (filterDate) {
-      const dateFiltered = new Date(filterDate)
-      const startOfDay = new Date(dateFiltered.getFullYear(), dateFiltered.getMonth(), dateFiltered.getDate());
-      const endOfDay = new Date(dateFiltered.getFullYear(), dateFiltered.getMonth(), dateFiltered.getDate() + 2);
-      
-      query = {
-        register_at: { $gte: startOfDay, $lt: endOfDay },
-      };
-
-    } else {
-      const currentDate = new Date();
-      const startOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-      const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + 1);
-
-      query = {
-        register_at: { $gte: startOfDay, $lt: endOfDay },
-      };
-    }
-
-    const data = await InputOutput.find(query);
-
+    const data = await InputOutput.find().populate('driver').populate('vehicle');
     return NextResponse.json(data);
   } catch (error: any) {
     return NextResponse.json(error, { status: 500 });
