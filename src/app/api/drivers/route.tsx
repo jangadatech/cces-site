@@ -1,4 +1,4 @@
-import Driver from '@/app/models/Driver';
+import Driver from '@/models/Driver';
 import connectMongoose from '@/config/mongoose';
 import { NextResponse } from 'next/server'
 

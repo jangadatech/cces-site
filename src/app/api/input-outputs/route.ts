@@ -1,4 +1,4 @@
-import InputOutput from '@/app/models/InputOutput';
+import InputOutput from '@/models/InputOutput';
 import connectMongoose from '@/config/mongoose';
 import { NextRequest, NextResponse } from 'next/server'
 

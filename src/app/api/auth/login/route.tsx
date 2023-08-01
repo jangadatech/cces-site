@@ -1,4 +1,4 @@
-import User from "@/app/models/User";
+import User from "@/models/User";
 import connectMongoose from "@/config/mongoose";
 import bcrypt from 'bcrypt'
 import { NextResponse } from "next/server";

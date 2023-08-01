@@ -1,4 +1,4 @@
-import Vehicle from '@/app/models/Vehicle';
+import Vehicle from '@/models/Vehicle';
 import connectMongoose from '@/config/mongoose';
 import { NextResponse } from 'next/server'
 
