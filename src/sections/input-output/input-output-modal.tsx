@@ -42,53 +42,39 @@ const style = {
   p: 4,
 };
 
-const drivers = [
-  {
-      "_id": "64c90f2bfb8f21490884cfa4",
-      "name": "Ronaldo",
-      "full_name": "Ronaldo Teste",
-      "active": true,
-      "enrollment": "0001",
-      "updated_at": null,
-      "created_at": "2023-08-01T13:56:59.227Z",
-      "__v": 0
-  },
-  {
-      "_id": "64c918edfb8f21490884cfe6",
-      "name": "João",
-      "full_name": "João Teste",
-      "active": true,
-      "enrollment": "0002",
-      "updated_at": null,
-      "created_at": "2023-08-01T14:38:37.839Z",
-      "__v": 0
-  }
-]
-
-const vehicles = [
-  {
-      "_id": "64c909913f2fd72626a43c77",
-      "plate": "Ana",
-      "active": true,
-      "prefix": "001",
-      "vehicle_type": "64c9097a3f2fd72626a43c73",
-      "updated_at": null,
-      "created_at": "2023-08-01T13:33:05.507Z",
-      "__v": 0
-  }
-]
-
-const driversLabel = drivers.map((driver: Driver) => {
-  return { label: driver.name, id: driver._id };
-});
-
-const prefixLabel = vehicles.map((vehicle: Vehicle) => {
-  return { label: vehicle.prefix, id: vehicle._id };
-});
-
-
 export default function InputOutputModal({ handleClose, open }: InputOutputModalProps) {
   const [isInput, setIsInput] = useState(true);
+  const [drivers, setDrivers] = useState([]);
+  const [vehicles, setVehicles] = useState([]);
+
+  useEffect(() => {
+
+    const fetchInputOutputData = async () => {
+      try {
+        const response = await axios.get(`${URL}/api/drivers`);
+        setDrivers(response.data);
+      } catch (error: any) {
+        console.error(error.message);
+      }
+
+      try {
+        const response = await axios.get(`${URL}/api/vehicles`);
+        setVehicles(response.data);
+      } catch (error: any) {
+        console.error(error.message);
+      }
+    };
+
+    fetchInputOutputData();
+  }, []);
+
+  const driversLabel = drivers.map((driver: Driver) => {
+    return { label: driver.name, id: driver._id };
+  });
+  
+  const prefixLabel = vehicles.map((vehicle: Vehicle) => {
+    return { label: vehicle.prefix, id: vehicle._id };
+  });
 
   const handleStatusChange = (event: React.MouseEvent<HTMLElement>, newStatus: string) => {
     setIsInput(newStatus === 'E');
