@@ -8,6 +8,7 @@ import AddIcon from '@mui/icons-material/Add';
 import UsersTable from '@/components/UsersTable';
 import Link from 'next/link';
 import { theme } from '@/themes';
+import InputOutputGataGrid from '@/sections/input-output/input-output-data-grid';
 
 const data = [
   {
@@ -128,8 +129,7 @@ const Users = () => {
                 </Button>
               </Link>
             </Stack>
-            {/* <UsersSearch /> */}
-            <UsersTable />
+            <InputOutputGataGrid/>
           </Stack>
         </Container>
       </Box>

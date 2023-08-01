@@ -1,6 +1,9 @@
 import React from 'react'
-import { DataGrid, GridColDef, GridToolbar, GridValueGetterParams } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridToolbar, GridValueGetterParams, ptBR } from '@mui/x-data-grid';
 import { Box } from '@mui/material';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+// import { ptBR } from '@mui/x-date-pickers/locales';
+
 
 const rows = [
     { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
@@ -18,27 +21,27 @@ const rows = [
     { field: 'id', headerName: 'ID', width: 90 },
     {
       field: 'firstName',
-      headerName: 'First name',
+      headerName: 'Nome',
       width: 150,
       editable: true,
     },
     {
       field: 'lastName',
-      headerName: 'Last name',
+      headerName: 'Sobrenome',
       width: 150,
       editable: true,
     },
     {
       field: 'age',
-      headerName: 'Age',
+      headerName: 'Idade',
       type: 'number',
       width: 110,
       editable: true,
     },
     {
       field: 'fullName',
-      headerName: 'Full name',
-      description: 'This column has a value getter and is not sortable.',
+      headerName: 'Nome Completo',
+      description: 'Essa coluna não pode ser ordenada.',
       sortable: false,
       width: 160,
       valueGetter: (params: GridValueGetterParams) =>
@@ -46,10 +49,12 @@ const rows = [
     },
   ];
 
-  const inputOutputGataGrid = () => {
+  const InputOutputDataGrid = () => {
   return (
     <Box sx={{ height: 400, width: '100%' }}>
         <DataGrid
+        localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
+        slots={{ toolbar: GridToolbar }}
         rows={rows}
         columns={columns}
         initialState={{
@@ -60,11 +65,10 @@ const rows = [
             },
         }}
         pageSizeOptions={[5]}
-        checkboxSelection
         disableRowSelectionOnClick
         />
     </Box>
   )
 }
 
-export default inputOutputGataGrid
+export default InputOutputDataGrid
