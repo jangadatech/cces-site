@@ -6,7 +6,7 @@ export async function GET(request: NextRequest) {
   await connectMongoose();
 
   try {
-    const data = await InputOutput.find().populate('driver').populate('vehicle');
+    const data = await InputOutput.find().populate('driver').populate('vehicle').exec();
     return NextResponse.json(data);
   } catch (error: any) {
     return NextResponse.json(error, { status: 500 });
@@ -36,6 +36,6 @@ export async function POST(request: NextRequest) {
     if (error.code === 11000) {
       return NextResponse.json({ error: 'InputOutput with this driver and vehicle already exists' }, { status: 400 });
     }
-    return NextResponse.json({ error: 'Error saving InputOutput' }, { status: 500 });
+    return NextResponse.json({ error }, { status: 500 });
   }
 }

@@ -1,11 +1,13 @@
 import mongoose from "mongoose";
+import Driver from "./Driver";
+import Vehicle from "./Vehicle";
 
 const inputOutputSchema = new mongoose.Schema({
-    driver: { type: mongoose.Schema.Types.ObjectId, ref: "Driver", required: true },
-    vehicle: { type: mongoose.Schema.Types.ObjectId, ref: "Vehicle", required: true },
+    driver: { type: mongoose.Schema.Types.ObjectId, ref: Driver, required: true },
+    vehicle: { type: mongoose.Schema.Types.ObjectId, ref: Vehicle, required: true },
     register_at: { type: Date },
     odometer: { type: Number, required: true },
-    description: { type: String, required: true },
+    description: { type: String, default: null },
     destiny: { type: String },
     status: { type: String, enum: ["E", "S"], required: true },
     created_at: { type: Date, default: Date.now },

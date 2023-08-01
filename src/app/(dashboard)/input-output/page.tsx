@@ -8,6 +8,7 @@ import AddIcon from '@mui/icons-material/Add';
 import InputOutputTable from '@/sections/input-output/input-output-table';
 import InputOutputModal from '@/sections/input-output/input-output-modal';
 import useKeyboardShortcut from 'use-keyboard-shortcut';
+import { ToastContainer } from 'react-toastify';
 
 const InputOutput = () => {
 
@@ -43,6 +44,7 @@ const InputOutput = () => {
           py: 3
         }}
       >
+        <ToastContainer />
         <Container maxWidth="xl">
           <Stack spacing={3}>
             <Stack

@@ -7,7 +7,7 @@ export default interface InputOutput {
     vehicle: Vehicle;
     register_at: string;
     odometer: number;
-    description: string;
+    description: string | null;
     destiny: string;
     status: string;
     updated_at: string | null;
