@@ -1,5 +1,7 @@
 import { theme } from '@/themes';
 import { PaletteOptions, createTheme } from '@mui/material/styles';
+import { ptBR } from '@mui/x-data-grid';
+
 
 
 interface CustomPaletteOptions extends PaletteOptions {
@@ -74,10 +76,12 @@ const customTheme = createTheme({
       paper: theme.colors.neutral_100,
     }
     
+    },
+    typography: {
+      fontFamily: 'Inter, sans-serif'
+    },
   },
-  typography: {
-    fontFamily: 'Inter, sans-serif'
-  },
-});
+  ptBR
+);
 
 export default customTheme;

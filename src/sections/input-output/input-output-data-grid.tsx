@@ -53,7 +53,6 @@ const rows = [
   return (
     <Box sx={{ height: 400, width: '100%' }}>
         <DataGrid
-        localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
         slots={{ toolbar: GridToolbar }}
         rows={rows}
         columns={columns}
