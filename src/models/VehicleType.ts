@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const VehicleTypeSchema = new mongoose.Schema({
     name: { type: String, required: true },
-    seat: { type: Number, required: true },
+    seat: { type: Number},
     created_at: { type: Date, default: Date.now },
     updated_at: { type: Date, default: null }
   });

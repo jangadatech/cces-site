@@ -12,7 +12,7 @@ import { theme } from '@/themes';
 interface SideNavItemProps {
   text: string;
   open: boolean;
-  icon: any;
+  icon?: any;
   path?: string;
   color?: string;
   handlerSignOut?: () => void;
@@ -41,7 +41,7 @@ const SideNavItem = ({ text, open, icon, path, handlerSignOut, color }: SideNavI
               <ListItemIcon
                 sx={{
                   minWidth: 0,
-                  mr: open ? 3 : 'auto',
+                  mr: 'auto',
                   justifyContent: 'center',
                 }}
               >
