@@ -14,7 +14,7 @@ interface DataTableProps{
 const DataTable = ({rows, columns}: DataTableProps) => {
 
   return (
-    <Box sx={{ height: 400, width: '100%' }}>
+    <Box sx={{ height: 400, width: '100%', justifyContent: 'center'}}>
       <DataGrid
         slots={{ toolbar: GridToolbar }}
         rows={rows}
