@@ -37,6 +37,8 @@ const vehicleTypeSchema = Yup.object().shape({
     .required('Campo obrigatório.'),
 });
 
+
+
 const Register = () => {
 
   const handleSubmit = async (values: FormikValues, {setSubmitting}: any) => {
