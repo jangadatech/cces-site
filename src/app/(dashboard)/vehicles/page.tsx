@@ -1,14 +1,48 @@
 'use client'
 
 import axios from 'axios';
-
 import { useState, useEffect } from 'react';
-import { Box, Button, Stack, SvgIcon, Typography, Unstable_Grid2 as Grid } from '@mui/material'
+import { 
+  Box, 
+  Button, 
+  Stack, 
+  SvgIcon, 
+  Typography, 
+  Unstable_Grid2 as Grid 
+} from '@mui/material'
 import { Container } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+
 import Link from 'next/link';
 import DataTable from '@/components/DataTable';
 import IVehicleType from '@/interfaces/IVehicleType';
+
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+import { GridActionsCellItem } from '@mui/x-data-grid';
+
+
+const createAction = () => {
+  return (
+    <>
+      <GridActionsCellItem
+        icon={<EditIcon />}
+        label="Edit"
+        sx={{
+          color: 'primary.main',
+        }}
+        
+      />
+      <GridActionsCellItem
+        icon={<DeleteIcon/>}
+        label="Delete"
+        sx={{
+          color: 'primary.main',
+        }}
+      />
+    </> 
+  )
+}
 
 const columns = [
   { field: 'id', 
@@ -25,12 +59,21 @@ const columns = [
     width: 100,
     
   },
+  {
+    field: 'actions',
+    type: 'actions',
+    headerName: 'Ações',
+    width: 100,
+    cellClassName: 'actions',  
+    renderCell: () => createAction()
+
+  }
 ];
 
 const VehiclesTypes = () => {
 
   const [rows, setRows] = useState([]);
-
+  
   const getAllVehiclesTypes = async () => {
     try{
       const { data } = await axios.get('/api/vehicles-types')
@@ -40,11 +83,10 @@ const VehiclesTypes = () => {
         return {
           id: index,
           name: item.name,
-          seat: item.seat
+          seat: item.seat,
         }
       })
 
-      console.log(rows)
       setRows(rows);
     }
     catch(error: any){
@@ -52,6 +94,16 @@ const VehiclesTypes = () => {
     }
   }
   
+  const updateVehicleType = async (id = 1) => {
+    try{
+      const { data } = await axios.put(`/api/vehicles-types/${id}`)
+      console.log(data);
+    }
+    catch(error: any){
+      console.log('Erro ao atualizar tipo de veículo', error.message);
+    }
+  }
+
   useEffect(() =>{
     getAllVehiclesTypes();
   },[])
