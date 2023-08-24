@@ -25,14 +25,15 @@ import { GridActionsCellItem } from '@mui/x-data-grid';
 const createAction = () => {
   return (
     <>
+      <Link href={'/vehicles/vehicles-types/form'}>
       <GridActionsCellItem
         icon={<EditIcon />}
         label="Edit"
         sx={{
           color: 'primary.main',
         }}
-        
-      />
+        />
+      </Link>
       <GridActionsCellItem
         icon={<DeleteIcon/>}
         label="Delete"
@@ -81,7 +82,7 @@ const VehiclesTypes = () => {
       const rows = data.map((item: IVehicleType, index: number) =>{
 
         return {
-          id: index,
+          id: item._id,
           name: item.name,
           seat: item.seat,
         }
@@ -94,16 +95,6 @@ const VehiclesTypes = () => {
     }
   }
   
-  const updateVehicleType = async (id = 1) => {
-    try{
-      const { data } = await axios.put(`/api/vehicles-types/${id}`)
-      console.log(data);
-    }
-    catch(error: any){
-      console.log('Erro ao atualizar tipo de veículo', error.message);
-    }
-  }
-
   useEffect(() =>{
     getAllVehiclesTypes();
   },[])
@@ -133,7 +124,7 @@ const VehiclesTypes = () => {
                   Tipos de veículos
                 </Typography>
               </Stack>
-              <Link href={'/vehicles/vehicles-types/register'}>
+              <Link href={'/vehicles/vehicles-types/form'}>
                 <Button
                   variant="contained"
                   startIcon={(

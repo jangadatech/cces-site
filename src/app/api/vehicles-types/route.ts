@@ -28,3 +28,19 @@ export async function POST(request: Request) {
   }
 }
 
+// export async function PUT(request: Request) {
+//   await connectMongoose();
+
+//   try {
+//     const { id, name, seat } = await request.json();
+
+//     const vehicleType = await VehicleType.findByIdAndUpdate(id, {
+//       name,
+//       seat
+//     });
+
+//     return NextResponse.json(vehicleType);
+//   } catch (error: any) {
+//     return NextResponse.json({ error: 'Error updating Vehicle type' }, { status: 500 });
+//   }
+// }
