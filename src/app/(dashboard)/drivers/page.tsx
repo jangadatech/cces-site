@@ -148,7 +148,7 @@ const Drivers = () => {
           py: 8
         }}
       >
-        <Container maxWidth="xl">
+        <Container maxWidth={false}>
           <Stack spacing={3}>
             <Stack
               direction="row"
