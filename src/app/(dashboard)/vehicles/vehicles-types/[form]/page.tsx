@@ -24,6 +24,20 @@ const createVehicleType = async (data: IVehicleType) => {
   }
 }
 
+const updateVehicleType = async (data: IVehicleType, ) => {
+  try{
+    const response = await axios.put(`${URL}/api/vehicles-types/${data._id}`, data, {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+    console.log(response);
+  }
+  catch(error: any){
+    console.error('Erro ao atualizar o tipo de veículo', error.message)
+  }
+}
+
 const vehicleTypeSchema = Yup.object().shape({
   name: Yup.string()
   .min(2, 'O nome do tipo de veículo deve conter pelo menos 2 caracteres')
@@ -36,7 +50,12 @@ const vehicleTypeSchema = Yup.object().shape({
 
 const FormVehiclesTypes = () => {
 
-  const [form, setForm] = useState<IVehicleType>();
+  const [form, setForm] = useState<IVehicleType>({
+    _id: '',
+    name: '',
+    seat: 0
+  });
+
 
   const id = useParams()
 
@@ -52,11 +71,13 @@ const FormVehiclesTypes = () => {
   }
   
   useEffect(() => {
-    const loadVehiclesTypeById = async () => {
+    const fetchVehiclesTypeById = async () => {
       const vehicleType = await getVehiclesTypesById(id.form)
-      setForm(vehicleType)
+      if(vehicleType){
+        setForm(vehicleType)
+      }
     }
-    loadVehiclesTypeById()
+    fetchVehiclesTypeById()
   },[]);
   
   const handleSubmit = async (values: FormikValues, {setSubmitting}: any) => {
@@ -68,6 +89,18 @@ const FormVehiclesTypes = () => {
         console.log('deu ruim ao registrar')
       }
     }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+  
+    setForm((prevForm) => ({
+      ...prevForm,
+      [name]: value,
+    }) as IVehicleType); 
+  };
+  
+  
+  console.log(form)
 
   return (
     <>   
@@ -113,7 +146,7 @@ const FormVehiclesTypes = () => {
                   <Formik
                     initialValues={{
                       name: '',
-                      seat: '',
+                      seat: 0,
                     }}
                     onSubmit={handleSubmit}
                     validationSchema={vehicleTypeSchema}
@@ -128,6 +161,7 @@ const FormVehiclesTypes = () => {
                             name="name"
                             type="text"
                             value={form ? form.name : ''}
+                            onChange={handleChange}
                           />
                             {errors.seat && touched.seat ? (
                               <div>{errors.name}</div>
@@ -140,6 +174,7 @@ const FormVehiclesTypes = () => {
                             name="seat"
                             type="number"
                             value={form ? form.seat : ''}
+                            onChange={handleChange}
                             min="0"
                             InputLabelProps={{
                               shrink: true,
