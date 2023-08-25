@@ -112,9 +112,8 @@ const SideNav = ({ open, handleDrawer }: SideNavProps) => {
             open={open}
             text="Veículos" 
           >
-          <SideNavItem open={open} path={'/vehicles'} text="Tipo" />
+          <SideNavItem icon={<GroupIcon />} open={open} path={'/vehicles'} text="Tipo" />
         </SideNavList>
-        
       </div>
       <BottomNavContainer>
         <Divider /> 

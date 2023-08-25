@@ -31,7 +31,6 @@ const SideNavItem = ({ text, open, icon, path, handlerSignOut, color }: SideNavI
                 minHeight: 48,
                 justifyContent: open ? 'initial' : 'center',
                 px: 2.5,
-                m: 1,
                 borderRadius: '4px',
                 '&:hover': {
                 },

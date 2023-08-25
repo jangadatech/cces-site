@@ -51,9 +51,7 @@ const SideNavList = ({text, open, icon, path, children, color}:  SubNavListProps
       </ListItemButton>
       <Collapse in={expand} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            {children}
-          </ListItemButton>
+          {children}
         </List>
       </Collapse>
     </List>
