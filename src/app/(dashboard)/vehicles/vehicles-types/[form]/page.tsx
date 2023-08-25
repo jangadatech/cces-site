@@ -90,14 +90,14 @@ const FormVehiclesTypes = () => {
       }
     }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { name, value } = e.target;
   
-    setForm((prevForm) => ({
-      ...prevForm,
-      [name]: value,
-    }) as IVehicleType); 
-  };
+  //   setForm((prevForm) => ({
+  //     ...prevForm,
+  //     [name]: value,
+  //   }) as IVehicleType); 
+  // };
   
   
   console.log(form)
@@ -160,8 +160,6 @@ const FormVehiclesTypes = () => {
                             label="Tipo de veículo"
                             name="name"
                             type="text"
-                            value={form ? form.name : ''}
-                            onChange={handleChange}
                           />
                             {errors.seat && touched.seat ? (
                               <div>{errors.name}</div>
@@ -173,8 +171,6 @@ const FormVehiclesTypes = () => {
                             label="Quantidade de assentos"
                             name="seat"
                             type="number"
-                            value={form ? form.seat : ''}
-                            onChange={handleChange}
                             min="0"
                             InputLabelProps={{
                               shrink: true,
