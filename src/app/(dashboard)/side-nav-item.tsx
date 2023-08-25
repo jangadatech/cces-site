@@ -41,7 +41,7 @@ const SideNavItem = ({ text, open, icon, path, handlerSignOut, color }: SideNavI
               <ListItemIcon
                 sx={{
                   minWidth: 0,
-                  mr: 'auto',
+                  mr: open ? 3 : 'auto',
                   justifyContent: 'center',
                 }}
               >
