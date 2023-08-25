@@ -108,12 +108,12 @@ const SideNav = ({ open, handleDrawer }: SideNavProps) => {
         <SideNavItem icon={<ImportExportIcon />} open={open} path={'/input-output'} text="Entrada e Saída" />
         <SideNavItem icon={<GroupIcon />} open={open} path={'/users'} text="Usuários" />
         <SideNavList 
-            icon={<DirectionsCarIcon/>} 
+            icon={<DirectionsCarIcon/>}
+            open={open}
             text="Veículos" 
           >
-          <SideNavItem open={open} path={'/vehicles'} text="Tipo" />
+          <SideNavItem icon={<GroupIcon />} open={open} path={'/vehicles'} text="Tipo" />
         </SideNavList>
-        
       </div>
       <BottomNavContainer>
         <Divider /> 

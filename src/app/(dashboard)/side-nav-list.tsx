@@ -1,40 +1,38 @@
-import * as React from 'react';
 
-
-import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import DraftsIcon from '@mui/icons-material/Drafts';
-import SendIcon from '@mui/icons-material/Send';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import StarBorder from '@mui/icons-material/StarBorder';
 
-import SideNavItem from './side-nav-item';
+import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 
 interface SubNavListProps {
   text: string,
+  open: boolean;
   icon: any,
   path?: string, 
-  children: React.ReactNode
+  children: React.ReactNode,
+  color?: string;
 }
 
-export default function NestedList({text, children, icon, path,}:  SubNavListProps) {
-  const [open, setOpen] = React.useState(true);
+const SideNavList = ({text, open, icon, path, children, color}:  SubNavListProps) => {
+  const [expand, setExpand] = useState(true);
+  const pathname = usePathname()
+  const isSelected = pathname === path;
 
   const handleClick = () => {
-    setOpen(!open);
+    setExpand(!expand);
   };
 
   return (
     <List 
       sx={{
-        m: 1
+        m: open ? 1 : 0
       }} 
     >
       <ListItemButton onClick={handleClick}>
@@ -49,16 +47,16 @@ export default function NestedList({text, children, icon, path,}:  SubNavListPro
             justifyContent: 'center'
           }} 
         />
-        {open ? <ExpandLess /> : <ExpandMore />}
+        {expand ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
-      <Collapse in={open} timeout="auto" unmountOnExit>
+      <Collapse in={expand} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            {children}
-          </ListItemButton>
+          {children}
         </List>
       </Collapse>
     </List>
   );
 }
+
+export default SideNavList;
 
