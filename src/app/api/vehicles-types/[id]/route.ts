@@ -11,7 +11,6 @@ export async function GET(
   const id = params.id;
   const vehicleType = await VehicleType.findById(id);
 
-  console.log('aqui', vehicleType)
   if (!vehicleType) {
     let error_response = {
       status: "fail",

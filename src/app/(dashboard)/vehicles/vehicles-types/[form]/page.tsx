@@ -8,10 +8,7 @@ import { Box, Stack, TextField, Button, Container, Typography} from '@mui/materi
 import { Formik , Form, Field, FormikValues  } from 'formik';
 import { URL } from '@/http/config';
 import * as Yup from 'yup';
-import { useSearchParams } from 'next/navigation'
 import { useParams } from 'next/navigation'
-
-
 
 const createVehicleType = async (data: IVehicleType) => {
   try{
@@ -27,20 +24,6 @@ const createVehicleType = async (data: IVehicleType) => {
   }
 }
 
-const getVehiclesTypesById = async (id: any) => {
-  try{
-    const {data} = await axios.get(`/api/vehicles-types/${id}`)
-
-    return data
-  }
-  catch(error: any){
-    console.log('Erro ao lista tipos de veículos', error.message);
-  }
-}
-
-
-
-
 const vehicleTypeSchema = Yup.object().shape({
   name: Yup.string()
   .min(2, 'O nome do tipo de veículo deve conter pelo menos 2 caracteres')
@@ -53,15 +36,29 @@ const vehicleTypeSchema = Yup.object().shape({
 
 const FormVehiclesTypes = () => {
 
-  const params = useParams()
-  
+  const [form, setForm] = useState<IVehicleType>();
+
+  const id = useParams()
+
+  const getVehiclesTypesById = async (id: any) => {
+    try{
+      const {data} = await axios.get(`/api/vehicles-types/${id}`)
+      return data
+    }
+
+    catch(error: any){
+      console.log('Erro ao lista tipos de veículos', error.message);
+    }
+  }
   
   useEffect(() => {
-    if(params.form){
-        getVehiclesTypesById(params.form)
-      }
+    const loadVehiclesTypeById = async () => {
+      const vehicleType = await getVehiclesTypesById(id.form)
+      setForm(vehicleType)
+    }
+    loadVehiclesTypeById()
   },[]);
-
+  
   const handleSubmit = async (values: FormikValues, {setSubmitting}: any) => {
       try{
         await createVehicleType(values as IVehicleType);
@@ -130,6 +127,7 @@ const FormVehiclesTypes = () => {
                             label="Tipo de veículo"
                             name="name"
                             type="text"
+                            value={form ? form.name : ''}
                           />
                             {errors.seat && touched.seat ? (
                               <div>{errors.name}</div>
@@ -141,6 +139,7 @@ const FormVehiclesTypes = () => {
                             label="Quantidade de assentos"
                             name="seat"
                             type="number"
+                            value={form ? form.seat : ''}
                             min="0"
                             InputLabelProps={{
                               shrink: true,

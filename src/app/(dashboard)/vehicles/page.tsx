@@ -123,7 +123,7 @@ const VehiclesTypes = () => {
                   Tipos de veículos
                 </Typography>
               </Stack>
-              <Link href={'/vehicles/vehicles-types'}>
+              <Link href={'/vehicles/vehicles-types/form'}>
                 <Button
                   variant="contained"
                   startIcon={(
