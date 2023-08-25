@@ -21,17 +21,16 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import { GridActionsCellItem } from '@mui/x-data-grid';
 
-
-const createAction = () => {
+const createAction = (id: any) => {
   return (
     <>
-      <Link href={'/vehicles/vehicles-types/form'}>
+      <Link href={`/vehicles/vehicles-types/${id}`}>
       <GridActionsCellItem
         icon={<EditIcon />}
         label="Edit"
         sx={{
-          color: 'primary.main',
-        }}
+            color: 'primary.main',
+          }}
         />
       </Link>
       <GridActionsCellItem
@@ -66,7 +65,7 @@ const columns = [
     headerName: 'Ações',
     width: 100,
     cellClassName: 'actions',  
-    renderCell: () => createAction()
+    renderCell: (params: any) => createAction(params.id)
 
   }
 ];
@@ -79,7 +78,7 @@ const VehiclesTypes = () => {
     try{
       const { data } = await axios.get('/api/vehicles-types')
   
-      const rows = data.map((item: IVehicleType, index: number) =>{
+      const rows = data.map((item: IVehicleType) =>{
 
         return {
           id: item._id,
@@ -94,7 +93,7 @@ const VehiclesTypes = () => {
       console.log('Erro ao lista tipos de veículos', error.message);
     }
   }
-  
+
   useEffect(() =>{
     getAllVehiclesTypes();
   },[])
@@ -124,7 +123,7 @@ const VehiclesTypes = () => {
                   Tipos de veículos
                 </Typography>
               </Stack>
-              <Link href={'/vehicles/vehicles-types/form'}>
+              <Link href={'/vehicles/vehicles-types'}>
                 <Button
                   variant="contained"
                   startIcon={(
