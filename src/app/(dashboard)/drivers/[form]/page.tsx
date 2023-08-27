@@ -1,43 +1,45 @@
 'use client'
 
-import getCurrentDateTime from "@/utils/current-date-time";
-import { Box, Grid, ToggleButtonGroup, ToggleButton, Autocomplete, TextField, TextareaAutosize, DialogActions, Button, Container, Typography, Stack } from "@mui/material";
-import axios from "axios";
+import useFetch from "@/hook/useFetch";
+import IDriver from "@/interfaces/IDriver";
+import { Box, TextField, Button, Container, Typography, Stack, CircularProgress } from "@mui/material";
 import { Formik, Form } from "formik";
+import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import style from "styled-jsx/style";
+import 'react-toastify/dist/ReactToastify.css';
+import { redirect } from 'next/navigation'
 
 const inputOutputInit = {
-    name: '',
-    full_name: '',
-    active: '',
-    enrollment: '',
-    updated_at: '',
-    created_at: '',
+  name: '',
+  full_name: '',
+  enrollment: '',
 }
 
-const handleSaveData = async (values: any) => {
+const FormDrivers = () => {
+
+  const [isLoading, setIsLoading] = useState(false);
+  const { response: drivers, loading, error, request } = useFetch<IDriver[]>('/api/drivers');
+
+  const handleSubmit = async (values: any) => {
     try {
-      await axios.post(`${URL}/api/drivers`, values);
-      toast.success('Dados salvo com sucesso!', {theme: "colored",})
+      await request('post', values);
+      toast.success('Dados salvo com sucesso!', { theme: 'colored' });
     } catch (error) {
       console.error(error);
-      toast.success('Erro ao salvar dados!', {theme: "colored",})
+      toast.error('Erro ao salvar dados!', { theme: 'colored' });
     }
+    setIsLoading(false);
   };
-
-const FormDrivers = () => {
 
   return (
     <>
       <title>
-        Entrada e Saída | CCES
+        Cadastrar Motorista | CCES
       </title>
       <Box
         component="main"
         sx={{
-          flexGrow: 1,
-          py: 3
+          flexGrow: 1
         }}
       >
         <ToastContainer />
@@ -53,38 +55,69 @@ const FormDrivers = () => {
                   Cadastrar Motorista
                 </Typography>
               </Stack>
-              <Stack>
-                <div>
-                  
-                </div>
-              </Stack>
             </Stack>
           </Stack>
-          <Formik
-            initialValues={inputOutputInit}
-            onSubmit={(values) => {
-              handleSaveData(values);
-            }}
-          >
-          {(formikProps) => (
-            <Form>
-              <Grid container spacing={2} alignItems="center">
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    label="Nome"
-                    name="name"
-                    type="text"
-                    value={formikProps.values.name}
-                    onChange={formikProps.handleChange}
-                    variant="outlined"
-                    placeholder="Nome"
-                  />
-                </Grid>
-              </Grid>
-            </Form>
-          )}
-          </Formik>
+          <Box sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            py: 8,
+            flexWrap: "wrap"
+          }}>
+            <Formik
+              initialValues={inputOutputInit}
+              onSubmit={(values) => {
+                handleSubmit(values);
+              }}
+            >
+              {(formikProps) => (
+                <Form>
+                  <Stack spacing={2} direction="column">
+                    <TextField
+                      fullWidth
+                      label="Nome"
+                      name="name"
+                      type="text"
+                      value={formikProps.values.name}
+                      onChange={formikProps.handleChange}
+                      variant="outlined"
+                      placeholder="Nome"
+                    />
+
+                    <TextField
+                      fullWidth
+                      label="Nome Completo"
+                      name="full_name"
+                      type="text"
+                      value={formikProps.values.full_name}
+                      onChange={formikProps.handleChange}
+                      variant="outlined"
+                      placeholder="Nome"
+                    />
+
+                    <TextField
+                      fullWidth
+                      label="Inscrição"
+                      name="enrollment"
+                      type="text"
+                      value={formikProps.values.enrollment}
+                      onChange={formikProps.handleChange}
+                      variant="outlined"
+                      placeholder="Nome"
+                    />
+
+                    <Button
+                      fullWidth
+                      size="large"
+                      type="submit"
+                      variant="contained"
+                    >
+                      {isLoading ? <CircularProgress color="secondary" size={24} /> : 'Salvar'} 
+                    </Button>
+                  </Stack>
+                </Form>
+              )}
+            </Formik>
+          </Box>
         </Container>
       </Box>
     </>
