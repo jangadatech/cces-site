@@ -21,10 +21,16 @@ import { GridActionsCellItem } from '@mui/x-data-grid';
 import IDriver from '@/interfaces/IDriver';
 import useFetch from '@/hook/useFetch';
 
-const createAction = (id: any) => {
+const createAction = (params: any) => {
+  const data = params.row
+  delete data.id;
   return (
     <>
-      <Link href={`/drivers/${id}`}>
+      <Link href={{
+          pathname: `/drivers/${params.id}`,
+          query: data
+        }}
+        >
         <GridActionsCellItem
           icon={<EditIcon />}
           label="Edit"
@@ -47,7 +53,8 @@ const createAction = (id: any) => {
 const columns = [
   { field: 'id', 
     headerName: 'ID', 
-    width: 90, 
+    width: 90,
+    hideable: false
   },
   {
     field: 'name',
@@ -85,7 +92,7 @@ const columns = [
     headerName: 'Ações',
     width: 100,
     cellClassName: 'actions',  
-    renderCell: (params: any) => createAction(params.id)
+    renderCell: (params: any) => createAction(params)
 
   }
 ];
@@ -95,7 +102,7 @@ const Drivers = () => {
 
   const transformDriverData = (drivers: IDriver[]) => {
     return drivers.map((item: IDriver, index: number) => ({
-      id: index + 1,
+      id: item._id,
       name: item.name,
       full_name: item.full_name,
       active: item.active,
@@ -109,7 +116,7 @@ const Drivers = () => {
 
   return (
     <>
-      <title>Motoristas</title>
+      <title>Motoristas | CCES</title>
       <Box
         component="main"
         sx={{
@@ -124,7 +131,7 @@ const Drivers = () => {
                   Motoristas
                 </Typography>
               </Stack>
-              <Link href={'/drivers/form'}>
+              <Link href={'/drivers/create'}>
                 <Button
                   variant="contained"
                   startIcon={
@@ -140,7 +147,11 @@ const Drivers = () => {
                 </Button>
               </Link>
             </Stack>
-            <DataTable rows={transformedData} columns={columns} />
+            <DataTable 
+              rows={transformedData} 
+              columns={columns} 
+              columnVisibilityModel={{id: false, full_name: false, updated_at: false}}
+            />
           </Stack>
         </Container>
       </Box>
