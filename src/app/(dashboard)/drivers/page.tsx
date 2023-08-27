@@ -20,88 +20,80 @@ import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import { GridActionsCellItem } from '@mui/x-data-grid';
 import IDriver from '@/interfaces/IDriver';
 import useFetch from '@/hook/useFetch';
-
-const createAction = (params: any) => {
-  const data = params.row
-  delete data.id;
-  return (
-    <>
-      <Link href={{
-          pathname: `/drivers/${params.id}`,
-          query: data
-        }}
-        >
-        <GridActionsCellItem
-          icon={<EditIcon />}
-          label="Edit"
-          sx={{
-            color: 'primary.main',
-          }}
-        />
-      </Link>
-      <GridActionsCellItem
-        icon={<DeleteIcon />}
-        label="Delete"
-        sx={{
-          color: 'primary.main',
-        }}
-      />
-    </>
-  );
-};
-
-const columns = [
-  { field: 'id', 
-    headerName: 'ID', 
-    width: 50,
-  },
-  {
-    field: 'name',
-    headerName: 'Nome',
-    width: 100,
-  },
-  {
-    field: 'full_name',
-    headerName: 'Nome Completo',
-    width: 150,
-  },
-  {
-    field: 'active',
-    headerName: 'Ativo',
-    type: 'boolean',
-    width: 100,
-  },
-  {
-    field: 'enrollment',
-    headerName: 'Inscrição',
-    width: 100,
-  },
-  {
-    field: 'created_at',
-    headerName: 'Criado em',
-    width: 180,
-    type: 'dateTime',
-    valueGetter: ({ value }: any) => value && new Date(value),
-  },
-  {
-    field: 'updated_at',
-    headerName: 'Atualizado em',
-    width: 180,
-    type: 'dateTime',
-    valueGetter: ({ value }: any) => value && new Date(value),
-  },
-  {
-    field: 'actions',
-    type: 'actions',
-    headerName: 'Ações',
-    width: 100,
-    cellClassName: 'actions',  
-    renderCell: (params: any) => createAction(params)
-  }
-];
+import { useRouter } from 'next/navigation';
 
 const Drivers = () => {
   const { response: drivers, loading, error } = useFetch<IDriver[]>('/api/drivers');
+  const router = useRouter()
+
+  const editAction = (params: any) => {
+    router.push(`/drivers/${params.id}`)
+  }
+
+  const columns = [
+    { 
+      field: 'id', 
+      headerName: 'ID', 
+      width: 50,
+    },
+    {
+      field: 'name',
+      headerName: 'Nome',
+      width: 100,
+    },
+    {
+      field: 'full_name',
+      headerName: 'Nome Completo',
+      width: 150,
+    },
+    {
+      field: 'active',
+      headerName: 'Ativo',
+      type: 'boolean',
+      width: 100,
+    },
+    {
+      field: 'enrollment',
+      headerName: 'Inscrição',
+      width: 100,
+    },
+    {
+      field: 'created_at',
+      headerName: 'Criado em',
+      width: 180,
+      type: 'dateTime',
+      valueGetter: ({ value }: any) => value && new Date(value),
+    },
+    {
+      field: 'updated_at',
+      headerName: 'Atualizado em',
+      width: 180,
+      type: 'dateTime',
+      valueGetter: ({ value }: any) => value && new Date(value),
+    },
+    {
+      field: 'actions',
+      type: 'actions',
+      headerName: 'Ações',
+      width: 100,
+      cellClassName: 'actions',  
+      getActions: (params: any) => [
+        <GridActionsCellItem
+          key={0}
+          icon={<EditIcon />}
+          label="Editar"
+          onClick={() => editAction(params)}
+          showInMenu
+        />,
+        <GridActionsCellItem
+          key={1}
+          icon={<DeleteIcon />}
+          label="Deletar"
+          showInMenu
+        />
+      ]
+    }
+  ];
 
   const transformDriverData = (drivers: IDriver[]) => {
     return drivers.map((item: IDriver, index: number) => ({
