@@ -22,14 +22,13 @@ const UpdateDriver = (url: SearchParamsURL) => {
   const {id} = params;
   const router = useRouter()
 
+  const { response: driver, loading, error, request } = useFetch<IDriver>(`/api/drivers/${id}`);
+
   const inputOutputInit: IDriver = {
     name: data.name,
     full_name: data.full_name,
     enrollment: data.enrollment,
   }
-
-  const { response: drivers, loading, error, request } = useFetch<IDriver[]>(`/api/drivers/${id}`);
-  const [isLoading, setIsLoading] = useState(loading);
 
   const handleSubmit = async (values: IDriver) => {
     try {
@@ -40,8 +39,6 @@ const UpdateDriver = (url: SearchParamsURL) => {
       console.error(error);
       toast.error('Erro ao Atualizar dados!', { theme: 'colored' });
     }
-    setIsLoading(loading);
-    
   };
 
   return (
