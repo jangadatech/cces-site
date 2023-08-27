@@ -16,8 +16,9 @@ interface SearchParamsURL {
 
 const UpdateDriver = (url: SearchParamsURL) => {
 
-  const { searchParams } = url;
+  const { searchParams, params } = url;
   const data = searchParams;
+  const {id} = params;
 
   const inputOutputInit: IDriver = {
     name: data.name,
@@ -26,11 +27,11 @@ const UpdateDriver = (url: SearchParamsURL) => {
   }
 
   const [isLoading, setIsLoading] = useState(false);
-  const { response: drivers, loading, error, request } = useFetch<IDriver[]>('/api/drivers');
+  const { response: drivers, loading, error, request } = useFetch<IDriver[]>(`/api/drivers/${id}`);
 
   const handleSubmit = async (values: IDriver) => {
     try {
-      await request('put', values);
+      // await request('put', values);
       toast.success('Dados Atualizados com sucesso!', { theme: 'colored' });
     } catch (error) {
       console.error(error);
