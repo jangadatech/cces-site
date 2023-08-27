@@ -6,6 +6,7 @@ import FormDrivers from '@/sections/drivers/FormDrivers';
 import React, { useState } from 'react';
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { useRouter } from 'next/navigation';
 
 interface SearchParamsURL {
   params: {
@@ -19,6 +20,7 @@ const UpdateDriver = (url: SearchParamsURL) => {
   const { searchParams, params } = url;
   const data = searchParams;
   const {id} = params;
+  const router = useRouter()
 
   const inputOutputInit: IDriver = {
     name: data.name,
@@ -26,18 +28,20 @@ const UpdateDriver = (url: SearchParamsURL) => {
     enrollment: data.enrollment,
   }
 
-  const [isLoading, setIsLoading] = useState(false);
   const { response: drivers, loading, error, request } = useFetch<IDriver[]>(`/api/drivers/${id}`);
+  const [isLoading, setIsLoading] = useState(loading);
 
   const handleSubmit = async (values: IDriver) => {
     try {
-      // await request('put', values);
+      await request('put', values);
       toast.success('Dados Atualizados com sucesso!', { theme: 'colored' });
+      router.push('/drivers')
     } catch (error) {
       console.error(error);
       toast.error('Erro ao Atualizar dados!', { theme: 'colored' });
     }
-    setIsLoading(false);
+    setIsLoading(loading);
+    
   };
 
   return (
