@@ -38,9 +38,9 @@ const useFetch = <T>(
     }
   };
 
-  useEffect(() => {
-    request('get');
-  }, []);
+  // useEffect(() => {
+  //   request('get');
+  // }, []);
 
   return { response, error, loading, request };
 };
