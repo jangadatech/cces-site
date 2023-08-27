@@ -1,15 +1,14 @@
 'use client'
+import React from 'react';
 
-import axios from 'axios';
-import { useState, useEffect } from 'react';
-import { 
-  Box, 
-  Button, 
-  Stack, 
-  SvgIcon, 
-  Typography, 
-  Unstable_Grid2 as Grid 
-} from '@mui/material'
+import {
+  Box,
+  Button,
+  Stack,
+  SvgIcon,
+  Typography,
+  Unstable_Grid2 as Grid,
+} from '@mui/material';
 import { Container } from '@mui/material';
 
 import Link from 'next/link';
@@ -20,34 +19,36 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import { GridActionsCellItem } from '@mui/x-data-grid';
 import IDriver from '@/interfaces/IDriver';
+import useFetch from '@/hook/useFetch';
 
 const createAction = (id: any) => {
   return (
     <>
       <Link href={`/drivers/${id}`}>
-      <GridActionsCellItem
-        icon={<EditIcon />}
-        label="Edit"
-        sx={{
+        <GridActionsCellItem
+          icon={<EditIcon />}
+          label="Edit"
+          sx={{
             color: 'primary.main',
           }}
         />
       </Link>
       <GridActionsCellItem
-        icon={<DeleteIcon/>}
+        icon={<DeleteIcon />}
         label="Delete"
         sx={{
           color: 'primary.main',
         }}
       />
-    </> 
-  )
-}
+    </>
+  );
+};
 
 const columns = [
   { field: 'id', 
     headerName: 'ID', 
-    width: 90, },
+    width: 90, 
+  },
   {
     field: 'name',
     headerName: 'Nome',
@@ -90,22 +91,9 @@ const columns = [
 ];
 
 const Drivers = () => {
+  const { response: drivers, loading, error } = useFetch<IDriver[]>('/api/drivers');
 
-  const [drivers, setDrivers] = useState<IDriver[]>();
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [rows, setRows] = useState([]);
-  
-  const fetchDrivers = async () => {
-    try {
-      const response = await axios.get('/api/drivers');
-      return response.data;
-    } catch (error: any) {
-      throw new Error('Erro ao listar tipos de veículos: ' + error.message);
-    }
-  };
-
-  const transformDriverData = (drivers: any) => {
+  const transformDriverData = (drivers: IDriver[]) => {
     return drivers.map((item: IDriver, index: number) => ({
       id: index + 1,
       name: item.name,
@@ -113,75 +101,51 @@ const Drivers = () => {
       active: item.active,
       enrollment: item.enrollment,
       created_at: item.created_at,
-      updated_at: item.updated_at
+      updated_at: item.updated_at,
     }));
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const driversData = await fetchDrivers();
-        setDrivers(driversData);
-        const transformedData = transformDriverData(driversData)
-        console.log(transformedData)
-        setRows(transformedData)
-        setLoading(false);
-      } catch (error: any) {
-        setError(error.message);
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const transformedData = drivers ? transformDriverData(drivers) : [];
 
   return (
-    <>   
-      <title>
-        Motoristas
-      </title>
-    
+    <>
+      <title>Motoristas</title>
       <Box
         component="main"
         sx={{
           flexGrow: 1,
-          py: 8
         }}
       >
         <Container maxWidth={false}>
           <Stack spacing={3}>
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              spacing={4}
-            >
+            <Stack direction="row" justifyContent="space-between" spacing={4}>
               <Stack spacing={1}>
-                <Typography variant="h4" className='title-bold'>
-                    Motoristas
+                <Typography variant="h4" className="title-bold">
+                  Motoristas
                 </Typography>
               </Stack>
               <Link href={'/drivers/form'}>
                 <Button
                   variant="contained"
-                  startIcon={(
+                  startIcon={
                     <SvgIcon>
-                      <AddIcon/>
+                      <AddIcon />
                     </SvgIcon>
-                  )}
+                  }
                   sx={{
                     borderRadius: '4px',
                   }}
-                  >
-                  Novo 
+                >
+                  Novo
                 </Button>
-              </Link> 
+              </Link>
             </Stack>
-            <DataTable rows={rows} columns={columns}/>
+            <DataTable rows={transformedData} columns={columns} />
           </Stack>
         </Container>
       </Box>
     </>
-  )
-}
+  );
+};
 
-export default Drivers
+export default Drivers;
