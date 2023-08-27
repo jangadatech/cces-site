@@ -9,9 +9,10 @@ import { Box } from '@mui/material';
 interface DataTableProps{
   rows: Array<{[key: number]: string | number }>
   columns: GridColDef[],
+  columnVisibilityModel: any
 }
 
-const DataTable = ({rows, columns}: DataTableProps) => {
+const DataTable = ({rows, columns, columnVisibilityModel}: DataTableProps) => {
 
   return (
     <Box sx={{ width: '100%', justifyContent: 'center'}}>
@@ -29,6 +30,7 @@ const DataTable = ({rows, columns}: DataTableProps) => {
         }}
         pageSizeOptions={[5, 10, 25, 50, 100]}
         disableRowSelectionOnClick
+        columnVisibilityModel={columnVisibilityModel}
       />
     </Box>
   )
