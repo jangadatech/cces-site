@@ -53,37 +53,42 @@ const createAction = (params: any) => {
 const columns = [
   { field: 'id', 
     headerName: 'ID', 
-    width: 90,
+    width: 50,
   },
   {
     field: 'name',
     headerName: 'Nome',
-    width: 200,
+    width: 100,
   },
   {
     field: 'full_name',
     headerName: 'Nome Completo',
-    width: 200,
+    width: 150,
   },
   {
     field: 'active',
     headerName: 'Ativo',
-    width: 200,
+    type: 'boolean',
+    width: 100,
   },
   {
     field: 'enrollment',
     headerName: 'Inscrição',
-    width: 200,
+    width: 100,
   },
   {
     field: 'created_at',
     headerName: 'Criado em',
-    width: 200,
+    width: 180,
+    type: 'dateTime',
+    valueGetter: ({ value }: any) => value && new Date(value),
   },
   {
     field: 'updated_at',
     headerName: 'Atualizado em',
-    width: 200,
+    width: 180,
+    type: 'dateTime',
+    valueGetter: ({ value }: any) => value && new Date(value),
   },
   {
     field: 'actions',
@@ -92,7 +97,6 @@ const columns = [
     width: 100,
     cellClassName: 'actions',  
     renderCell: (params: any) => createAction(params)
-
   }
 ];
 
