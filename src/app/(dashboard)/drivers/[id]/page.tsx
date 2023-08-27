@@ -50,6 +50,7 @@ const UpdateDriver = (url: SearchParamsURL) => {
         <FormDrivers handleSubmit={handleSubmit} typeText="Atualizar" initialValues={inputOutputInit} />
       ) : (
         <Box sx={{           
+          minHeight: '90vh',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center' 
