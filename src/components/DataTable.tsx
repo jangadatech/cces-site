@@ -20,6 +20,7 @@ const DataTable = ({rows, columns, columnVisibilityModel}: DataTableProps) => {
         slots={{ toolbar: GridToolbar }}
         rows={rows}
         columns={columns}
+        density="compact"
         initialState={{
             pagination: {
             paginationModel: {
