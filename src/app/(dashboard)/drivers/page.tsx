@@ -54,7 +54,6 @@ const columns = [
   { field: 'id', 
     headerName: 'ID', 
     width: 90,
-    hideable: false
   },
   {
     field: 'name',
@@ -150,7 +149,6 @@ const Drivers = () => {
             <DataTable 
               rows={transformedData} 
               columns={columns} 
-              columnVisibilityModel={{id: false, full_name: false, updated_at: false}}
             />
           </Stack>
         </Container>
