@@ -10,7 +10,6 @@ import { URL } from '@/http/config';
 import * as Yup from 'yup';
 import { useParams } from 'next/navigation'
 import { ToastContainer, toast } from 'react-toastify';
-import { start } from 'repl';
 
 const createVehicleType = async (data: IVehicleType) => {
   try{

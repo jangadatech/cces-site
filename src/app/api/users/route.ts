@@ -2,6 +2,7 @@ import User from '@/models/User';
 import connectMongoose from '@/config/mongoose';
 import { NextResponse } from 'next/server'
 import bcrypt from 'bcrypt'
+import { IUser } from '@/interfaces/IUser';
  
 export async function GET() {
   await connectMongoose();
@@ -14,10 +15,10 @@ export async function POST(request: Request) {
   await connectMongoose();
 
   try {
-    const { full_name, username, password, profile } = await request.json();
+    const { full_name, username, password, profile } : IUser = await request.json();
 
     const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    const hashedPassword = await bcrypt.hash(password!, saltRounds);
 
     const user = new User({
       full_name,

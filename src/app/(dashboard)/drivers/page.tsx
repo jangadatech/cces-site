@@ -1,5 +1,9 @@
 'use client'
 import React from 'react';
+import Link from 'next/link';
+import useFetch from '@/hook/useFetch';
+import { useRouter } from 'next/navigation';
+import IDriver from '@/interfaces/IDriver';
 
 import {
   Box,
@@ -11,16 +15,12 @@ import {
 } from '@mui/material';
 import { Container } from '@mui/material';
 
-import Link from 'next/link';
 import DataTable from '@/components/DataTable';
 
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import { GridActionsCellItem } from '@mui/x-data-grid';
-import IDriver from '@/interfaces/IDriver';
-import useFetch from '@/hook/useFetch';
-import { useRouter } from 'next/navigation';
 
 const Drivers = () => {
   const { response: drivers, loading, error } = useFetch<IDriver[]>('/api/drivers');
@@ -82,8 +82,8 @@ const Drivers = () => {
       field: 'actions',
       type: 'actions',
       headerName: 'Ações',
-      minWidth: 50,
       flex: 1,
+      width: 100,
       cellClassName: 'actions',  
       getActions: (params: any) => [
         <GridActionsCellItem
