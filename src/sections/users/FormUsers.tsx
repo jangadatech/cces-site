@@ -35,6 +35,11 @@ const profiles = [
   },
 ];
 
+const status = [
+  { value: 'true', label: 'Ativo' },
+  { value: 'false', label: 'Inativo' }
+]
+
   return (
     <>
       <Box
@@ -120,6 +125,21 @@ const profiles = [
                         autoComplete="current-password"
                         variant="standard"
                       />
+                      <TextField
+                        fullWidth
+                        label="Ativo"
+                        name="active"
+                        select
+                        value={formikProps.values.active}
+                        onChange={formikProps.handleChange}
+                        variant="standard"
+                      >
+                        {status.map((option, index) => (
+                          <MenuItem key={index} value={option.value}>
+                            {option.label}
+                          </MenuItem>
+                        ))}
+                      </TextField>
                     </Stack>
                   </Stack>
                   </Box>

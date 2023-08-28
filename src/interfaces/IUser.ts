@@ -8,7 +8,7 @@ export interface IUser {
   _id?: string;
   full_name: string;
   username: string;
-  password?: string;
+  password?: string | Buffer;
   profile: Profile | string;
   active: boolean;
   updated_at?: string | null;
