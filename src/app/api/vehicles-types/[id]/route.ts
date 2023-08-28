@@ -46,7 +46,30 @@ export async function PUT(
       runValidators: true
     });
 
+    if(!vehicleType){
+      return NextResponse.json({error: 'Veiculo não encontrado'}, {status: 404})
+    }
+    
     return NextResponse.json(vehicleType);
+  } catch (error: any) {
+    return NextResponse.json({ error: 'Error updating Vehicle type' }, { status: 500 });
+  }
+}
+
+export async function DELETE(request: Request,
+  { params }: { params: { id: string } }
+){
+  await connectMongoose();
+  try{
+    const id = params.id;
+    const vehicleType = await VehicleType.findByIdAndRemove({
+      _id: id
+    });
+    if(!vehicleType){
+      return NextResponse.json({error: 'Veiculo não encontrado'}, {status: 404})
+    }
+    return NextResponse.json(vehicleType);
+    
   } catch (error: any) {
     return NextResponse.json({ error: 'Error updating Vehicle type' }, { status: 500 });
   }

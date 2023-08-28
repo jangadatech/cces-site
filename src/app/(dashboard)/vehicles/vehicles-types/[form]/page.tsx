@@ -10,6 +10,7 @@ import { URL } from '@/http/config';
 import * as Yup from 'yup';
 import { useParams } from 'next/navigation'
 import { ToastContainer, toast } from 'react-toastify';
+import { start } from 'repl';
 
 const createVehicleType = async (data: IVehicleType) => {
   try{
@@ -58,7 +59,15 @@ const FormVehiclesTypes = () => {
   });
 
 
-  const {form: id} = useParams()
+  // function queryParamFilter(id: any) {
+  //   return !id.startsWith('vehicles-types/');
+  // }
+  
+  const { form: id } = useParams()
+  
+
+  console.log('id', id)
+
   const getVehiclesTypesById = async (id: any) => {
     try{
       const {data} = await axios.get(`/api/vehicles-types/${id}`)
@@ -82,7 +91,7 @@ const FormVehiclesTypes = () => {
   
   const handleSubmit = async (values: FormikValues, {setSubmitting}: any) => {
       try{
-        if(!id){
+        if(id === 'form'){
           await createVehicleType(values as IVehicleType);
           setSubmitting(false);
         }else{
@@ -205,4 +214,8 @@ const FormVehiclesTypes = () => {
 }
 
 export default FormVehiclesTypes;
+
+function startWith(arg0: string) {
+  throw new Error('Function not implemented.');
+}
 
