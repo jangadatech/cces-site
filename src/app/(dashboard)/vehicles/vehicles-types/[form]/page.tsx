@@ -9,6 +9,7 @@ import { Formik , Form, Field, FormikValues  } from 'formik';
 import { URL } from '@/http/config';
 import * as Yup from 'yup';
 import { useParams } from 'next/navigation'
+import { ToastContainer, toast } from 'react-toastify';
 
 const createVehicleType = async (data: IVehicleType) => {
   try{
@@ -81,11 +82,10 @@ const FormVehiclesTypes = () => {
   
   const handleSubmit = async (values: FormikValues, {setSubmitting}: any) => {
       try{
-        if(!form._id){
+        if(!id){
           await createVehicleType(values as IVehicleType);
           setSubmitting(false);
         }else{
-          console.log('id no update', id)
           await updateVehicleType(id, values as IVehicleType);
           setSubmitting(false);
         }
@@ -102,13 +102,16 @@ const FormVehiclesTypes = () => {
         Cadastro de tipo
       </title>
       <Box
-        component="main"
         sx={{
-          flexGrow: 1,
-          py: 8
+          backgroundColor: 'background.paper',
+          minHeight: '90vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
         }}
       >
-        <Container maxWidth="xl">
+        <ToastContainer />
+        <Container maxWidth="md">
           <Stack spacing={3}>
             <Stack
               direction="row"
