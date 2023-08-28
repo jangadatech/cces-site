@@ -1,6 +1,5 @@
 'use client'
 
-import useFetch from "@/hook/useFetch";
 import IDriver from "@/interfaces/IDriver";
 import { Box, TextField, Button, Container, Typography, Stack, CircularProgress } from "@mui/material";
 import { Formik, Form } from "formik";
@@ -29,7 +28,7 @@ const FormDrivers = ({ handleSubmit, typeText, initialValues }: FormDriversProps
         }}
       >
         <ToastContainer />
-        <Container maxWidth={false} sx={{}}>
+        <Container maxWidth={false}>
           <Stack spacing={3}>
             <Stack
               direction="row"
