@@ -5,7 +5,7 @@ import VehicleType from '@/models/VehicleType';
 
 export async function GET() {
   await connectMongoose();
-  const vehicles = await Vehicle.find({}).populate('VehicleType', VehicleType);
+  const vehicles = await Vehicle.find({}).populate("vehicleType");
   return NextResponse.json(vehicles)
 }
 
@@ -13,13 +13,13 @@ export async function POST(request: Request) {
   await connectMongoose();
 
   try {
-    const { plate, active, prefix, vehicle_type } = await request.json();
+    const { plate, active, prefix, vehicleType } = await request.json();
 
     const vehicleData = {
       plate,
       active,
       prefix,
-      vehicle_type
+      vehicleType
     };
 
     const vehicle = new Vehicle(vehicleData);
