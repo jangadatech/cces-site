@@ -20,6 +20,7 @@ import IconButton from '@mui/material/IconButton';
 import ImportExportIcon from '@mui/icons-material/ImportExport';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PieChartIcon from '@mui/icons-material/PieChart';
+import AirlineSeatReclineExtraIcon from '@mui/icons-material/AirlineSeatReclineExtra';
 import SideNavList from './side-nav-list'
 interface SideNavProps {
   open: boolean;
@@ -107,14 +108,15 @@ const SideNav = ({ open, handleDrawer }: SideNavProps) => {
         <SideNavItem icon={<PieChartIcon />} open={open} path={'/'} text="Dashboard" />
         <SideNavItem icon={<ImportExportIcon />} open={open} path={'/input-output'} text="Entrada e Saída" />
         <SideNavItem icon={<GroupIcon />} open={open} path={'/users'} text="Usuários" />
-        <SideNavItem icon={<GroupIcon />} open={open} path={'/drivers'} text="Motoristas" />
-        <SideNavList 
+        <SideNavItem icon={<AirlineSeatReclineExtraIcon />} open={open} path={'/drivers'} text="Motoristas" />
+        <SideNavItem icon={<DirectionsCarIcon/>} open={open} path={'/vehicles'} text="Veículos" />
+        {/* <SideNavList 
             icon={<DirectionsCarIcon/>}
             open={open}
             text="Veículos" 
           >
           <SideNavItem icon={<GroupIcon />} open={open} path={'/vehicles'} text="Tipo" />
-        </SideNavList>
+        </SideNavList> */}
       </div>
       <BottomNavContainer>
         <Divider /> 

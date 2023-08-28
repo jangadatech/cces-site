@@ -1,10 +1,11 @@
 import Vehicle from '@/models/Vehicle';
 import connectMongoose from '@/config/mongoose';
 import { NextResponse } from 'next/server'
+import VehicleType from '@/models/VehicleType';
 
 export async function GET() {
   await connectMongoose();
-  const vehicles = await Vehicle.find();
+  const vehicles = await Vehicle.find({}).populate('VehicleType', VehicleType);
   return NextResponse.json(vehicles)
 }
 
