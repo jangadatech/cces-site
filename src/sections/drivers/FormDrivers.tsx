@@ -4,6 +4,7 @@ import useFetch from "@/hook/useFetch";
 import IDriver from "@/interfaces/IDriver";
 import { Box, TextField, Button, Container, Typography, Stack, CircularProgress } from "@mui/material";
 import { Formik, Form } from "formik";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -17,6 +18,7 @@ interface FormDriversProps {
 const FormDrivers = ({ handleSubmit, typeText, initialValues }: FormDriversProps) => {
 
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter()
 
   return (
     <>
@@ -27,7 +29,7 @@ const FormDrivers = ({ handleSubmit, typeText, initialValues }: FormDriversProps
         }}
       >
         <ToastContainer />
-        <Container maxWidth={false}>
+        <Container maxWidth={false} sx={{}}>
           <Stack spacing={3}>
             <Stack
               direction="row"
@@ -42,10 +44,10 @@ const FormDrivers = ({ handleSubmit, typeText, initialValues }: FormDriversProps
             </Stack>
           </Stack>
           <Box sx={{
-            display: 'flex',
             justifyContent: 'center',
             py: 8,
-            flexWrap: "wrap"
+            flexWrap: "wrap",
+            height: '70vh'
           }}>
             <Formik
               initialValues={initialValues}
@@ -55,7 +57,7 @@ const FormDrivers = ({ handleSubmit, typeText, initialValues }: FormDriversProps
             >
               {(formikProps) => (
                 <Form>
-                  <Stack spacing={2} direction="column">
+                  <Stack spacing={10} direction="row">
                     <TextField
                       fullWidth
                       label="Nome"
@@ -63,7 +65,7 @@ const FormDrivers = ({ handleSubmit, typeText, initialValues }: FormDriversProps
                       type="text"
                       value={formikProps.values.name}
                       onChange={formikProps.handleChange}
-                      variant="outlined"
+                      variant="standard"
                       placeholder="Nome"
                     />
 
@@ -74,7 +76,7 @@ const FormDrivers = ({ handleSubmit, typeText, initialValues }: FormDriversProps
                       type="text"
                       value={formikProps.values.full_name}
                       onChange={formikProps.handleChange}
-                      variant="outlined"
+                      variant="standard"
                       placeholder="Nome"
                     />
 
@@ -85,23 +87,33 @@ const FormDrivers = ({ handleSubmit, typeText, initialValues }: FormDriversProps
                       type="text"
                       value={formikProps.values.enrollment}
                       onChange={formikProps.handleChange}
-                      variant="outlined"
+                      variant="standard"
                       placeholder="Nome"
                     />
-
-                    <Button
-                      fullWidth
-                      size="large"
-                      type="submit"
-                      variant="contained"
-                    >
-                      {isLoading ? <CircularProgress color="secondary" size={24} /> : typeText}
-                    </Button>
                   </Stack>
                 </Form>
               )}
             </Formik>
           </Box>
+          <Stack spacing={3}>
+            <Stack
+              direction="row"
+              justifyContent="flex-end"
+              alignItems="center"
+              spacing={4}
+            >
+            <Stack direction="row" spacing={2}>
+              <Button variant="outlined" onClick={() => router.back()}>Cancelar</Button>
+              <Button
+                variant="contained"
+                startIcon={isLoading ? <CircularProgress color="inherit" size={20} /> : null}
+                disabled={isLoading}
+              >
+                {typeText}
+              </Button>
+              </Stack>
+            </Stack>
+          </Stack>
         </Container>
       </Box>
     </>

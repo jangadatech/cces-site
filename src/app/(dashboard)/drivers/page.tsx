@@ -82,8 +82,7 @@ const Drivers = () => {
       field: 'actions',
       type: 'actions',
       headerName: 'Ações',
-      minWidth: 50,
-      flex: 1,
+      width: 100,
       cellClassName: 'actions',  
       getActions: (params: any) => [
         <GridActionsCellItem
