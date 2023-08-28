@@ -3,11 +3,14 @@
 import useFetch from '@/hook/useFetch';
 import IDriver from '@/interfaces/IDriver';
 import FormDrivers from '@/sections/drivers/FormDrivers';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 const CreateDriver = () => {
+
+  const router = useRouter();
 
   const inputOutputInit: IDriver = {
     name: '',
@@ -23,6 +26,7 @@ const CreateDriver = () => {
     try {
       await request('post', values);
       toast.success('Dados salvo com sucesso!', { theme: 'colored' });
+      router.push('/drivers')
     } catch (error) {
       console.error(error);
       toast.error('Erro ao salvar dados!', { theme: 'colored' });
