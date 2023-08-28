@@ -42,12 +42,6 @@ const FormDrivers = ({ handleSubmit, typeText, initialValues }: FormDriversProps
               </Stack>
             </Stack>
           </Stack>
-          <Box sx={{
-            justifyContent: 'center',
-            py: 8,
-            flexWrap: "wrap",
-            height: '70vh'
-          }}>
             <Formik
               initialValues={initialValues}
               onSubmit={(values) => {
@@ -56,63 +50,72 @@ const FormDrivers = ({ handleSubmit, typeText, initialValues }: FormDriversProps
             >
               {(formikProps) => (
                 <Form>
-                  <Stack spacing={10} direction="row">
-                    <TextField
-                      fullWidth
-                      label="Nome"
-                      name="name"
-                      type="text"
-                      value={formikProps.values.name}
-                      onChange={formikProps.handleChange}
-                      variant="standard"
-                      placeholder="Nome"
-                    />
+                  <Box sx={{
+                    justifyContent: 'center',
+                    py: 8,
+                    flexWrap: "wrap",
+                    height: '70vh'
+                  }}>
+                    <Stack spacing={4}>
+                      <Stack spacing={10} direction="row">
+                        <TextField
+                          fullWidth
+                          label="Nome"
+                          name="name"
+                          type="text"
+                          value={formikProps.values.name}
+                          onChange={formikProps.handleChange}
+                          variant="standard"
+                          placeholder="Nome"
+                        />
 
-                    <TextField
-                      fullWidth
-                      label="Nome Completo"
-                      name="full_name"
-                      type="text"
-                      value={formikProps.values.full_name}
-                      onChange={formikProps.handleChange}
-                      variant="standard"
-                      placeholder="Nome"
-                    />
+                        <TextField
+                          fullWidth
+                          label="Nome Completo"
+                          name="full_name"
+                          type="text"
+                          value={formikProps.values.full_name}
+                          onChange={formikProps.handleChange}
+                          variant="standard"
+                          placeholder="Nome"
+                        />
 
-                    <TextField
-                      fullWidth
-                      label="Inscrição"
-                      name="enrollment"
-                      type="text"
-                      value={formikProps.values.enrollment}
-                      onChange={formikProps.handleChange}
-                      variant="standard"
-                      placeholder="Nome"
-                    />
+                        <TextField
+                          fullWidth
+                          label="Inscrição"
+                          name="enrollment"
+                          type="text"
+                          value={formikProps.values.enrollment}
+                          onChange={formikProps.handleChange}
+                          variant="standard"
+                          placeholder="Nome"
+                        />
+                      </Stack>
+                    </Stack>
+                  </Box>
+                  <Stack spacing={3}>
+                    <Stack
+                      direction="row"
+                      justifyContent="flex-end"
+                      alignItems="center"
+                      spacing={4}
+                    >
+                      <Stack direction="row" spacing={2}>
+                        <Button variant="outlined" onClick={() => router.back()}>Cancelar</Button>
+                        <Button
+                          variant="contained"
+                          startIcon={isLoading ? <CircularProgress color="inherit" size={20} /> : null}
+                          disabled={isLoading}
+                          type="submit"
+                        >
+                          {typeText}
+                        </Button>
+                      </Stack>
+                    </Stack>
                   </Stack>
                 </Form>
               )}
             </Formik>
-          </Box>
-          <Stack spacing={3}>
-            <Stack
-              direction="row"
-              justifyContent="flex-end"
-              alignItems="center"
-              spacing={4}
-            >
-            <Stack direction="row" spacing={2}>
-              <Button variant="outlined" onClick={() => router.back()}>Cancelar</Button>
-              <Button
-                variant="contained"
-                startIcon={isLoading ? <CircularProgress color="inherit" size={20} /> : null}
-                disabled={isLoading}
-              >
-                {typeText}
-              </Button>
-              </Stack>
-            </Stack>
-          </Stack>
         </Container>
       </Box>
     </>
