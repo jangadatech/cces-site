@@ -45,7 +45,7 @@ const InputOutput = () => {
         }}
       >
         <ToastContainer />
-        <Container maxWidth="xl">
+        <Container maxWidth={false}>
           <Stack spacing={3}>
             <Stack
               direction="row"
