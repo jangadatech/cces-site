@@ -21,6 +21,16 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import { GridActionsCellItem } from '@mui/x-data-grid';
 
+const handleDeleteVehicleType = async (id: string) => {
+  try{
+    const response = await axios.delete(`/api/vehicles-types/${id}`);
+    console.log(response);
+
+  }catch(error: any){
+    console.log('Não foi possível deletar o tipo de veículo', error.message);
+  }
+}
+
 const createAction = (id: any) => {
   return (
     <>
@@ -36,6 +46,7 @@ const createAction = (id: any) => {
       <GridActionsCellItem
         icon={<DeleteIcon/>}
         label="Delete"
+        onClick={() => handleDeleteVehicleType(id)}
         sx={{
           color: 'primary.main',
         }}
@@ -66,7 +77,6 @@ const columns = [
     width: 100,
     cellClassName: 'actions',  
     renderCell: (params: any) => createAction(params.id)
-
   }
 ];
 

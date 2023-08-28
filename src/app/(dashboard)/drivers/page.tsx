@@ -14,11 +14,13 @@ import {
   Unstable_Grid2 as Grid,
 } from '@mui/material';
 import { Container } from '@mui/material';
+
 import DataTable from '@/components/DataTable';
-import { GridActionsCellItem } from '@mui/x-data-grid';
-import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+import { GridActionsCellItem } from '@mui/x-data-grid';
 
 const Drivers = () => {
   const { response: drivers, loading, error } = useFetch<IDriver[]>('/api/drivers');
@@ -80,6 +82,7 @@ const Drivers = () => {
       field: 'actions',
       type: 'actions',
       headerName: 'Ações',
+      flex: 1,
       width: 100,
       cellClassName: 'actions',  
       getActions: (params: any) => [
