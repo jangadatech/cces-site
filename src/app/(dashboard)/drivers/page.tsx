@@ -1,5 +1,9 @@
 'use client'
 import React from 'react';
+import Link from 'next/link';
+import useFetch from '@/hook/useFetch';
+import { useRouter } from 'next/navigation';
+import IDriver from '@/interfaces/IDriver';
 
 import {
   Box,
@@ -10,17 +14,11 @@ import {
   Unstable_Grid2 as Grid,
 } from '@mui/material';
 import { Container } from '@mui/material';
-
-import Link from 'next/link';
 import DataTable from '@/components/DataTable';
-
+import { GridActionsCellItem } from '@mui/x-data-grid';
+import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/DeleteOutlined';
-import { GridActionsCellItem } from '@mui/x-data-grid';
-import IDriver from '@/interfaces/IDriver';
-import useFetch from '@/hook/useFetch';
-import { useRouter } from 'next/navigation';
 
 const Drivers = () => {
   const { response: drivers, loading, error } = useFetch<IDriver[]>('/api/drivers');
