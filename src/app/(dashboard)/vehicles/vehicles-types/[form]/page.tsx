@@ -24,14 +24,14 @@ const createVehicleType = async (data: IVehicleType) => {
   }
 }
 
-const updateVehicleType = async (data: IVehicleType, ) => {
+const updateVehicleType = async (id: any, data: IVehicleType, ) => {
   try{
-    const response = await axios.put(`${URL}/api/vehicles-types/${data._id}`, data, {
+    console.log('data do update', data)
+    const response = await axios.put(`${URL}/api/vehicles-types/${id}`, data, {
       headers: {
         'Content-Type': 'application/json',
       }
     })
-    console.log(response);
   }
   catch(error: any){
     console.error('Erro ao atualizar o tipo de veículo', error.message)
@@ -57,8 +57,7 @@ const FormVehiclesTypes = () => {
   });
 
 
-  const id = useParams()
-
+  const {form: id} = useParams()
   const getVehiclesTypesById = async (id: any) => {
     try{
       const {data} = await axios.get(`/api/vehicles-types/${id}`)
@@ -72,7 +71,7 @@ const FormVehiclesTypes = () => {
   
   useEffect(() => {
     const fetchVehiclesTypeById = async () => {
-      const vehicleType = await getVehiclesTypesById(id.form)
+      const vehicleType = await getVehiclesTypesById(id)
       if(vehicleType){
         setForm(vehicleType)
       }
@@ -82,26 +81,21 @@ const FormVehiclesTypes = () => {
   
   const handleSubmit = async (values: FormikValues, {setSubmitting}: any) => {
       try{
-        await createVehicleType(values as IVehicleType);
-        setSubmitting(false);
+        if(!form._id){
+          await createVehicleType(values as IVehicleType);
+          setSubmitting(false);
+        }else{
+          console.log('id no update', id)
+          await updateVehicleType(id, values as IVehicleType);
+          setSubmitting(false);
+        }
+        
       }
       catch{
         console.log('deu ruim ao registrar')
       }
     }
-
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { name, value } = e.target;
   
-  //   setForm((prevForm) => ({
-  //     ...prevForm,
-  //     [name]: value,
-  //   }) as IVehicleType); 
-  // };
-  
-  
-  console.log(form)
-
   return (
     <>   
       <title>
@@ -145,9 +139,10 @@ const FormVehiclesTypes = () => {
                 <div>
                   <Formik
                     initialValues={{
-                      name: '',
-                      seat: 0,
+                      name: form ? form.name : '',
+                      seat: form ? form.seat : 0,
                     }}
+                    enableReinitialize={true}
                     onSubmit={handleSubmit}
                     validationSchema={vehicleTypeSchema}
                   >
