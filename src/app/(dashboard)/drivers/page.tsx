@@ -34,48 +34,56 @@ const Drivers = () => {
     { 
       field: 'id', 
       headerName: 'ID', 
-      width: 50,
+      minWidth: 50,
+      flex: 1
     },
     {
       field: 'name',
       headerName: 'Nome',
-      width: 100,
+      minWidth: 100,
+      flex: 1
     },
     {
       field: 'full_name',
       headerName: 'Nome Completo',
-      width: 150,
+      minWidth: 100,
+      flex: 1
     },
     {
       field: 'active',
       headerName: 'Ativo',
+      minWidth: 50,
       type: 'boolean',
-      width: 100,
+      flex: 1
     },
     {
       field: 'enrollment',
       headerName: 'Inscrição',
-      width: 100,
+      minWidth: 100,
+      flex: 1
     },
     {
       field: 'created_at',
       headerName: 'Criado em',
-      width: 180,
+      flex: 1,
+      minWidth: 180,
       type: 'dateTime',
       valueGetter: ({ value }: any) => value && new Date(value),
     },
     {
       field: 'updated_at',
       headerName: 'Atualizado em',
-      width: 180,
       type: 'dateTime',
+      minWidth: 180,
+      flex: 1,
       valueGetter: ({ value }: any) => value && new Date(value),
     },
     {
       field: 'actions',
       type: 'actions',
       headerName: 'Ações',
-      width: 100,
+      minWidth: 50,
+      flex: 1,
       cellClassName: 'actions',  
       getActions: (params: any) => [
         <GridActionsCellItem
