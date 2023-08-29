@@ -27,42 +27,44 @@ const Vehicles = () => {
     router.push(`/vehicles/${params.id}`)
   }
 
+  const useFlexGrow = vehicles && vehicles.length > 0;
+
   const columns = [
     { 
       field: 'id', 
       headerName: 'ID', 
       minWidth: 50,
-      flex: 1
+      flex: useFlexGrow ? 1 : undefined 
     },
     {
       field: 'plate',
       headerName: 'Placa',
       minWidth: 100,
-      flex: 1
+      flex: useFlexGrow ? 1 : undefined 
     },
     {
       field: 'prefix',
       headerName: 'Prefixo',
       minWidth: 100,
-      flex: 1
+      flex: useFlexGrow ? 1 : undefined 
     },
     {
       field: 'active',
       headerName: 'Ativo',
       minWidth: 50,
       type: 'boolean',
-      flex: 1
+      flex: useFlexGrow ? 1 : undefined 
     },
     {
       field: 'vehicle_type',
       headerName: 'Tipo de Veículo',
       minWidth: 100,
-      flex: 1
+      flex: useFlexGrow ? 1 : undefined 
     },
     {
       field: 'created_at',
       headerName: 'Criado em',
-      flex: 1,
+      flex: useFlexGrow ? 1 : undefined ,
       minWidth: 180,
       type: 'dateTime',
       valueGetter: ({ value }: any) => value && new Date(value),
@@ -72,7 +74,7 @@ const Vehicles = () => {
       headerName: 'Atualizado em',
       type: 'dateTime',
       minWidth: 180,
-      flex: 1,
+      flex: useFlexGrow ? 1 : undefined ,
       valueGetter: ({ value }: any) => value && new Date(value),
     },
     {
@@ -105,7 +107,8 @@ const Vehicles = () => {
       plate: item.plate,
       active: item.active,
       prefix: item.prefix,
-      vehicle_type: item.vehicle_type,
+      vehicle_type_id: item.vehicle_type_id,
+      vehicle_type: item.vehicle_type?.name,
       created_at: item.created_at,
       updated_at: item.updated_at,
     }));
