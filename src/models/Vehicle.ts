@@ -4,7 +4,7 @@ const VehicleSchema = new Schema({
     plate: { type: String, required: true },
     active: { type: Boolean, default: true  },
     prefix: { type: String, required: true },
-    vehicleType: { type: Schema.Types.ObjectId, ref: "VehicleType" },
+    vehicle_type_id: { type: Schema.Types.ObjectId, ref: "VehicleType" },
     created_at: { type: Date, default: Date.now },
     updated_at: { type: Date, default: null }
   });
