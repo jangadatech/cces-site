@@ -1,25 +1,45 @@
 import Vehicle from '@/models/Vehicle';
 import connectMongoose from '@/config/mongoose';
-import { NextResponse } from 'next/server'
-import VehicleType from '@/models/VehicleType';
+import { NextResponse } from 'next/server';
 
 export async function GET() {
   await connectMongoose();
-  const vehicles = await Vehicle.find({}).populate("vehicleType");
-  return NextResponse.json(vehicles)
+
+  try {
+
+      const vehicles = await Vehicle.aggregate(
+        [
+          {
+            $lookup: 
+            {
+              from: "vehicletypes",
+              localField: "vehicle_type_id",
+              foreignField: "_id",
+              as: "vehicle_type"
+            }
+          },
+          {
+              $unwind: "$vehicle_type"
+          }
+        ]
+      );
+      return NextResponse.json(vehicles);
+  } catch (error: any) {
+      return NextResponse.json({ error }, { status: 500 });
+  }
 }
 
 export async function POST(request: Request) {
   await connectMongoose();
 
   try {
-    const { plate, active, prefix, vehicleType } = await request.json();
+    const { plate, active, prefix, vehicle_type_id } = await request.json();
 
     const vehicleData = {
       plate,
       active,
       prefix,
-      vehicleType
+      vehicle_type_id
     };
 
     const vehicle = new Vehicle(vehicleData);
