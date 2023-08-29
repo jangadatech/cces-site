@@ -2,6 +2,7 @@
 
 import useFetch from '@/hook/useFetch';
 import IVehicle from '@/interfaces/IVehicle';
+import IVehicleType from '@/interfaces/IVehicleType';
 import FormVehicles from '@/sections/vehicles/FormVehicles';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
@@ -12,16 +13,15 @@ const CreateVehicle = () => {
 
   const router = useRouter();
 
-  const inputOutputInit: IVehicle = {
-      plate: '',
-      active: true,
-      prefix: '',
-      vehicle_type: '',
-  }
-
   const [isLoading, setIsLoading] = useState(false);
-  const { response: drivers, loading, error, request } = useFetch<IVehicle[]>('/api/vehicles');
+  const { response: drivers, request } = useFetch<IVehicle[]>('/api/vehicles');
 
+  const inputOutputInit: IVehicle = {
+    plate: '',
+    active: true,
+    prefix: '',
+    vehicle_type_id: '',
+}
 
   const handleSubmit = async (values: any) => {
     try {

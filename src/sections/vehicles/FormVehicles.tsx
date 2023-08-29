@@ -1,5 +1,3 @@
-'use client'
-
 import IVehicle from "@/interfaces/IVehicle";
 import { Box, TextField, Button, Container, Typography, Stack, CircularProgress, MenuItem } from "@mui/material";
 import { Formik, Form } from "formik";
@@ -7,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { URL } from '@/http/config';
 
 interface FormVehicleProps {
   handleSubmit: (values: IVehicle) => Promise<void>;
@@ -14,31 +13,21 @@ interface FormVehicleProps {
   initialValues: IVehicle;
 }
 
-const FormVehicles = ({ handleSubmit, typeText, initialValues }: FormVehicleProps) => {
+async function getVehicleTypes() {
+  const res = await fetch(`${URL}/api/vehicles-types`)
+  return res.json()
+}
 
-const [isLoading, setIsLoading] = useState(false);
-const router = useRouter();
+const FormVehicles = async ({ handleSubmit, typeText, initialValues }: FormVehicleProps) => {
 
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+  const vehicleTypeData = await getVehicleTypes();
 
-const profiles = [
-  {
-    value: 'admin',
-    label: 'Administrador',
-  },
-  {
-    value: 'traffic-control',
-    label: 'Controle de Trafego',
-  },
-  {
-    value: 'human-resources',
-    label: 'Recursos Humanos',
-  },
-];
-
-const status = [
-  { value: 'true', label: 'Ativo' },
-  { value: 'false', label: 'Inativo' }
-]
+  const status = [
+    { value: 'true', label: 'Ativo' },
+    { value: 'false', label: 'Inativo' }
+  ]
 
   return (
     <>
@@ -82,7 +71,7 @@ const status = [
                         <TextField
                           fullWidth
                           label="Placa"
-                          name="place"
+                          name="plate"
                           type="text"
                           value={formikProps.values.plate}
                           onChange={formikProps.handleChange}
@@ -94,27 +83,31 @@ const status = [
                           fullWidth
                           label="Prefixo"
                           name="prefix"
-                          select
+                          type="text"
                           value={formikProps.values.prefix}
                           onChange={formikProps.handleChange}
                           variant="standard"
                           placeholder="Prefixo"
-                        >
-                          {profiles.map((option) => (
-                            <MenuItem key={option.value} value={option.value}>
-                              {option.label}
-                            </MenuItem>
-                          ))}
-                        </TextField>
+                        />
                       </Stack>
                     <Stack spacing={10} direction="row">
-                      <TextField
+
+                    <TextField
                         fullWidth
-                        label="Senha"
-                        type="password"
-                        autoComplete="current-password"
+                        label="Tipo"
+                        name="vehicle_type_id"
+                        select
+                        value={formikProps.values.vehicle_type_id}
+                        onChange={formikProps.handleChange}
                         variant="standard"
-                      />
+                      >
+                        {vehicleTypeData.map((option: any) => (
+                          <MenuItem key={option._id} value={option._id}>
+                            {option.name}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                      
                       <TextField
                         fullWidth
                         label="Ativo"
