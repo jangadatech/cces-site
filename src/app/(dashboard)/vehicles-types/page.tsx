@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -18,65 +19,64 @@ import DataTable from '@/components/DataTable';
 import { GridActionsCellItem } from '@mui/x-data-grid';
 import { useRouter } from 'next/navigation';
 import IVehicleType from '@/interfaces/IVehicleType';
-
-async function getVehicleTypes() {
-  const res = await fetch(`${URL}/api/vehicles-types`)
-  return res.json()
-}
+import {URL} from '@/http/config';
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const VehiclesTypes = () => {
 
   const router = useRouter();
-  // const vehicleTypeData = await getVehicleTypes();
+  const [vehiclesTypes, setVehiclesTypes] = useState<IVehicleType[]>([])
 
-  // const rows = vehicleTypeData.map((item: IVehicleType) =>{
-
-  //   return {
-  //     id: item._id,
-  //     name: item.name,
-  //     seat: item.seat,
-  //   }
-  // })
+  useEffect(() => {
+    const getVehicleType = async () => {
+      const res = await fetch(`${URL}/api/vehicles-types`);
+      const data = await res.json();
+      setVehiclesTypes(data)
+    }
+    getVehicleType()
+  }, [])
 
   const editAction = (id: string) => {
-    router.push(`/vehicles/vehicles-types/${id}`)
+    router.push(`/vehicles-types/${id}`)
   }
 
   const deleteAction = async (id: string) => {
-    try {
-      const res = await fetch(`/api/vehicles-types/${id}`, {
-        method: 'DELETE',
-      });
-
-      console.log(res.json())
-    } catch (error) {
-      console.log('Erro ao deletar tipo de veículo', error);
+    const confirmed  =  confirm('Tem certeza de que deseja excluir este tipo de veículo?');
+    if(confirmed){
+      try {
+        const res = await fetch(`${URL}/api/vehicles-types/${id}`, {
+          method: 'DELETE',
+        });
+        toast.success('Dado Deletado com sucesso!', { theme: 'colored' });
+        setVehiclesTypes(vehiclesTypes.filter((vehicleType) => vehicleType._id !== id));
+      } catch (error) {
+        toast.success('erro ao Deletar dado!', { theme: 'colored' });
+        console.log('Erro ao deletar tipo de veículo', error);
+      }
     }
   };
+
+  const useFlexGrow = vehiclesTypes && vehiclesTypes.length > 0;
 
   const columns = [
     {
       field: 'id',
       headerName: 'ID',
       width: 90,
+      flex: useFlexGrow ? 1 : undefined 
     },
     {
       field: 'name',
       headerName: 'Tipo',
       width: 200,
+      flex: useFlexGrow ? 1 : undefined 
     },
     {
       field: 'seat',
       headerName: 'Assentos',
       width: 100,
-
-    },
-    {
-      field: 'actions',
-      type: 'actions',
-      headerName: 'Ações',
-      width: 100,
-      cellClassName: 'actions',
+      flex: useFlexGrow ? 1 : undefined 
     },
     {
       field: 'actions',
@@ -103,6 +103,16 @@ const VehiclesTypes = () => {
     }
   ];
 
+  const transformVehicleData = (type: IVehicleType[]) => {
+    return type.map((item: IVehicleType) => ({
+      id: item._id,
+      name: item.name,
+      seat: item.seat
+    }));
+  };
+  
+  const transformedData = vehiclesTypes ? transformVehicleData(vehiclesTypes) : [];
+
   return (
     <>
       <title>
@@ -127,7 +137,7 @@ const VehiclesTypes = () => {
                   Tipos de veículos
                 </Typography>
               </Stack>
-              <Link href={'/vehicles/vehicles-types'}>
+              <Link href={'/vehicles-types/create'}>
                 <Button
                   variant="contained"
                   startIcon={(
@@ -143,7 +153,7 @@ const VehiclesTypes = () => {
                 </Button>
               </Link>
             </Stack>
-            <DataTable rows={[]} columns={columns} />
+            <DataTable rows={transformedData} columns={columns} />
           </Stack>
         </Container>
       </Box>
