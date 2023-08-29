@@ -110,6 +110,7 @@ const SideNav = ({ open, handleDrawer }: SideNavProps) => {
         <SideNavItem icon={<GroupIcon />} open={open} path={'/users'} text="Usuários" />
         <SideNavItem icon={<AirlineSeatReclineExtraIcon />} open={open} path={'/drivers'} text="Motoristas" />
         <SideNavItem icon={<DirectionsCarIcon/>} open={open} path={'/vehicles'} text="Veículos" />
+        <SideNavItem icon={<DirectionsCarIcon/>} open={open} path={'/vehicles-types'} text="Tipos de Veículos" />
         {/* <SideNavList 
             icon={<DirectionsCarIcon/>}
             open={open}
