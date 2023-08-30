@@ -19,7 +19,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import axios from 'axios';
 import createDataUtil from '@/utils/create-data';
 import { URL } from '@/http/config';
-import IInputOutput from '@/interfaces/IinputOutput';
+import IInputOutput from '@/interfaces/IInputOutput';
 
 export default function InputOutputTable() {
   const [page, setPage] = useState(0);
