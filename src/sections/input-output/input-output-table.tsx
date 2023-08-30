@@ -16,31 +16,16 @@ import {
 } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import axios from 'axios';
 import createDataUtil from '@/utils/create-data';
-import { URL } from '@/http/config';
 import IInputOutput from '@/interfaces/IInputOutput';
 
-export default function InputOutputTable() {
+interface InputOutputTableProps {
+  inputOutputs: IInputOutput[],
+
+}
+export default function InputOutputTable({ inputOutputs }: InputOutputTableProps) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [inputOutput, setInputOutput] = useState<IInputOutput[]>([]);
-
-  useEffect(() => {
-
-    const fetchInputOutputData = async () => {
-      const url = `${URL}/api/input-outputs`;
-  
-      try {
-        const response = await axios.get(url);
-        setInputOutput(response.data);
-      } catch (error: any) {
-        console.error('Erro na requisição GET:', error.message);
-      }
-    };
-
-    fetchInputOutputData();
-  }, [open]);
 
   const handleChangePage = (event: any, newPage: number) => {
     setPage(newPage);
@@ -58,7 +43,7 @@ export default function InputOutputTable() {
   };
 
 
-  const rows = transformDataToRows(inputOutput);
+  const rows = transformDataToRows(inputOutputs);
 
   return (
     <TableContainer component={Paper}>

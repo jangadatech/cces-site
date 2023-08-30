@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Box, Button, Container, Stack, SvgIcon, Typography } from '@mui/material'
 import BackupIcon from '@mui/icons-material/Backup';
 import DownloadIcon from '@mui/icons-material/Download';
@@ -9,6 +9,9 @@ import InputOutputTable from '@/sections/input-output/input-output-table';
 import InputOutputModal from '@/sections/input-output/input-output-modal';
 import useKeyboardShortcut from 'use-keyboard-shortcut';
 import { ToastContainer } from 'react-toastify';
+import IInputOutput from '@/interfaces/IInputOutput';
+import axios from 'axios';
+import { URL } from '@/http/config';
 
 const InputOutput = () => {
 
@@ -31,6 +34,25 @@ const InputOutput = () => {
       repeatOnHold : false  
     } 
   );
+
+  const [inputOutputs, setInputOutputs] = useState<IInputOutput[]>([]);
+
+
+  useEffect(() => {
+
+    const fetchInputOutputData = async () => {
+      const url = `${URL}/api/input-outputs`;
+  
+      try {
+        const response = await axios.get(url);
+        setInputOutputs(response.data);
+      } catch (error: any) {
+        console.error('Erro na requisição GET:', error.message);
+      }
+    };
+
+    fetchInputOutputData();
+  }, [open]);
 
   return (
     <>
@@ -102,7 +124,7 @@ const InputOutput = () => {
                 </div>
               </Stack>
             </Stack>
-            <InputOutputTable />
+            <InputOutputTable inputOutputs={inputOutputs}/>
           </Stack>
         </Container>
       </Box>
