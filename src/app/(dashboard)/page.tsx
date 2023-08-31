@@ -2,6 +2,7 @@
 
 import Card from "@/components/Card"
 import { Divider, Typography } from "@mui/material"
+import CustomContainer from '@/components/CustomContainer';
 
 export default function Home() {
 
@@ -10,24 +11,12 @@ export default function Home() {
       <title>
         Dasboard | CCESS
       </title>
-      <Typography variant="h4" className='title-bold'>
-        Dashboard
-      </Typography>
-      <Divider />
-
-      
-      <div
-        style={{
-          display: 'flex',
-        }}
-      >
+      <CustomContainer title="Dashboad - Pátio">
         <Card/>
         <Card/>
         <Card/>
-
         <Card/>
-
-      </div>
+      </CustomContainer>
     </>
   )
 }
