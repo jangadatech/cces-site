@@ -1,17 +1,33 @@
 'use client'
 
-import { Typography } from "@mui/material"
+import Card from "@/components/Card"
+import { Divider, Typography } from "@mui/material"
 
 export default function Home() {
 
   return (
     <>
       <title>
-        CCES | Dasboard
+        Dasboard | CCESS
       </title>
       <Typography variant="h4" className='title-bold'>
         Dashboard
       </Typography>
+      <Divider />
+
+      
+      <div
+        style={{
+          display: 'flex',
+        }}
+      >
+        <Card/>
+        <Card/>
+        <Card/>
+
+        <Card/>
+
+      </div>
     </>
   )
 }
