@@ -5,12 +5,16 @@ import IVehicle from '@/interfaces/IVehicle';
 import IVehicleType from '@/interfaces/IVehicleType';
 import FormVehicles from '@/sections/vehicles/FormVehicles';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { MyContext } from '@/contexts/MyContext';
+
+
 
 const CreateVehicle = () => {
 
+  
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -22,10 +26,14 @@ const CreateVehicle = () => {
     prefix: '',
     vehicle_type_id: '',
 }
-
   const handleSubmit = async (values: any) => {
     try {
-      await request('post', values);
+      const res = await fetch(`/api/vehicles`, {
+        method: 'POST',
+        body: JSON.stringify(values),
+      })
+      const data =  await res.json()
+
       toast.success('Dados salvo com sucesso!', { theme: 'colored' });
       router.push('/drivers')
     } catch (error) {

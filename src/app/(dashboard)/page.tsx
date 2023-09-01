@@ -1,9 +1,11 @@
 'use client'
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import CustomCard from "@/components/CustomCard"
 import CustomContainer from '@/components/CustomContainer';
 import IVehicleType from "@/interfaces/IVehicleType";
+import { MyContext, MyContextProvider } from '@/contexts/MyContext';
+
 
 const getVehiclesTypesData = async () => {
   const response = await fetch('/api/vehicles-types')
@@ -12,6 +14,10 @@ const getVehiclesTypesData = async () => {
 }
 
 export default function Home() {
+
+  const { sharedData, setSharedData } = useContext(MyContext);
+
+  console.log('Shared', sharedData);
 
   const [vehiclesTypes, setVehiclesTypes] = useState<IVehicleType[]>([]);
 
@@ -26,19 +32,19 @@ export default function Home() {
     return (
     <>
       <title>
-        Dasboard | CCESS
+        Dasboard | CCES
       </title>
+
       <CustomContainer title="Dashboard - Pátio">
-      {
-        vehiclesTypes.map((item) => (
+        {
+          vehiclesTypes.map((item) => (
             <CustomCard
               key={item._id}
               title={item.name}
               subtitle={'Prefixo'}
             />
-          
-        ))
-      }
+          ))
+        }
       </CustomContainer>
     </>
   )
