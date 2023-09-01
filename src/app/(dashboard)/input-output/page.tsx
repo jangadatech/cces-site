@@ -37,21 +37,6 @@ const InputOutput = () => {
     } 
   );
 
-  // useEffect(() => {
-
-  //   const fetchInputOutputData = async () => {
-  //     const url = `${URL}/api/input-outputs`;
-  
-  //     try {
-  //       const response = await axios.get(url);
-  //       setInputOutputs(response.data);
-  //     } catch (error: any) {
-  //       console.error('Erro na requisição GET:', error.message);
-  //     }
-  //   };
-
-  //   fetchInputOutputData();
-  // }, [open]);
 
   const useFlexGrow = inputOutputs && inputOutputs.length > 0;
 
@@ -128,12 +113,12 @@ const InputOutput = () => {
           // onClick={() => editAction(params)}
           showInMenu
         />,
-        <GridActionsCellItem
-          key={1}
-          icon={<DeleteIcon />}
-          label="Deletar"
-          showInMenu
-        />
+        // <GridActionsCellItem
+        //   key={1}
+        //   icon={<DeleteIcon />}
+        //   label="Deletar"
+        //   showInMenu
+        // />
       ]
     }
   ];
