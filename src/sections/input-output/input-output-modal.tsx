@@ -84,8 +84,8 @@ export default function InputOutputModal({ handleClose, open }: InputOutputModal
     try {
       const response = await axios.post(`${URL}/api/input-outputs`, values);
       const newValue = response.data;
-      handleClose();
       toast.success('Dados salvo com sucesso!', {theme: "colored",})
+      handleClose();
     } catch (error) {
       console.error(error);
       toast.success('Erro ao salvar dados!', {theme: "colored",})
