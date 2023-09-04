@@ -2,13 +2,14 @@ import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import IVehicle from '@/interfaces/IVehicle';
 
 interface CustomCardProps{
   title: string;
-  subtitle: string;
+  vehicles: IVehicle[];
 }
 
-export default function CustomCard({title, subtitle}: CustomCardProps) {
+export default function CustomCard({title, vehicles}: CustomCardProps) {
   return (
     <Card 
       sx={{ 
@@ -26,17 +27,22 @@ export default function CustomCard({title, subtitle}: CustomCardProps) {
         <Typography  component="div" variant="h5">
           {title}
         </Typography>
-        <Card
-          sx={{
-            width: '100%', 
-            height: '100%', 
-            bgcolor: 'primary.main', 
-            color: 'white',
-            padding: 1,
-          }}
-        >
-          {subtitle}
-        </Card>
+        {
+          vehicles.map(item => (
+            <Card
+              sx={{
+                width: '100%', 
+                height: '100%', 
+                padding: 1,
+                marginY: 1
+              }}
+            >
+            <Typography variant="h6">
+              {item.prefix}
+            </Typography>
+          </Card>
+          ))
+        }
       </CardContent>
     </Card>
   );

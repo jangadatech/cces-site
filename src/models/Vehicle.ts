@@ -5,6 +5,7 @@ const VehicleSchema = new Schema({
     active: { type: Boolean, default: true  },
     prefix: { type: String, required: true },
     vehicle_type_id: { type: Schema.Types.ObjectId, ref: "VehicleType" },
+    status: { type: String, required: true, enum: ["input", "output"], default: "input" },
     created_at: { type: Date, default: Date.now },
     updated_at: { type: Date, default: null }
   });

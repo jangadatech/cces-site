@@ -8,9 +8,6 @@ import { useRouter } from 'next/navigation';
 import React, { useContext, useState } from 'react';
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import { MyContext } from '@/contexts/MyContext';
-
-
 
 const CreateVehicle = () => {
 
@@ -28,14 +25,12 @@ const CreateVehicle = () => {
 }
   const handleSubmit = async (values: any) => {
     try {
-      const res = await fetch(`/api/vehicles`, {
+      await fetch(`/api/vehicles`, {
         method: 'POST',
         body: JSON.stringify(values),
       })
-      const data =  await res.json()
-
       toast.success('Dados salvo com sucesso!', { theme: 'colored' });
-      router.push('/drivers')
+      // router.push('/vehicles')
     } catch (error) {
       console.error(error);
       toast.error('Erro ao salvar dados!', { theme: 'colored' });
