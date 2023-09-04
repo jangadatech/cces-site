@@ -70,6 +70,17 @@ const FormVehicles = async ({ handleSubmit, typeText, initialValues }: FormVehic
                       <Stack spacing={10} direction="row">
                         <TextField
                           fullWidth
+                          label="Prefixo"
+                          name="prefix"
+                          type="text"
+                          value={formikProps.values.prefix}
+                          onChange={formikProps.handleChange}
+                          variant="standard"
+                          placeholder="Prefixo"
+                        />
+                        
+                        <TextField
+                          fullWidth
                           label="Placa"
                           name="plate"
                           type="text"
@@ -79,16 +90,6 @@ const FormVehicles = async ({ handleSubmit, typeText, initialValues }: FormVehic
                           placeholder="Placa"
                         />
 
-                        <TextField
-                          fullWidth
-                          label="Prefixo"
-                          name="prefix"
-                          type="text"
-                          value={formikProps.values.prefix}
-                          onChange={formikProps.handleChange}
-                          variant="standard"
-                          placeholder="Prefixo"
-                        />
                       </Stack>
                     <Stack spacing={10} direction="row">
 
