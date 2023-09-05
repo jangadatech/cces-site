@@ -2,7 +2,7 @@ import IVehicle from "@/interfaces/IVehicle";
 import { Box, TextField, Button, Container, Typography, Stack, CircularProgress, MenuItem } from "@mui/material";
 import { Formik, Form } from "formik";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { URL } from '@/http/config';
@@ -18,11 +18,23 @@ async function getVehicleTypes() {
   return res.json()
 }
 
-const FormVehicles = async ({ handleSubmit, typeText, initialValues }: FormVehicleProps) => {
+const FormVehicles = ({ handleSubmit, typeText, initialValues }: FormVehicleProps) => {
 
   const [isLoading, setIsLoading] = useState(false);
+  const [vehicleTypeData, setvehicleTypeData] = useState([]);
   const router = useRouter();
-  const vehicleTypeData = await getVehicleTypes();
+
+  useEffect(() => {
+    async function fetchVehicleTypes() {
+      try {
+        const response = await getVehicleTypes();
+        setvehicleTypeData(response.data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchVehicleTypes();
+  }, []);
 
   const status = [
     { value: 'true', label: 'Ativo' },

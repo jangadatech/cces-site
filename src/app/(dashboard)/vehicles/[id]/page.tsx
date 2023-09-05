@@ -25,10 +25,9 @@ const UpdateDriver = (url: SearchParamsURL) => {
   const { response: vehicle, loading, error, request } = useFetch<IVehicle>(`/api/vehicles/${id}`);
 
   const VehicleInit: IVehicle = {
-      plate: vehicle?.plate || '',
-      active: vehicle?.active || null,
-      prefix: vehicle?.prefix || '',
-      vehicle_type: vehicle?.vehicle_type || null
+      plate: vehicle?.plate as string,
+      active: vehicle?.active as boolean,
+      prefix: vehicle?.prefix as string,
   };
 
   const handleSubmit = async (values: IVehicle) => {

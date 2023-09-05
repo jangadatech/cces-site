@@ -13,16 +13,10 @@ interface FormVehicleTypeProps {
   initialValues: IVehicleType;
 }
 
-async function getVehicleTypes() {
-  const res = await fetch(`${URL}/api/vehicles-types`)
-  return res.json()
-}
-
-const FormVehiclesTypes = async ({ handleSubmit, typeText, initialValues }: FormVehicleTypeProps) => {
+const FormVehiclesTypes = ({ handleSubmit, typeText, initialValues }: FormVehicleTypeProps) => {
 
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const vehicleTypeData = await getVehicleTypes();
 
   const status = [
     { value: 'true', label: 'Ativo' },

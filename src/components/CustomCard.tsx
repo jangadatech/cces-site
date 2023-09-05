@@ -30,6 +30,7 @@ export default function CustomCard({title, vehicles}: CustomCardProps) {
         {
           vehicles.map(item => (
             <Card
+            key={item._id}
               sx={{
                 width: '100%', 
                 height: '100%', 
