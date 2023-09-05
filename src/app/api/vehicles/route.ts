@@ -20,6 +20,11 @@ export async function GET() {
           },
           {
               $unwind: "$vehicle_type"
+          },
+          {
+            $addFields: {
+              vehicle_type_name: "$vehicle_type.name"
+            }
           }
         ]
       );
