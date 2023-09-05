@@ -2,7 +2,6 @@ import React from 'react'
 import { DataGrid, GridColDef, GridToolbar, GridValueGetterParams, ptBR } from '@mui/x-data-grid';
 import { Box } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// import { ptBR } from '@mui/x-date-pickers/locales';
 
 
 const rows = [
@@ -53,7 +52,6 @@ const rows = [
   return (
     <Box sx={{ height: 400, width: '100%' }}>
         <DataGrid
-        localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
         slots={{ toolbar: GridToolbar }}
         rows={rows}
         columns={columns}
