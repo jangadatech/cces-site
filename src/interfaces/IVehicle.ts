@@ -10,7 +10,7 @@ export default interface IVehicle {
   plate: string;
   active: boolean | null;
   prefix: string;
-  vehicle_type_id: string;
+  vehicle_type_id?: string;
   vehicle_type?: IVehicleType | null;
   status?: StatusVehicle;
   updated_at?: string | null;
