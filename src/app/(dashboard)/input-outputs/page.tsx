@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Box, Button, Container, Stack, SvgIcon, Typography } from '@mui/material'
+import { Box, Button, Chip, Container, Stack, SvgIcon, Typography } from '@mui/material'
 import BackupIcon from '@mui/icons-material/Backup';
 import DownloadIcon from '@mui/icons-material/Download';
 import InputOutputModal from '@/sections/input-output/input-output-modal';
@@ -14,14 +14,16 @@ import { GridActionsCellItem } from '@mui/x-data-grid';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import { useRouter } from 'next/navigation';
 
 const InputOutput = () => {
 
+  const router = useRouter();
+
   const { response: inputOutputs, loading, error } = useFetch<IInputOutput[]>('/api/input-outputs');
 
-  console.log(inputOutputs)
-
-  // const [inputOutputs, setInputOutputs] = useState<IInputOutput[]>([]);
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => setOpen(true);
@@ -37,6 +39,9 @@ const InputOutput = () => {
     } 
   );
 
+  const editAction = (params: any) => {
+    router.push(`/input-outputs/${params.id}`)
+  }
 
   const useFlexGrow = inputOutputs && inputOutputs.length > 0;
 
@@ -54,8 +59,8 @@ const InputOutput = () => {
       flex: useFlexGrow ? 1 : undefined 
     },
     {
-      field: 'register_at',
-      headerName: 'Registro',
+      field: 'vehicle',
+      headerName: 'Prefixo',
       minWidth: 100,
       flex: useFlexGrow ? 1 : undefined 
     },
@@ -69,7 +74,11 @@ const InputOutput = () => {
       field: 'status',
       headerName: 'Status',
       minWidth: 50,
-      flex: useFlexGrow ? 1 : undefined 
+      flex: useFlexGrow ? 1 : undefined,
+      renderCell: (params: any) => {
+        const isInput = params.value === "input";
+        return <Chip icon={isInput ? <KeyboardDoubleArrowRightIcon /> : <KeyboardDoubleArrowLeftIcon />}  label={isInput? "Entrada": "Saída"} variant={"filled"} color={isInput ? "secondary" : "info"} />;
+      }
     },
     {
       field: 'destiny',
@@ -82,6 +91,14 @@ const InputOutput = () => {
       headerName: 'Descrição',
       minWidth: 100,
       flex: useFlexGrow ? 1 : undefined 
+    },
+    {
+      field: 'register_at',
+      headerName: 'Registrado em',
+      flex: useFlexGrow ? 1 : undefined,
+      minWidth: 100,
+      type: 'dateTime',
+      valueGetter: ({ value }: any) => value && new Date(value),
     },
     {
       field: 'created_at',
@@ -110,7 +127,7 @@ const InputOutput = () => {
           key={0}
           icon={<EditIcon />}
           label="Editar"
-          // onClick={() => editAction(params)}
+          onClick={() => editAction(params)}
           showInMenu
         />,
         // <GridActionsCellItem
@@ -128,7 +145,7 @@ const InputOutput = () => {
       id: item._id,
       status: item.status,
       driver: item.driver?.name,
-      vehicle: item.vehicle.prefix,
+      vehicle: item.vehicle?.prefix,
       odometer: item.odometer,
       destiny: item.destiny,
       register_at: item.register_at,
@@ -209,12 +226,12 @@ const InputOutput = () => {
                 </div>
               </Stack>
             </Stack>
-            <DataTable  columns={columns} rows={transformedData} />
+            <DataTable  columns={columns} rows={transformedData} columnVisibilityModel={{ id: false, created_at: false }} />
             {/* <InputOutputTable inputOutputs={inputOutputs}/> */}
           </Stack>
         </Container>
       </Box>
-      <InputOutputModal open={open} handleClose={handleClose}/>
+      <InputOutputModal open={open} handleClose={handleClose} inputOutputs={inputOutputs}/>
     </>
   )
 }

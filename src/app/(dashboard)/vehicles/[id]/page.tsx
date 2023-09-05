@@ -24,7 +24,7 @@ const UpdateDriver = (url: SearchParamsURL) => {
 
   const { response: vehicle, loading, error, request } = useFetch<IVehicle>(`/api/vehicles/${id}`);
 
-  const inputOutputInit: IVehicle = {
+  const VehicleInit: IVehicle = {
       plate: vehicle?.plate || '',
       active: vehicle?.active || null,
       prefix: vehicle?.prefix || '',
@@ -48,7 +48,7 @@ const UpdateDriver = (url: SearchParamsURL) => {
         Atualizar Motorista | CCES
       </title>
       {vehicle ? (
-        <FormVehicles handleSubmit={handleSubmit} typeText="Atualizar" initialValues={inputOutputInit} />
+        <FormVehicles handleSubmit={handleSubmit} typeText="Atualizar" initialValues={VehicleInit} />
       ) : (
         <Box sx={{           
           minHeight: '90vh',
