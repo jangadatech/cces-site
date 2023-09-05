@@ -2,7 +2,8 @@ import { useState } from 'react'
 import {
   DataGrid, 
   GridColDef, 
-  GridToolbar, 
+  GridToolbar,
+  ptBR
 } from '@mui/x-data-grid';
 import { Box } from '@mui/material';
 
@@ -32,6 +33,7 @@ const DataTable = ({rows, columns, columnVisibilityModel}: DataTableProps) => {
         pageSizeOptions={[5, 10, 25, 50, 100]}
         disableRowSelectionOnClick
         columnVisibilityModel={columnVisibilityModel}
+        localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
       />
     </Box>
   )
