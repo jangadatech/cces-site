@@ -1,21 +1,18 @@
 'use client'
 
+import React, { useState } from 'react';
 import useFetch from '@/hook/useFetch';
 import IVehicle from '@/interfaces/IVehicle';
-import IVehicleType from '@/interfaces/IVehicleType';
 import FormVehicles from '@/sections/vehicles/FormVehicles';
 import { useRouter } from 'next/navigation';
-import React, { useContext, useState } from 'react';
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 const CreateVehicle = () => {
-
   
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
-  const { response: drivers, request } = useFetch<IVehicle[]>('/api/vehicles');
 
   const inputOutputInit: IVehicle = {
     plate: '',
@@ -30,7 +27,7 @@ const CreateVehicle = () => {
         body: JSON.stringify(values),
       })
       toast.success('Dados salvo com sucesso!', { theme: 'colored' });
-      // router.push('/vehicles')
+      router.push('/vehicles')
     } catch (error) {
       console.error(error);
       toast.error('Erro ao salvar dados!', { theme: 'colored' });

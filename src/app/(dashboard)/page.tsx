@@ -40,8 +40,6 @@ export default function Home() {
     
     const groupedVehicles = Object.values(vehicleTypeMap);
     
-    console.log(groupedVehicles);
-
     return (
     <>
       <title>
