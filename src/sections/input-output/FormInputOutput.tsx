@@ -1,13 +1,14 @@
+'use client'
 import IInputOutput from "@/interfaces/IInputOutput";
 import { Box, TextField, Button, Container, Typography, Stack, CircularProgress, MenuItem } from "@mui/material";
 import { Formik, Form } from "formik";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {URL} from '@/http/config';
 import IDriver from "@/interfaces/IDriver";
 import IVehicle from "@/interfaces/IVehicle";
+import { useEffect, useState } from "react";
 
 interface FormInputOutputProps {
   handleSubmit: (values: IInputOutput) => Promise<void>;
@@ -25,17 +26,21 @@ async function getDrivers() {
   return res.json()
 }
 
-const FormUsers = async ({ handleSubmit, typeText, initialValues }: FormInputOutputProps) => {
+const FormUsers = ({ handleSubmit, typeText, initialValues }: FormInputOutputProps) => {
 
-const [isLoading, setIsLoading] = useState(false);
-const router = useRouter();
-const vehicles = await getVehicles();
-const drivers = await getDrivers();
+  const router = useRouter();
+  const [vehicles, setVehicles] =useState<IVehicle[]>([])
+  const [drivers, setDrivers] =useState<IDriver[]>([])
 
-const status = [
-  { value: 'true', label: 'Ativo' },
-  { value: 'false', label: 'Inativo' }
-]
+  useEffect(() => {
+    async function fetchAll(){
+      const vehiclesData = await getVehicles();
+      const driversData = await getDrivers();
+      setVehicles(vehiclesData)
+      setDrivers(driversData)
+    }
+    fetchAll()
+  })
 
   return (
     <>
@@ -132,8 +137,6 @@ const status = [
                       <Button variant="outlined" onClick={() => router.back()}>Cancelar</Button>
                       <Button
                         variant="contained"
-                        startIcon={isLoading ? <CircularProgress color="inherit" size={20} /> : null}
-                        disabled={isLoading}
                         type="submit"
                       >
                         {typeText}
