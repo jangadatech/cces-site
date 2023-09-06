@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik, Form } from 'formik';
 import axios from 'axios';
 import Button from '@mui/material/Button';
@@ -8,7 +8,8 @@ import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { Autocomplete, DialogActions, TextareaAutosize } from '@mui/material';
+import { Autocomplete, TextareaAutosize } from '@mui/material';
+import DialogActions from '@mui/material/DialogActions';
 import getCurrentDateTime from '@/utils/current-date-time';
 import { URL } from '@/http/config';
 import { toast } from 'react-toastify';
@@ -30,7 +31,7 @@ const inputOutputInit = {
     odometer: '',
     description: '',
     destiny: '',
-    status: 'E',
+    status: 'input',
 }
 
 const style = {
@@ -48,6 +49,7 @@ export default function InputOutputModal({ handleClose, open, inputOutputs }: In
   const [isInput, setIsInput] = useState(true);
   const [drivers, setDrivers] = useState([]);
   const [vehicles, setVehicles] = useState([]);
+  const [lastOdometer, setLastOdometer] = useState<number | null>(null);
 
   useEffect(() => {
 
@@ -75,21 +77,51 @@ export default function InputOutputModal({ handleClose, open, inputOutputs }: In
   });
   
   const prefixLabel = vehicles.map((vehicle: IVehicle) => {
-    return { label: vehicle.prefix, id: vehicle._id };
+    return { label: vehicle.prefix, id: vehicle._id, status: vehicle.status };
   });
 
   const handleStatusChange = (event: React.MouseEvent<HTMLElement>, newStatus: string, formikProps: any) => {
-    setIsInput(newStatus === 'input');
+    setIsInput(!newStatus);
   };
+
+  const handleLastOdometer = async (vehicle: any) => {
+    if(vehicle){
+      const response = await fetch(`${URL}/api/input-outputs/last-odometer/${vehicle.id}`);
+      const data = await response.json()
+      setLastOdometer(data.odometer)
+    }else{
+      setLastOdometer(null)
+    }
+
+  }
 
   const handleSaveData = async (values: any) => {
     try {
-      const response = await axios.post(`${URL}/api/input-outputs`, values);
+      await saveInputOutput(values);
+      await updateVehicleStatus(values.vehicle, values.status);
       handleClose();
-      toast.success('Dados salvo com sucesso!', {theme: "colored",})
+      toast.success('Dados salvos com sucesso!', { theme: "colored" });
     } catch (error) {
       console.error(error);
-      toast.success('Erro ao salvar dados!', {theme: "colored",})
+      toast.error('Erro ao salvar dados!', { theme: "colored" });
+    }
+  };
+  
+  const saveInputOutput = async (values: any) => {
+    try {
+      await axios.post(`${URL}/input-outputs`, values);
+    } catch (error) {
+      console.error(error);
+      toast.error('Erro ao salvar entrada e saída!', { theme: "colored" });
+    }
+  };
+  
+  const updateVehicleStatus = async (vehicleId: string, status: string) => {
+    try {
+      await axios.put(`${URL}/vehicles/${vehicleId}`, { status });
+    } catch (error) {
+      console.error(error);
+      toast.error('Erro ao atualizar veículo', { theme: "colored" });
     }
   };
 
@@ -171,10 +203,11 @@ export default function InputOutputModal({ handleClose, open, inputOutputs }: In
                     <Autocomplete
                       disablePortal
                       id="combo-box-demo"
-                      options={prefixLabel}
+                      options={isInput ? prefixLabel.filter(item => item.status == "output") : prefixLabel.filter(item => item.status == "input")}
                       getOptionLabel={(option) => option.label}
                       onChange={(event, vehicle) => {
                         formikProps.setFieldValue('vehicle', vehicle ? vehicle.id : '');
+                        handleLastOdometer(vehicle);
                       }}
                       renderInput={(params) => (
                         <TextField
@@ -197,7 +230,7 @@ export default function InputOutputModal({ handleClose, open, inputOutputs }: In
                       label="Odômetro"
                       name="odometer"
                       type="text"
-                      value={isInput? formikProps.values.odometer: null}
+                      value={isInput ? formikProps.values.odometer : formikProps.values.odometer = lastOdometer?.toString()}
                       onChange={formikProps.handleChange}
                       variant="outlined"
                       placeholder="Odometer"

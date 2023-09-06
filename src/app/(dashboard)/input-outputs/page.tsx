@@ -13,7 +13,6 @@ import useFetch from '@/hook/useFetch';
 import { GridActionsCellItem } from '@mui/x-data-grid';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { useRouter } from 'next/navigation';
@@ -227,7 +226,6 @@ const InputOutput = () => {
               </Stack>
             </Stack>
             <DataTable  columns={columns} rows={transformedData} columnVisibilityModel={{ id: false, created_at: false }} />
-            {/* <InputOutputTable inputOutputs={inputOutputs}/> */}
           </Stack>
         </Container>
       </Box>
