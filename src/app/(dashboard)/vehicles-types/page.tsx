@@ -16,7 +16,7 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import DataTable from '@/components/DataTable';
-import { GridActionsCellItem } from '@mui/x-data-grid';
+import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid';
 import { useRouter } from 'next/navigation';
 import IVehicleType from '@/interfaces/IVehicleType';
 import {URL} from '@/http/config';
@@ -59,31 +59,39 @@ const VehiclesTypes = () => {
 
   const useFlexGrow = vehiclesTypes && vehiclesTypes.length > 0;
 
-  const columns = [
+  const columns: GridColDef[] = [
     {
       field: 'id',
       headerName: 'ID',
       width: 90,
-      flex: useFlexGrow ? 1 : undefined 
+      flex: useFlexGrow ? 1 : undefined,
+      align: 'center',
+      headerAlign: 'center',
     },
     {
       field: 'name',
       headerName: 'Tipo',
       width: 200,
-      flex: useFlexGrow ? 1 : undefined 
+      flex: useFlexGrow ? 1 : undefined,
+      align: 'center',
+      headerAlign: 'center', 
     },
     {
       field: 'seat',
       headerName: 'Assentos',
       width: 100,
-      flex: useFlexGrow ? 1 : undefined 
+      flex: useFlexGrow ? 1 : undefined,
+      align: 'center',
+      headerAlign: 'center', 
     },
     {
       field: 'actions',
       type: 'actions',
       headerName: 'Ações',
       width: 100,
-      cellClassName: 'actions',  
+      cellClassName: 'actions',
+      align: 'center',
+      headerAlign: 'center',
       getActions: (params: any) => [
         <GridActionsCellItem
           key={0}

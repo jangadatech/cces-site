@@ -42,6 +42,11 @@ const FormUsers = ({ handleSubmit, typeText, initialValues }: FormInputOutputPro
     fetchAll()
   })
 
+  const status = [
+    { value: 'input', label: 'Entrada' },
+    { value: 'output', label: 'Saída' }
+  ]
+
   return (
     <>
       <Box
@@ -119,6 +124,43 @@ const FormUsers = ({ handleSubmit, typeText, initialValues }: FormInputOutputPro
                           name="destiny"
                           type="text"
                           value={formikProps.values.destiny}
+                          onChange={formikProps.handleChange}
+                          variant="standard"
+                          placeholder="Destino"
+                        />
+                      </Stack>
+                      <Stack spacing={10} direction="row">
+                        <TextField
+                          fullWidth
+                          label="Ôdometro"
+                          name="odometer"
+                          value={formikProps.values.odometer}
+                          onChange={formikProps.handleChange}
+                          variant="standard"
+                        />
+
+                        <TextField
+                          fullWidth
+                          label="Status"
+                          name="status"
+                          select
+                          value={formikProps.values.status}
+                          onChange={formikProps.handleChange}
+                          variant="standard"
+                        >
+                          {status.map((option) => (
+                            <MenuItem key={option.value} value={option.value}>
+                              {option.label}
+                            </MenuItem>
+                          ))}
+                        </TextField>
+
+                        <TextField
+                          fullWidth
+                          label="Descrição"
+                          name="description"
+                          type="text"
+                          value={formikProps.values.description}
                           onChange={formikProps.handleChange}
                           variant="standard"
                           placeholder="Destino"

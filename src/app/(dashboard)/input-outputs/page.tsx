@@ -10,7 +10,7 @@ import { ToastContainer } from 'react-toastify';
 import IInputOutput from '@/interfaces/IInputOutput';
 import DataTable from '@/components/DataTable';
 import useFetch from '@/hook/useFetch';
-import { GridActionsCellItem } from '@mui/x-data-grid';
+import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
@@ -44,36 +44,46 @@ const InputOutput = () => {
 
   const useFlexGrow = inputOutputs && inputOutputs.length > 0;
 
-  const columns = [
+  const columns: GridColDef[] = [
     { 
       field: 'id', 
       headerName: 'ID', 
       minWidth: 50,
-      flex: useFlexGrow ? 1 : undefined 
+      flex: useFlexGrow ? 1 : undefined,
+      align: 'center',
+      headerAlign: 'center'
     },
     {
       field: 'driver',
       headerName: 'Motorista',
       minWidth: 100,
-      flex: useFlexGrow ? 1 : undefined 
+      flex: useFlexGrow ? 1 : undefined,
+      align: 'center',
+      headerAlign: 'center' 
     },
     {
       field: 'vehicle',
       headerName: 'Prefixo',
       minWidth: 100,
-      flex: useFlexGrow ? 1 : undefined 
+      flex: useFlexGrow ? 1 : undefined,
+      align: 'center',
+      headerAlign: 'center' 
     },
     {
       field: 'odometer',
       headerName: 'Ôdometro',
       minWidth: 50,
-      flex: useFlexGrow ? 1 : undefined 
+      flex: useFlexGrow ? 1 : undefined,
+      align: 'center',
+      headerAlign: 'center' 
     },
     {
       field: 'status',
       headerName: 'Status',
       minWidth: 50,
       flex: useFlexGrow ? 1 : undefined,
+      align: 'center',
+      headerAlign: 'center',
       renderCell: (params: any) => {
         const isInput = params.value === "input";
         return <Chip icon={isInput ? <KeyboardDoubleArrowRightIcon /> : <KeyboardDoubleArrowLeftIcon />}  label={isInput? "Entrada": "Saída"} variant={"filled"} color={isInput ? "secondary" : "info"} />;
@@ -83,13 +93,17 @@ const InputOutput = () => {
       field: 'destiny',
       headerName: 'Destino',
       minWidth: 100,
-      flex: useFlexGrow ? 1 : undefined 
+      flex: useFlexGrow ? 1 : undefined,
+      align: 'center',
+      headerAlign: 'center'
     },
     {
       field: 'description',
       headerName: 'Descrição',
       minWidth: 100,
-      flex: useFlexGrow ? 1 : undefined 
+      flex: useFlexGrow ? 1 : undefined,
+      align: 'center',
+      headerAlign: 'center' 
     },
     {
       field: 'register_at',
@@ -97,6 +111,8 @@ const InputOutput = () => {
       flex: useFlexGrow ? 1 : undefined,
       minWidth: 100,
       type: 'dateTime',
+      align: 'center',
+      headerAlign: 'center',
       valueGetter: ({ value }: any) => value && new Date(value),
     },
     {
@@ -105,6 +121,8 @@ const InputOutput = () => {
       flex: useFlexGrow ? 1 : undefined ,
       minWidth: 180,
       type: 'dateTime',
+      align: 'center',
+      headerAlign: 'center',
       valueGetter: ({ value }: any) => value && new Date(value),
     },
     {
@@ -112,7 +130,9 @@ const InputOutput = () => {
       headerName: 'Atualizado em',
       type: 'dateTime',
       minWidth: 180,
-      flex: useFlexGrow ? 1 : undefined ,
+      flex: useFlexGrow ? 1 : undefined,
+      align: 'center',
+      headerAlign: 'center',
       valueGetter: ({ value }: any) => value && new Date(value),
     },
     {
@@ -120,7 +140,9 @@ const InputOutput = () => {
       type: 'actions',
       headerName: 'Ações',
       width: 100,
-      cellClassName: 'actions',  
+      cellClassName: 'actions',
+      align: 'center',
+      headerAlign: 'center',
       getActions: (params: any) => [
         <GridActionsCellItem
           key={0}

@@ -26,7 +26,7 @@ const DataTable = ({rows, columns, columnVisibilityModel}: DataTableProps) => {
             pagination: {
             paginationModel: {
               page: 0,
-              pageSize: 5
+              pageSize: 10
             },
           },
         }}
