@@ -108,7 +108,7 @@ export default function InputOutputModal({ handleClose, open, inputOutputs }: In
               handleSaveData(values);
             }}
           >
-            {(formikProps) => (
+            {(formikProps: any) => (
               <Form>
                 <Grid container spacing={2} alignItems="center">
                   <Grid item xs={12}>

@@ -1,5 +1,3 @@
-'use client'
-
 import IDriver from "@/interfaces/IDriver";
 import { Box, TextField, Button, Container, Typography, Stack, CircularProgress } from "@mui/material";
 import { Formik, Form } from "formik";
@@ -48,7 +46,7 @@ const FormDrivers = ({ handleSubmit, typeText, initialValues }: FormDriversProps
                 handleSubmit(values);
               }}
             >
-              {(formikProps) => (
+              {(formikProps: any) => (
                 <Form>
                   <Box sx={{
                     justifyContent: 'center',
