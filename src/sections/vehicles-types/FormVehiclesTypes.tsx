@@ -18,11 +18,6 @@ const FormVehiclesTypes = ({ handleSubmit, typeText, initialValues }: FormVehicl
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const status = [
-    { value: 'true', label: 'Ativo' },
-    { value: 'false', label: 'Inativo' }
-  ]
-
   return (
     <>
       <Box
