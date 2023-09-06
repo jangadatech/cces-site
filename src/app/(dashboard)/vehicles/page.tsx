@@ -13,7 +13,7 @@ import {
   Unstable_Grid2 as Grid, 
   Container } from '@mui/material'
 import DataTable from '@/components/DataTable';
-import { GridActionsCellItem } from '@mui/x-data-grid';
+import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
@@ -29,42 +29,54 @@ const Vehicles = () => {
 
   const useFlexGrow = vehicles && vehicles.length > 0;
 
-  const columns = [
+  const columns: GridColDef[] = [
     { 
       field: 'id', 
       headerName: 'ID', 
       minWidth: 50,
-      flex: useFlexGrow ? 1 : undefined 
+      flex: useFlexGrow ? 1 : undefined,
+      align: 'center',
+      headerAlign: 'center', 
     },
     {
       field: 'plate',
       headerName: 'Placa',
       minWidth: 100,
-      flex: useFlexGrow ? 1 : undefined 
+      flex: useFlexGrow ? 1 : undefined,
+      align: 'center',
+      headerAlign: 'center', 
     },
     {
       field: 'prefix',
       headerName: 'Prefixo',
       minWidth: 100,
-      flex: useFlexGrow ? 1 : undefined 
+      flex: useFlexGrow ? 1 : undefined,
+      align: 'center',
+      headerAlign: 'center', 
     },
     {
       field: 'active',
       headerName: 'Ativo',
       minWidth: 50,
       type: 'boolean',
-      flex: useFlexGrow ? 1 : undefined 
+      flex: useFlexGrow ? 1 : undefined,
+      align: 'center',
+      headerAlign: 'center', 
     },
     {
       field: 'vehicle_type',
       headerName: 'Tipo de Veículo',
       minWidth: 100,
-      flex: useFlexGrow ? 1 : undefined 
+      flex: useFlexGrow ? 1 : undefined,
+      align: 'center',
+      headerAlign: 'center', 
     },
     {
       field: 'created_at',
       headerName: 'Criado em',
-      flex: useFlexGrow ? 1 : undefined ,
+      flex: useFlexGrow ? 1 : undefined,
+      align: 'center',
+      headerAlign: 'center',
       minWidth: 180,
       type: 'dateTime',
       valueGetter: ({ value }: any) => value && new Date(value),
@@ -74,7 +86,9 @@ const Vehicles = () => {
       headerName: 'Atualizado em',
       type: 'dateTime',
       minWidth: 180,
-      flex: useFlexGrow ? 1 : undefined ,
+      flex: useFlexGrow ? 1 : undefined,
+      align: 'center',
+      headerAlign: 'center',
       valueGetter: ({ value }: any) => value && new Date(value),
     },
     {
@@ -82,7 +96,9 @@ const Vehicles = () => {
       type: 'actions',
       headerName: 'Ações',
       width: 100,
-      cellClassName: 'actions',  
+      cellClassName: 'actions',
+      align: 'center',
+      headerAlign: 'center', 
       getActions: (params: any) => [
         <GridActionsCellItem
           key={0}
@@ -151,7 +167,8 @@ const Vehicles = () => {
           </Stack>
           <DataTable 
             rows={transformedData} 
-            columns={columns} 
+            columns={columns}
+            columnVisibilityModel={{ id: false }}
           />
         </Stack>
       </Container>
