@@ -109,7 +109,7 @@ export default function InputOutputModal({ handleClose, open, inputOutputs }: In
   
   const saveInputOutput = async (values: any) => {
     try {
-      await axios.post(`${URL}/input-outputs`, values);
+      await axios.post(`${URL}/api/input-outputs`, values);
     } catch (error) {
       console.error(error);
       toast.error('Erro ao salvar entrada e saída!', { theme: "colored" });
@@ -118,7 +118,7 @@ export default function InputOutputModal({ handleClose, open, inputOutputs }: In
   
   const updateVehicleStatus = async (vehicleId: string, status: string) => {
     try {
-      await axios.put(`${URL}/vehicles/${vehicleId}`, { status });
+      await axios.put(`${URL}/api/vehicles/${vehicleId}`, { status });
     } catch (error) {
       console.error(error);
       toast.error('Erro ao atualizar veículo', { theme: "colored" });
