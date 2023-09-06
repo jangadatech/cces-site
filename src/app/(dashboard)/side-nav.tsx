@@ -4,21 +4,24 @@ import React from 'react';
 import { styled } from '@mui/material/styles';
 import Drawer from '@mui/material/Drawer';
 import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import CardIcon from '@mui/icons-material/CardGiftcard';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ImportExportIcon from '@mui/icons-material/ImportExport';
-import PieChartIcon from '@mui/icons-material/PieChart';
-import GroupIcon from '@mui/icons-material/Group';
 import SideNavItem from './side-nav-item';
 import { Box } from '@mui/material';
 import { Logo } from '@/components/Logo';
-import LogoutIcon from '@mui/icons-material/Logout';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { theme } from '@/themes';
 
+import CardIcon from '@mui/icons-material/CardGiftcard';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
+import GroupIcon from '@mui/icons-material/Group';
+import IconButton from '@mui/material/IconButton';
+import ImportExportIcon from '@mui/icons-material/ImportExport';
+import LogoutIcon from '@mui/icons-material/Logout';
+import PieChartIcon from '@mui/icons-material/PieChart';
+import AirlineSeatReclineExtraIcon from '@mui/icons-material/AirlineSeatReclineExtra';
+import SideNavList from './side-nav-list'
 interface SideNavProps {
   open: boolean;
   handleDrawer: () => void;
@@ -103,9 +106,18 @@ const SideNav = ({ open, handleDrawer }: SideNavProps) => {
       </Box>
       <div>
         <SideNavItem icon={<PieChartIcon />} open={open} path={'/'} text="Dashboard" />
-        <SideNavItem icon={<ImportExportIcon />} open={open} path={'/input-output'} text="Entrada e Saída" />
+        <SideNavItem icon={<ImportExportIcon />} open={open} path={'/input-outputs'} text="Entrada e Saída" />
         <SideNavItem icon={<GroupIcon />} open={open} path={'/users'} text="Usuários" />
-        {/* <SideNavItem icon={<CardIcon />} open={open} path={'/auth/signin'} text="Login" /> */}
+        <SideNavItem icon={<AirlineSeatReclineExtraIcon />} open={open} path={'/drivers'} text="Motoristas" />
+        <SideNavItem icon={<DirectionsCarIcon/>} open={open} path={'/vehicles'} text="Veículos" />
+        <SideNavItem icon={<DirectionsCarIcon/>} open={open} path={'/vehicles-types'} text="Tipos de Veículos" />
+        {/* <SideNavList 
+            icon={<DirectionsCarIcon/>}
+            open={open}
+            text="Veículos" 
+          >
+          <SideNavItem icon={<GroupIcon />} open={open} path={'/vehicles'} text="Tipo" />
+        </SideNavList> */}
       </div>
       <BottomNavContainer>
         <Divider /> 

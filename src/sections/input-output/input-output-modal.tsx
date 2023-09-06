@@ -15,10 +15,12 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import IDriver from '@/interfaces/IDriver';
 import IVehicle from '@/interfaces/IVehicle';
+import IInputOutput from '@/interfaces/IInputOutput';
 
 interface InputOutputModalProps {
   handleClose: () => void;
   open: boolean;
+  inputOutputs: IInputOutput[] | null,
 }
 
 const inputOutputInit = {
@@ -42,7 +44,7 @@ const style = {
   p: 4,
 };
 
-export default function InputOutputModal({ handleClose, open }: InputOutputModalProps) {
+export default function InputOutputModal({ handleClose, open, inputOutputs }: InputOutputModalProps) {
   const [isInput, setIsInput] = useState(true);
   const [drivers, setDrivers] = useState([]);
   const [vehicles, setVehicles] = useState([]);
@@ -76,13 +78,13 @@ export default function InputOutputModal({ handleClose, open }: InputOutputModal
     return { label: vehicle.prefix, id: vehicle._id };
   });
 
-  const handleStatusChange = (event: React.MouseEvent<HTMLElement>, newStatus: string) => {
-    setIsInput(newStatus === 'E');
+  const handleStatusChange = (event: React.MouseEvent<HTMLElement>, newStatus: string, formikProps: any) => {
+    setIsInput(newStatus === 'input');
   };
 
   const handleSaveData = async (values: any) => {
     try {
-      await axios.post(`${URL}/api/input-outputs`, values);
+      const response = await axios.post(`${URL}/api/input-outputs`, values);
       handleClose();
       toast.success('Dados salvo com sucesso!', {theme: "colored",})
     } catch (error) {
@@ -106,7 +108,7 @@ export default function InputOutputModal({ handleClose, open }: InputOutputModal
               handleSaveData(values);
             }}
           >
-            {(formikProps) => (
+            {(formikProps: any) => (
               <Form>
                 <Grid container spacing={2} alignItems="center">
                   <Grid item xs={12}>
@@ -116,14 +118,14 @@ export default function InputOutputModal({ handleClose, open }: InputOutputModal
                       exclusive
                       onChange={(e, newStatus) => {
                         formikProps.setFieldValue('status', newStatus);
-                        handleStatusChange(e, newStatus);
+                        handleStatusChange(e, newStatus, formikProps);
                       }}
                       aria-label="Status"
                     >
-                      <ToggleButton value="E" aria-label="Entrada" color="secondary">
+                      <ToggleButton value="input" aria-label="Entrada" color="secondary">
                         Entrada
                       </ToggleButton>
-                      <ToggleButton value="S" aria-label="Saída" color="info">
+                      <ToggleButton value="output" aria-label="Saída" color="info">
                         Saída
                       </ToggleButton>
                     </ToggleButtonGroup>
@@ -195,7 +197,7 @@ export default function InputOutputModal({ handleClose, open }: InputOutputModal
                       label="Odômetro"
                       name="odometer"
                       type="text"
-                      value={formikProps.values.odometer}
+                      value={isInput? formikProps.values.odometer: null}
                       onChange={formikProps.handleChange}
                       variant="outlined"
                       placeholder="Odometer"

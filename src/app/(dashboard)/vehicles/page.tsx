@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link';
-import { IUser } from '@/interfaces/IUser';
 import useFetch from '@/hook/useFetch';
 import { useRouter } from 'next/navigation';
 
@@ -18,51 +17,54 @@ import { GridActionsCellItem } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
+import IVehicle from '@/interfaces/IVehicle';
 
-const Users = () => {
-  const { response: users, loading, error } = useFetch<IUser[]>('/api/users');
+const Vehicles = () => {
+  const { response: vehicles, loading, error } = useFetch<IVehicle[]>('/api/vehicles');
   const router = useRouter();
 
   const editAction = (params: any) => {
-    router.push(`/users/${params.id}`)
+    router.push(`/vehicles/${params.id}`)
   }
+
+  const useFlexGrow = vehicles && vehicles.length > 0;
 
   const columns = [
     { 
       field: 'id', 
       headerName: 'ID', 
       minWidth: 50,
-      flex: 1
+      flex: useFlexGrow ? 1 : undefined 
     },
     {
-      field: 'username',
-      headerName: 'Username',
+      field: 'plate',
+      headerName: 'Placa',
       minWidth: 100,
-      flex: 1
+      flex: useFlexGrow ? 1 : undefined 
     },
     {
-      field: 'full_name',
-      headerName: 'Nome Completo',
+      field: 'prefix',
+      headerName: 'Prefixo',
       minWidth: 100,
-      flex: 1
+      flex: useFlexGrow ? 1 : undefined 
     },
     {
       field: 'active',
       headerName: 'Ativo',
       minWidth: 50,
       type: 'boolean',
-      flex: 1
+      flex: useFlexGrow ? 1 : undefined 
     },
     {
-      field: 'profile',
-      headerName: 'Perfil',
+      field: 'vehicle_type',
+      headerName: 'Tipo de Veículo',
       minWidth: 100,
-      flex: 1
+      flex: useFlexGrow ? 1 : undefined 
     },
     {
       field: 'created_at',
       headerName: 'Criado em',
-      flex: 1,
+      flex: useFlexGrow ? 1 : undefined ,
       minWidth: 180,
       type: 'dateTime',
       valueGetter: ({ value }: any) => value && new Date(value),
@@ -72,7 +74,7 @@ const Users = () => {
       headerName: 'Atualizado em',
       type: 'dateTime',
       minWidth: 180,
-      flex: 1,
+      flex: useFlexGrow ? 1 : undefined ,
       valueGetter: ({ value }: any) => value && new Date(value),
     },
     {
@@ -99,24 +101,24 @@ const Users = () => {
     }
   ];
   
-  const transformUserData = (users: IUser[]) => {
-    console.log(users)
-    return users.map((item: IUser) => ({
+  const transformVehicleData = (vehicles: IVehicle[]) => {
+    return vehicles.map((item: IVehicle) => ({
       id: item._id,
-      full_name: item.full_name,
-      username: item.username,
+      plate: item.plate,
       active: item.active,
-      profile: item.profile,
+      prefix: item.prefix,
+      vehicle_type_id: item.vehicle_type_id,
+      vehicle_type: item.vehicle_type?.name,
       created_at: item.created_at,
       updated_at: item.updated_at,
     }));
   };
   
-  const transformedData = users ? transformUserData(users) : [];
+  const transformedData = vehicles ? transformVehicleData(vehicles) : [];
   
   return (
     <>
-    <title>Usuários | CCES</title>
+    <title>Veículos | CCES</title>
     <Box
       component="main"
       sx={{
@@ -128,10 +130,10 @@ const Users = () => {
           <Stack direction="row" justifyContent="space-between" spacing={4}>
             <Stack spacing={1}>
               <Typography variant="h4" className="title-bold">
-                Usuários
+                Veículos
               </Typography>
             </Stack>
-            <Link href={'/users/create'}>
+            <Link href={'/vehicles/create'}>
               <Button
                 variant="contained"
                 startIcon={
@@ -158,4 +160,4 @@ const Users = () => {
   )
 }
 
-export default Users
+export default Vehicles

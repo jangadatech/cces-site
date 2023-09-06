@@ -15,15 +15,16 @@ export async function POST(request: Request) {
   try {
     const { name, seat } = await request.json();
 
-    const vehicleTypeData = {
+    const vehicleTypeData = new VehicleType ({
       name,
       seat
-    };
+    });
 
-    const newVehicleType = await VehicleType.create(vehicleTypeData);
+    const newVehicleType = await vehicleTypeData.save();
 
     return NextResponse.json(newVehicleType);
   } catch (error: any) {
     return NextResponse.json({ error: 'Error saving Vehicle type' }, { status: 500 });
   }
 }
+

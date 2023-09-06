@@ -1,0 +1,239 @@
+"use client"
+
+import React, { useEffect, useState } from 'react';
+import { Box, Button, Container, Stack, SvgIcon, Typography } from '@mui/material';
+import { ToastContainer } from 'react-toastify';
+import {
+  GridActionsCellItem,
+  GridColDef,
+  GridRowModesModel,
+  GridRowModes,
+  GridRowsProp,
+} from '@mui/x-data-grid';
+import BackupIcon from '@mui/icons-material/Backup';
+import DownloadIcon from '@mui/icons-material/Download';
+import AddIcon from '@mui/icons-material/Add';
+import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+import SaveIcon from '@mui/icons-material/Save';
+import CancelIcon from '@mui/icons-material/Close';
+import { useRouter } from 'next/navigation';
+import useKeyboardShortcut from 'use-keyboard-shortcut';
+import DataTableInputOutput from '@/components/DataTableInputOutput';
+import IInputOutput from '@/interfaces/IInputOutput';
+import { URL } from '@/http/config';
+
+const InputOutput = () => {
+  const router = useRouter();
+  const [inputOutput, setInputOutput] = useState<IInputOutput[]>([]);
+  const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
+  const [rows, setRows] = useState<GridRowsProp>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch(`${URL}/api/input-outputs`);
+        const data = await res.json();
+        const transformedData = transformInputOutputData(data);
+        setInputOutput(data);
+        setRows(transformedData);
+      } catch (error) {
+        // Tratar erros de requisição
+      }
+    };
+    fetchData();
+  }, []);
+
+  const transformInputOutputData = (data: IInputOutput[]): GridRowsProp => {
+    return data.map((item: IInputOutput) => ({
+      id: item._id,
+      driver: item.driver.name,
+      vehicle: item.vehicle.prefix,
+    }));
+  };
+
+  const handleSaveClick = (id: any) => () => {
+    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
+  };
+
+  const handleCancelClick = (id: any) => () => {
+    setRowModesModel({
+      ...rowModesModel,
+      [id]: { mode: GridRowModes.View, ignoreModifications: true },
+    });
+
+    const editedRow = rows.find((row: any) => row.id === id);
+    if (editedRow?.isNew) {
+      setRows(rows.filter((row: any) => row.id !== id));
+    }
+  };
+
+  const handleEditClick = (id: any) => () => {
+    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
+  };
+
+  const columns: GridColDef[] = [
+    {
+      field: 'driver',
+      headerName: 'Motorista',
+      width: 220,
+      editable: true,
+      type: 'singleSelect',
+      valueOptions: ['Market', 'Finance', 'Development'],
+    },
+    {
+      field: 'vehicle',
+      headerName: 'Veículo',
+      width: 220,
+      editable: true,
+      type: 'singleSelect',
+      valueOptions: ['Market', 'Finance', 'Development'],
+    },
+    {
+      field: 'actions',
+      type: 'actions',
+      headerName: 'Actions',
+      width: 100,
+      cellClassName: 'actions',
+      getActions: ({ id }) => {
+        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
+
+        if (isInEditMode) {
+          return [
+            <GridActionsCellItem
+              icon={<SaveIcon />}
+              label="Save"
+              sx={{
+                color: 'primary.main',
+              }}
+              onClick={handleSaveClick(id)}
+            />,
+            <GridActionsCellItem
+              icon={<CancelIcon />}
+              label="Cancel"
+              className="textPrimary"
+              onClick={handleCancelClick(id)}
+              color="inherit"
+            />,
+          ];
+        }
+
+        return [
+          <GridActionsCellItem
+            icon={<ContentPasteGoIcon />}
+            label="Ver"
+            className="textPrimary"
+            onClick={handleEditClick(id)}
+            color="inherit"
+            showInMenu
+          />,
+          <GridActionsCellItem
+            icon={<EditIcon />}
+            label="Editar"
+            className="textPrimary"
+            onClick={handleEditClick(id)}
+            color="inherit"
+            showInMenu
+          />,
+          <GridActionsCellItem
+            icon={<DeleteIcon />}
+            label="Deletar"
+            // onClick={handleDeleteClick(id)}
+            color="inherit"
+            showInMenu
+          />,
+        ];
+      },
+    },
+  ];
+
+
+  const handleClick = () => {
+    const id = '858465';
+    setRows((oldRows) => [...oldRows, { id, driver: '', vehicle: '', isNew: true }]);
+    setRowModesModel((oldModel) => ({
+      ...oldModel,
+      [id]: { mode: GridRowModes.Edit, fieldToFocus: 'name' },
+    }));
+  };
+
+  useKeyboardShortcut(
+    ['Shift', 'N'],
+    () => handleClick(),
+    {
+      overrideSystem: false,
+      ignoreInputFields: false,
+      repeatOnHold: false,
+    }
+  );
+
+  return (
+    <>
+      <title>Entrada e Saída | CCES</title>
+      <Box component="main" sx={{ flexGrow: 1, py: 3 }}>
+        <ToastContainer />
+        <Container maxWidth={false}>
+          <Stack spacing={3}>
+            <Stack direction="row" justifyContent="space-between" spacing={4}>
+              <Stack spacing={1}>
+                <Typography variant="h4" className="title-bold">
+                  Entrada e Saída
+                </Typography>
+                <Stack alignItems="center" direction="row" spacing={1}>
+                  <Button
+                    color="inherit"
+                    startIcon={
+                      <SvgIcon fontSize="small">
+                        <BackupIcon />
+                      </SvgIcon>
+                    }
+                  >
+                    Importar
+                  </Button>
+                  <Button
+                    color="inherit"
+                    startIcon={
+                      <SvgIcon fontSize="small">
+                        <DownloadIcon />
+                      </SvgIcon>
+                    }
+                  >
+                    Exportar
+                  </Button>
+                </Stack>
+              </Stack>
+              <Stack>
+                <div>
+                  <Button
+                    onClick={handleClick}
+                    startIcon={
+                      <SvgIcon fontSize="small">
+                        <AddIcon />
+                      </SvgIcon>
+                    }
+                    variant="contained"
+                    sx={{
+                      borderRadius: '4px',
+                    }}
+                  >
+                    Novo
+                  </Button>
+                </div>
+              </Stack>
+            </Stack>
+            <DataTableInputOutput
+              columns={columns}
+              setRows={setRows}
+              setRowModesModel={setRowModesModel}
+              rowModesModel={rowModesModel}
+              rows={rows}
+            />
+          </Stack>
+        </Container>
+      </Box>
+    </>
+  );
+};
+
+export default InputOutput;
