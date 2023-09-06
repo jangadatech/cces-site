@@ -20,7 +20,7 @@ import DataTable from '@/components/DataTable';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
-import { GridActionsCellItem } from '@mui/x-data-grid';
+import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid';
 
 const Drivers = () => {
   const { response: drivers, loading, error } = useFetch<IDriver[]>('/api/drivers');
@@ -29,43 +29,44 @@ const Drivers = () => {
   const editAction = (params: any) => {
     router.push(`/drivers/${params.id}`)
   }
+  const useFlexGrow = drivers && drivers.length > 0;
 
-  const columns = [
+  const columns: GridColDef[] = [
     { 
       field: 'id', 
       headerName: 'ID', 
       minWidth: 50,
-      flex: 1
+      flex: useFlexGrow ? 1 : undefined,
     },
     {
       field: 'name',
       headerName: 'Nome',
       minWidth: 100,
-      flex: 1
+      flex: useFlexGrow ? 1 : undefined,
     },
     {
       field: 'full_name',
       headerName: 'Nome Completo',
       minWidth: 100,
-      flex: 1
+      flex: useFlexGrow ? 1 : undefined,
     },
     {
       field: 'active',
       headerName: 'Ativo',
       minWidth: 50,
       type: 'boolean',
-      flex: 1
+      flex: useFlexGrow ? 1 : undefined,
     },
     {
       field: 'enrollment',
       headerName: 'Inscrição',
       minWidth: 100,
-      flex: 1
+      flex: useFlexGrow ? 1 : undefined,
     },
     {
       field: 'created_at',
       headerName: 'Criado em',
-      flex: 1,
+      flex: useFlexGrow ? 1 : undefined,
       minWidth: 180,
       type: 'dateTime',
       valueGetter: ({ value }: any) => value && new Date(value),
@@ -75,14 +76,14 @@ const Drivers = () => {
       headerName: 'Atualizado em',
       type: 'dateTime',
       minWidth: 180,
-      flex: 1,
+      flex: useFlexGrow ? 1 : undefined,
       valueGetter: ({ value }: any) => value && new Date(value),
     },
     {
       field: 'actions',
       type: 'actions',
       headerName: 'Ações',
-      flex: 1,
+      flex: useFlexGrow ? 1 : undefined,
       width: 100,
       cellClassName: 'actions',  
       getActions: (params: any) => [
@@ -153,6 +154,7 @@ const Drivers = () => {
             <DataTable 
               rows={transformedData} 
               columns={columns} 
+              columnVisibilityModel={{ id: false }}
             />
           </Stack>
         </Container>

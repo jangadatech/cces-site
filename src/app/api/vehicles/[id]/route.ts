@@ -27,13 +27,14 @@ export async function PUT(request: Request, { params }: { params: {id: string} }
   try {
 
     const { id } = params;
-    const { plate, prefix, vehicle_type, active }: IVehicle = await request.json();
+    const { plate, prefix, vehicle_type, active, status }: IVehicle = await request.json();
     
     const vehicleData : IVehicle = {
       plate,
       prefix,
       vehicle_type,
       active,
+      status,
       updated_at: new Date().toISOString()
     };
 

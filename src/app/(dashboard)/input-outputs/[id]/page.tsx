@@ -2,7 +2,6 @@
 
 import React from 'react';
 import useFetch from '@/hook/useFetch';
-import FormUsers from '@/sections/users/FormUsers';
 
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';

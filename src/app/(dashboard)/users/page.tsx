@@ -14,7 +14,7 @@ import {
   Unstable_Grid2 as Grid, 
   Container } from '@mui/material'
 import DataTable from '@/components/DataTable';
-import { GridActionsCellItem } from '@mui/x-data-grid';
+import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
@@ -27,44 +27,58 @@ const Users = () => {
     router.push(`/users/${params.id}`)
   }
 
-  const columns = [
+  const useFlexGrow = users && users.length > 0;
+
+  const columns: GridColDef[] = [
     { 
       field: 'id', 
       headerName: 'ID', 
       minWidth: 50,
-      flex: 1
+      flex: useFlexGrow ? 1 : undefined,
+      align: 'center',
+      headerAlign: 'center'
     },
     {
       field: 'username',
       headerName: 'Username',
       minWidth: 100,
-      flex: 1
+      flex: useFlexGrow ? 1 : undefined,
+      align: 'center',
+      headerAlign: 'center'
     },
     {
       field: 'full_name',
       headerName: 'Nome Completo',
       minWidth: 100,
-      flex: 1
+      flex: useFlexGrow ? 1 : undefined,
+      align: 'center',
+      headerAlign: 'center'
     },
     {
       field: 'active',
       headerName: 'Ativo',
       minWidth: 50,
       type: 'boolean',
-      flex: 1
+      flex: useFlexGrow ? 1 : undefined,
+      align: 'center',
+      headerAlign: 'center'
     },
     {
       field: 'profile',
       headerName: 'Perfil',
       minWidth: 100,
-      flex: 1
+      flex: useFlexGrow ? 1 : undefined,
+      align: 'center',
+      headerAlign: 'center'
     },
     {
       field: 'created_at',
       headerName: 'Criado em',
-      flex: 1,
+      flex: useFlexGrow ? 1 : undefined,
       minWidth: 180,
       type: 'dateTime',
+      align: 'center',
+      headerAlign: 'center',
       valueGetter: ({ value }: any) => value && new Date(value),
     },
     {
@@ -73,6 +87,8 @@ const Users = () => {
       type: 'dateTime',
       minWidth: 180,
       flex: 1,
+      align: 'center',
+      headerAlign: 'center',
       valueGetter: ({ value }: any) => value && new Date(value),
     },
     {
@@ -80,7 +96,9 @@ const Users = () => {
       type: 'actions',
       headerName: 'Ações',
       width: 100,
-      cellClassName: 'actions',  
+      cellClassName: 'actions',
+      align: 'center',
+      headerAlign: 'center',
       getActions: (params: any) => [
         <GridActionsCellItem
           key={0}
@@ -149,7 +167,8 @@ const Users = () => {
           </Stack>
           <DataTable 
             rows={transformedData} 
-            columns={columns} 
+            columns={columns}
+            columnVisibilityModel={{ id: false }}
           />
         </Stack>
       </Container>
