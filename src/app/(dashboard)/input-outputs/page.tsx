@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Box, Button, Chip, Container, Stack, SvgIcon, Typography } from '@mui/material'
 import BackupIcon from '@mui/icons-material/Backup';
 import DownloadIcon from '@mui/icons-material/Download';
@@ -16,17 +16,26 @@ import EditIcon from '@mui/icons-material/Edit';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { useRouter } from 'next/navigation';
+import { URL } from '@/http/config';
 
 const InputOutput = () => {
 
   const router = useRouter();
 
-  const { response: inputOutputs, loading, error } = useFetch<IInputOutput[]>('/api/input-outputs');
-
   const [open, setOpen] = useState(false);
+  const [inputOutputs, setInputOutputs] = useState<IInputOutput[]>();
 
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  useEffect(() => {
+    const getInputOutput = async () => {
+      const res = await fetch(`${URL}/api/input-outputs`);
+      const data = await res.json();
+      setInputOutputs(data)
+    }
+    getInputOutput()
+  }, [])
   
   useKeyboardShortcut(
     [ "Shift" ,  "N" ], 
@@ -251,7 +260,7 @@ const InputOutput = () => {
           </Stack>
         </Container>
       </Box>
-      <InputOutputModal open={open} handleClose={handleClose} inputOutputs={inputOutputs}/>
+      <InputOutputModal open={open} handleClose={handleClose} setInputOutputs={setInputOutputs}/>
     </>
   )
 }
