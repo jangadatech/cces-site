@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Formik, Form } from 'formik';
 import axios from 'axios';
 import Button from '@mui/material/Button';
@@ -21,7 +21,8 @@ import IInputOutput from '@/interfaces/IInputOutput';
 interface InputOutputModalProps {
   handleClose: () => void;
   open: boolean;
-  inputOutputs: IInputOutput[] | null,
+  inputOutputs?: IInputOutput[] | null,
+  setInputOutputs: Dispatch<SetStateAction<IInputOutput[] | undefined>>;
 }
 
 const inputOutputInit = {
@@ -45,7 +46,7 @@ const style = {
   p: 4,
 };
 
-export default function InputOutputModal({ handleClose, open, inputOutputs }: InputOutputModalProps) {
+export default function InputOutputModal({ handleClose, open, setInputOutputs }: InputOutputModalProps) {
   const [isInput, setIsInput] = useState(true);
   const [drivers, setDrivers] = useState([]);
   const [vehicles, setVehicles] = useState([]);
@@ -97,10 +98,22 @@ export default function InputOutputModal({ handleClose, open, inputOutputs }: In
 
   const handleSaveData = async (values: any) => {
     try {
-      await saveInputOutput(values);
-      await updateVehicleStatus(values.vehicle, values.status);
+      const response = await saveInputOutput(values);
+      if(response!.status == 200){
+        try{
+          await updateVehicleStatus(values.vehicle, values.status);
+          toast.success('Dados Salvo com Sucesso!', { theme: "colored" });
+          const res = await fetch(`${URL}/api/input-outputs`);
+          const data = await res.json();
+          console.log(data)
+          setInputOutputs(data)
+        }catch{
+          toast.error('Erro ao salvar dados!', { theme: "colored" });
+        }
+      } else {
+        toast.error('Erro ao salvar dados!', { theme: "colored" });
+      }
       handleClose();
-      toast.success('Dados salvos com sucesso!', { theme: "colored" });
     } catch (error) {
       console.error(error);
       toast.error('Erro ao salvar dados!', { theme: "colored" });
@@ -109,7 +122,8 @@ export default function InputOutputModal({ handleClose, open, inputOutputs }: In
   
   const saveInputOutput = async (values: any) => {
     try {
-      await axios.post(`${URL}/api/input-outputs`, values);
+      const response = await axios.post(`${URL}/api/input-outputs`, values);
+      return response
     } catch (error) {
       console.error(error);
       toast.error('Erro ao salvar entrada e saída!', { theme: "colored" });
