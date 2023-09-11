@@ -83,6 +83,7 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
 
   const handleStatusChange = (event: React.MouseEvent<HTMLElement>, newStatus: string, formikProps: any) => {
     setIsInput(!newStatus);
+    newStatus == "input" ? setIsInput(true) : setIsInput(false);
   };
 
   const handleLastOdometer = async (vehicle: any) => {
