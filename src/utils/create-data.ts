@@ -9,7 +9,7 @@ export default function createDataUtil(
     odometerBefore: number | null,
     travelled_distance: number | null, //current_odometer - prev_odometer
     liter_consumed: number | null,
-    destiny: string
+    destination: string
   ) {
     return {
       id,
@@ -22,7 +22,7 @@ export default function createDataUtil(
       details: [
         {
           description: description,
-          destiny: destiny,
+          destination: destination,
           travelled_distance: null,
           odometer_before: null,
           liter_consumed: null,

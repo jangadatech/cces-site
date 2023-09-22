@@ -121,9 +121,9 @@ const FormUsers = ({ handleSubmit, typeText, initialValues }: FormInputOutputPro
                         <TextField
                           fullWidth
                           label="Destino"
-                          name="destiny"
+                          name="destination"
                           type="text"
-                          value={formikProps.values.destiny}
+                          value={formikProps.values.destination}
                           onChange={formikProps.handleChange}
                           variant="standard"
                           placeholder="Destino"

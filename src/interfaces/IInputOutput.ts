@@ -8,7 +8,7 @@ export default interface IInputOutput {
     register_at?: string;
     odometer: number | string;
     description: string | null;
-    destiny: string;
+    destination: string;
     status: string;
     updated_at?: string | null;
     created_at?: string;

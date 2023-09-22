@@ -29,7 +29,7 @@ const UpdateInputOutput = (url: SearchParamsURL) => {
   const inputOutputInit: IInputOutput = {
     status: inputOutput?.status as string,
     description: inputOutput?.description as string,
-    destiny: inputOutput?.destiny as string,
+    destination: inputOutput?.destination as string,
     driver: inputOutput?.driver as IDriver,
     vehicle: inputOutput?.vehicle as IVehicle,
     odometer: inputOutput?.odometer as string,

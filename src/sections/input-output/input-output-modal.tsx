@@ -32,7 +32,7 @@ const inputOutputInit = {
     register_at: getCurrentDateTime(),
     odometer: '',
     description: '',
-    destiny: '',
+    destination: '',
     status: 'input',
 }
 
@@ -164,7 +164,7 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
       odometer: Yup.string() // Alterado para string para aceitar apenas números como texto
       .required('Campo obrigatório')
       .matches(/^[0-9]+$/, 'Por favor, insira apenas números no campo odômetro'),
-    destiny: Yup.string()
+    destination: Yup.string()
       .required('Campo obrigatório')
       .matches(/^[A-Za-z]+$/, 'Por favor, insira apenas letras no campo destino'),
     status: Yup.string().required('Campo obrigatório'),
@@ -297,8 +297,8 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
                     <TextField
                       fullWidth
                       label="Destino"
-                      name="destiny"
-                      value={formikProps.values.destiny}
+                      name="destination"
+                      value={formikProps.values.destination}
                       onChange={formikProps.handleChange}
                       variant="outlined"
                       placeholder="Destino"

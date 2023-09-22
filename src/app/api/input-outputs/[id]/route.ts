@@ -28,12 +28,12 @@ export async function PUT(request: Request, { params }: { params: {id: string} }
   try {
 
     const { id } = params;
-    const { status, description, destiny, driver, odometer, vehicle}: IInputOutput = await request.json();
+    const { status, description, destination, driver, odometer, vehicle}: IInputOutput = await request.json();
     
     const inputOutputData : IInputOutput = {
       status, 
       description, 
-      destiny, 
+      destination, 
       driver, 
       odometer, 
       vehicle,

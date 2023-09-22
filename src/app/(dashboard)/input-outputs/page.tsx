@@ -99,7 +99,7 @@ const InputOutput = () => {
       }
     },
     {
-      field: 'destiny',
+      field: 'destination',
       headerName: 'Destino',
       minWidth: 100,
       flex: useFlexGrow ? 1 : undefined,
@@ -177,7 +177,7 @@ const InputOutput = () => {
       driver: item.driver?.name,
       vehicle: item.vehicle?.prefix,
       odometer: item.odometer,
-      destiny: item.destiny,
+      destination: item.destination,
       register_at: item.register_at,
       created_at: item.created_at,
       updated_at: item.updated_at
