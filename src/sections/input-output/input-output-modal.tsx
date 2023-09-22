@@ -78,7 +78,6 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
     return { label: driver.name, id: driver._id  };
   });
 
-  
   const prefixLabel = vehicles.map((vehicle: IVehicle) => {
     return { label: vehicle.prefix, id: vehicle._id, status: vehicle.status };
   });
@@ -101,16 +100,32 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
 
   const handleSaveData = async (values: any) => {
 
-    console.log('values', values)
-    const driverFound =  driversLabel.find((driver) => driver.label.toLowerCase() == values.driver.toLowerCase())
-    const prefixFound = prefixLabel.find((prefix) => prefix.label == values.vehicle)
-    if(driverFound && prefixFound){
+    const {driver, vehicle} = values
+
+    if(typeof(driver) == 'string'){
+      const driverFound =  driversLabel.find((driver) => driver.label.toLowerCase() == values.driver.toLowerCase())
       values.driver = driverFound!.id
-      values.vehicle = prefixFound!.id
-    } else {
-      values.driver = ''
-      values.vehicle = ''
+    }else{
+      values.driver = driver.id
     }
+
+    if(typeof(vehicle) == 'string'){
+      const prefixFound =  prefixLabel.find((vehicle) => vehicle.label.toLowerCase() == values.vehicle.toLowerCase())
+      values.vehicle = prefixFound!.id
+    }else{
+      values.vehicle = vehicle.id
+    }
+    console.log('values', values)
+    // const prefixFound = prefixLabel.find((prefix) => prefix.label == values.vehicle)
+    // if(driverFound && prefixFound){
+    //   values.driver = driver.id
+    //   values.vehicle = vehicle.id
+    // } else {
+    //   values.driver = ''
+    //   values.vehicle = ''
+    // }
+    // values.driver = driver.id
+    // values.vehicle = vehicle.id
 
     values.register_at = getCurrentDateTime();
     
@@ -156,21 +171,21 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
     }
   };
 
-  const inputOutputSchema = Yup.object().shape({
-    driver: Yup.string()
-      .required('Campo obrigatório')
-      .matches(/^[A-Za-z]+$/, 'Por favor, insira apenas letras no campo nome'),
-    vehicle: Yup.string() // Alterado para string para aceitar apenas números como texto
-      .required('Campo obrigatório')
-      .matches(/^[0-9]+$/, 'Por favor, insira apenas números no campo veículo'),
-      odometer: Yup.string() // Alterado para string para aceitar apenas números como texto
-      .required('Campo obrigatório')
-      .matches(/^[0-9]+$/, 'Por favor, insira apenas números no campo odômetro'),
-    destination: Yup.string()
-      .required('Campo obrigatório')
-      .matches(/^[A-Za-z]+$/, 'Por favor, insira apenas letras no campo destino'),
-    status: Yup.string().required('Campo obrigatório'),
-  });
+  // const inputOutputSchema = Yup.object().shape({
+  //   driver: Yup.string()
+  //     .required('Campo obrigatório')
+  //     .matches(/^[A-Za-z]+$/, 'Por favor, insira apenas letras no campo nome'),
+  //   vehicle: Yup.string() // Alterado para string para aceitar apenas números como texto
+  //     .required('Campo obrigatório')
+  //     .matches(/^[0-9]+$/, 'Por favor, insira apenas números no campo veículo'),
+  //     odometer: Yup.string() // Alterado para string para aceitar apenas números como texto
+  //     .required('Campo obrigatório')
+  //     .matches(/^[0-9]+$/, 'Por favor, insira apenas números no campo odômetro'),
+  //   destination: Yup.string()
+  //     .required('Campo obrigatório')
+  //     .matches(/^[A-Za-z]+$/, 'Por favor, insira apenas letras no campo destino'),
+  //   status: Yup.string().required('Campo obrigatório'),
+  // });
   
 
 
@@ -188,7 +203,7 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
             onSubmit={(values) => {
               handleSaveData(values);
             }}
-            validationSchema={inputOutputSchema}
+            // validationSchema={inputOutputSchema}
           >
             {(formikProps: any)=> (
               <Form>
@@ -218,9 +233,9 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
                       disablePortal 
                       id="combo-box-demo"
                       options={driversLabel}
-                      getOptionLabel={(option) => option.label}
+                      // getOptionLabel={(option) => option.}
                       onChange={(event, driver) => {
-                        formikProps.setFieldValue('driver', driver ? driver.label : '');
+                        formikProps.setFieldValue('driver', driver ? driver : '');
                       }}
                       renderInput={(params) => (
                         <TextField
@@ -260,9 +275,9 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
                       disablePortal
                       id="combo-box-demo"
                       options={isInput ? prefixLabel.filter(item => item.status == "output") : prefixLabel.filter(item => item.status == "input")}
-                      getOptionLabel={(option) => option.label}
+                      // getOptionLabel={(option) => option.label}
                       onChange={(event, vehicle) => {
-                        formikProps.setFieldValue('vehicle', vehicle ? vehicle.label : '');
+                        formikProps.setFieldValue('vehicle', vehicle ? vehicle : '');
                         handleLastOdometer(vehicle);
                       }}
                       renderInput={(params) => (
