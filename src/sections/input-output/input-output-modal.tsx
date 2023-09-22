@@ -73,10 +73,9 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
     fetchInputOutputData();
   }, []);
 
-  const driversLabel = drivers.map((driver: IDriver) => ({
-    label: driver.name,
-    id: driver._id,
-  }));
+  const driversLabel = drivers.map((driver: IDriver) => {
+    return { label: driver.name, id: driver._id  };
+  });
 
   
   const prefixLabel = vehicles.map((vehicle: IVehicle) => {
@@ -103,7 +102,7 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
 
     console.log('values', values)
     const driverFound =  driversLabel.find((driver) => driver.label.toLowerCase() == values.driver.toLowerCase())
-    const prefixFound = prefixLabel.find((prefix) => prefix.label.toLowerCase() == values.vehicle.toLowerCase())
+    const prefixFound = prefixLabel.find((prefix) => prefix.label == values.vehicle)
     if(driverFound && prefixFound){
       values.driver = driverFound!.id
       values.vehicle = prefixFound!.id
@@ -153,7 +152,6 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
       toast.error('Erro ao atualizar veículo', { theme: "colored" });
     }
   };
-
 
   return (
     <div>
@@ -239,7 +237,7 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
                       options={isInput ? prefixLabel.filter(item => item.status == "output") : prefixLabel.filter(item => item.status == "input")}
                       getOptionLabel={(option) => option.label}
                       onChange={(event, vehicle) => {
-                        formikProps.setFieldValue('vehicle', vehicle ? vehicle.id : '');
+                        formikProps.setFieldValue('vehicle', vehicle ? vehicle.label : '');
                         handleLastOdometer(vehicle);
                       }}
                       renderInput={(params) => (
