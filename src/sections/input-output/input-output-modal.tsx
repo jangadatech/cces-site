@@ -73,9 +73,11 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
     fetchInputOutputData();
   }, []);
 
-  const driversLabel = drivers.map((driver: IDriver) => {
-    return { label: driver.name, id: driver._id };
-  });
+  const driversLabel = drivers.map((driver: IDriver) => ({
+    label: driver.name,
+    id: driver._id,
+  }));
+
   
   const prefixLabel = vehicles.map((vehicle: IVehicle) => {
     return { label: vehicle.prefix, id: vehicle._id, status: vehicle.status };
@@ -98,6 +100,18 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
   }
 
   const handleSaveData = async (values: any) => {
+
+    console.log('values', values)
+    const driverFound =  driversLabel.find((driver) => driver.label.toLowerCase() == values.driver.toLowerCase())
+    const prefixFound = prefixLabel.find((prefix) => prefix.label.toLowerCase() == values.vehicle.toLowerCase())
+    if(driverFound && prefixFound){
+      values.driver = driverFound!.id
+      values.vehicle = prefixFound!.id
+    } else {
+      values.driver = ''
+      values.vehicle = ''
+    }
+    
     try {
       const response = await saveInputOutput(values);
       if(response!.status == 200){
@@ -140,6 +154,7 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
     }
   };
 
+
   return (
     <div>
       <Modal
@@ -179,12 +194,13 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <Autocomplete
-                      disablePortal
+                      freeSolo
+                      disablePortal 
                       id="combo-box-demo"
                       options={driversLabel}
                       getOptionLabel={(option) => option.label}
                       onChange={(event, driver) => {
-                        formikProps.setFieldValue('driver', driver ? driver.id : '');
+                        formikProps.setFieldValue('driver', driver ? driver.label : '');
                       }}
                       renderInput={(params) => (
                         <TextField
@@ -216,6 +232,7 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <Autocomplete
+                      freeSolo
                       disablePortal
                       id="combo-box-demo"
                       options={isInput ? prefixLabel.filter(item => item.status == "output") : prefixLabel.filter(item => item.status == "input")}
@@ -287,8 +304,9 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
                   <Button
                     type="submit"
                     variant="contained"
-                    color="primary"
+                    color="primary"             
                   >
+
                     Salvar
                   </Button>
                 </DialogActions>
