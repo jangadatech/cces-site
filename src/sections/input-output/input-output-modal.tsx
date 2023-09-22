@@ -27,13 +27,13 @@ interface InputOutputModalProps {
 }
 
 const inputOutputInit = {
-    driver: '',
-    vehicle: '',
-    register_at: getCurrentDateTime(),
-    odometer: '',
-    description: '',
-    destination: '',
-    status: 'input',
+  driver: '',
+  vehicle: '',
+  register_at: getCurrentDateTime(),
+  odometer: '',
+  description: '',
+  destination: '',
+  status: 'input',
 }
 
 const style = {
@@ -111,6 +111,8 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
       values.driver = ''
       values.vehicle = ''
     }
+
+    values.register_at = getCurrentDateTime();
     
     try {
       const response = await saveInputOutput(values);
@@ -237,7 +239,7 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
                       )}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  {/* <Grid item xs={12} sm={6}>
                     <TextField
                       disabled
                       fullWidth
@@ -251,7 +253,7 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
                       variant="outlined"
                       placeholder="Entrada"
                     />
-                  </Grid>
+                  </Grid> */}
                   <Grid item xs={12} sm={6}>
                     <Autocomplete
                       freeSolo
@@ -293,7 +295,7 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
                       helperText={formikProps.touched.odometer && formikProps.errors.odometer}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={12}>
+                  <Grid item xs={12} sm={6}>
                     <TextField
                       fullWidth
                       label="Destino"
@@ -330,9 +332,8 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
                   <Button
                     type="submit"
                     variant="contained"
-                    color="primary"             
+                    color="primary"  
                   >
-
                     Salvar
                   </Button>
                 </DialogActions>
