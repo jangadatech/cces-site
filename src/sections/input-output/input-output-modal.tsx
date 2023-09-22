@@ -218,6 +218,7 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <TextField
+                      disabled
                       fullWidth
                       label={isInput ? 'Entrada' : 'Saída'}
                       name="register_at"
