@@ -17,6 +17,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import IDriver from '@/interfaces/IDriver';
 import IVehicle from '@/interfaces/IVehicle';
 import IInputOutput from '@/interfaces/IInputOutput';
+import * as Yup from 'yup';
 
 interface InputOutputModalProps {
   handleClose: () => void;
@@ -153,6 +154,24 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
     }
   };
 
+  const inputOutputSchema = Yup.object().shape({
+    driver: Yup.string()
+      .required('Campo obrigatório')
+      .matches(/^[A-Za-z]+$/, 'Por favor, insira apenas letras no campo nome'),
+    vehicle: Yup.number() // Alterado para string para aceitar apenas números como texto
+      .required('Campo obrigatório'),
+
+      odometer: Yup.string() // Alterado para string para aceitar apenas números como texto
+      .required('Campo obrigatório')
+      .matches(/^[0-9]+$/, 'Por favor, insira apenas números no campo odômetro'),
+    destiny: Yup.string()
+      .required('Campo obrigatório')
+      .matches(/^[A-Za-z]+$/, 'Por favor, insira apenas letras no campo destino'),
+    status: Yup.string().required('Campo obrigatório'),
+  });
+  
+
+
   return (
     <div>
       <Modal
@@ -167,8 +186,9 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
             onSubmit={(values) => {
               handleSaveData(values);
             }}
+            validationSchema={inputOutputSchema}
           >
-            {(formikProps: any) => (
+            {(formikProps: any)=> (
               <Form>
                 <Grid container spacing={2} alignItems="center">
                   <Grid item xs={12}>
@@ -206,10 +226,13 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
                           fullWidth
                           label="Motorista"
                           name="driver"
+                          type="text"
                           value={formikProps.values.driver}
                           onChange={formikProps.handleChange}
                           variant="outlined"
                           placeholder="Nome"
+                          error={formikProps.touched.driver && Boolean(formikProps.errors.driver)}
+                          helperText={formikProps.touched.driver && formikProps.errors.driver}
                         />
                       )}
                     />
@@ -250,6 +273,8 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
                           onChange={formikProps.handleChange}
                           variant="outlined"
                           placeholder="Prefixo"
+                          error={formikProps.touched.vehicle && Boolean(formikProps.errors.vehicle)}
+                          helperText={formikProps.touched.vehicle && formikProps.errors.vehicle}
                         />
                       )}
                     />
@@ -260,11 +285,12 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
                       disabled={isInput ? false : true}
                       label="Odômetro"
                       name="odometer"
-                      type="text"
                       value={isInput ? formikProps.values.odometer : formikProps.values.odometer = lastOdometer?.toString()}
                       onChange={formikProps.handleChange}
                       variant="outlined"
                       placeholder="Odometer"
+                      error={formikProps.touched.odometer && Boolean(formikProps.errors.odometer)}
+                      helperText={formikProps.touched.odometer && formikProps.errors.odometer}
                     />
                   </Grid>
                   <Grid item xs={12} sm={12}>
@@ -276,6 +302,7 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
                       onChange={formikProps.handleChange}
                       variant="outlined"
                       placeholder="Destino"
+
                     />
                   </Grid>
                   <Grid item xs={12} sm={12}>
