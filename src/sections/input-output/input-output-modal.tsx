@@ -160,9 +160,9 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
     driver: Yup.string()
       .required('Campo obrigatório')
       .matches(/^[A-Za-z]+$/, 'Por favor, insira apenas letras no campo nome'),
-    vehicle: Yup.number() // Alterado para string para aceitar apenas números como texto
-      .required('Campo obrigatório'),
-
+    vehicle: Yup.string() // Alterado para string para aceitar apenas números como texto
+      .required('Campo obrigatório')
+      .matches(/^[0-9]+$/, 'Por favor, insira apenas números no campo veículo'),
       odometer: Yup.string() // Alterado para string para aceitar apenas números como texto
       .required('Campo obrigatório')
       .matches(/^[0-9]+$/, 'Por favor, insira apenas números no campo odômetro'),
