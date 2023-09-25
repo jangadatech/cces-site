@@ -17,7 +17,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import IDriver from '@/interfaces/IDriver';
 import IVehicle from '@/interfaces/IVehicle';
 import IInputOutput from '@/interfaces/IInputOutput';
-import * as Yup from 'yup';
+import isObjectId from '@/utils/isObjectIdUtil';
+import { DriveEtaRounded } from '@mui/icons-material';
 
 interface InputOutputModalProps {
   handleClose: () => void;
@@ -78,7 +79,7 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
     return { label: driver.name, id: driver._id  };
   });
 
-  const prefixLabel = vehicles.map((vehicle: IVehicle) => {
+  const vehicleLabel = vehicles.map((vehicle: IVehicle) => {
     return { label: vehicle.prefix, id: vehicle._id, status: vehicle.status };
   });
 
@@ -102,30 +103,15 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
 
     const {driver, vehicle} = values
 
-    if(typeof(driver) == 'string'){
-      const driverFound =  driversLabel.find((driver) => driver.label.toLowerCase() == values.driver.toLowerCase())
-      values.driver = driverFound!.id
-    }else{
-      values.driver = driver.id
-    }
+    if(!isObjectId(driver)){
+      const driverFound = findDriverId(driver)
+      values.driver = driverFound
+    } 
 
-    if(typeof(vehicle) == 'string'){
-      const prefixFound =  prefixLabel.find((vehicle) => vehicle.label.toLowerCase() == values.vehicle.toLowerCase())
-      values.vehicle = prefixFound!.id
-    }else{
-      values.vehicle = vehicle.id
-    }
-    console.log('values', values)
-    // const prefixFound = prefixLabel.find((prefix) => prefix.label == values.vehicle)
-    // if(driverFound && prefixFound){
-    //   values.driver = driver.id
-    //   values.vehicle = vehicle.id
-    // } else {
-    //   values.driver = ''
-    //   values.vehicle = ''
-    // }
-    // values.driver = driver.id
-    // values.vehicle = vehicle.id
+    if(!isObjectId(vehicle)){
+      const vehicleFound = findVehicleId(vehicle)
+      values.vehicle = vehicleFound
+    } 
 
     values.register_at = getCurrentDateTime();
     
@@ -151,6 +137,7 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
       toast.error('Erro ao salvar dados!', { theme: "colored" });
     }
   };
+
   
   const saveInputOutput = async (values: any) => {
     try {
@@ -171,23 +158,53 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
     }
   };
 
-  // const inputOutputSchema = Yup.object().shape({
-  //   driver: Yup.string()
-  //     .required('Campo obrigatório')
-  //     .matches(/^[A-Za-z]+$/, 'Por favor, insira apenas letras no campo nome'),
-  //   vehicle: Yup.string() // Alterado para string para aceitar apenas números como texto
-  //     .required('Campo obrigatório')
-  //     .matches(/^[0-9]+$/, 'Por favor, insira apenas números no campo veículo'),
-  //     odometer: Yup.string() // Alterado para string para aceitar apenas números como texto
-  //     .required('Campo obrigatório')
-  //     .matches(/^[0-9]+$/, 'Por favor, insira apenas números no campo odômetro'),
-  //   destination: Yup.string()
-  //     .required('Campo obrigatório')
-  //     .matches(/^[A-Za-z]+$/, 'Por favor, insira apenas letras no campo destino'),
-  //   status: Yup.string().required('Campo obrigatório'),
-  // });
-  
+  function findDriverId(driverName: string) {
+    const driver = driversLabel.find(
+      (driverItem) => driverItem.label.toLowerCase() === driverName.toLowerCase()
+    );
+    return driver ? driver.id : "not Found";
+  }
 
+  function findVehicleId(vehcileName: string) {
+    const vehicle =  vehicleLabel.find(
+      (vehicleItem) => vehicleItem.label.toLowerCase() === vehcileName.toLowerCase()
+    );
+    return vehicle ? vehicle.id : "not Found";
+  }
+
+  const validateForm = (values: any) => {
+    const errors: any = {};
+  
+    if (!values.driver) {
+      errors.driver = 'Campo obrigatório.';
+    } else if (!/^[A-Za-z]+$/.test(values.driver)) {
+      errors.driver = 'Por favor, insira apenas letras no campo nome.';
+    }
+  
+    if (!values.vehicle) {
+      errors.vehicle = 'Campo obrigatório.';
+    } else if (!/^[0-9]+$/.test(values.vehicle)) {
+      errors.vehicle = 'Por favor, insira apenas números no campo veículo.';
+    }
+  
+    if (!values.odometer) {
+      errors.odometer = 'Campo obrigatório.';
+    } else if (!/^[0-9]+$/.test(values.odometer)) {
+      errors.odometer = 'Por favor, insira apenas números no campo odômetro.';
+    }
+  
+    if (!values.destination) {
+      errors.destination = 'Campo obrigatório.';
+    } else if (!/^[A-Za-z]+$/.test(values.destination)) {
+      errors.destination = 'Por favor, insira apenas letras no campo destino.';
+    }
+  
+    if (!values.status) {
+      errors.status = 'Campo obrigatório.';
+    }
+  
+    return errors;
+  };
 
   return (
     <div>
@@ -203,7 +220,7 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
             onSubmit={(values) => {
               handleSaveData(values);
             }}
-            // validationSchema={inputOutputSchema}
+            validate={validateForm}
           >
             {(formikProps: any)=> (
               <Form>
@@ -235,7 +252,8 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
                       options={driversLabel}
                       // getOptionLabel={(option) => option.}
                       onChange={(event, driver) => {
-                        formikProps.setFieldValue('driver', driver ? driver : '');
+                        //@ts-ignore
+                        formikProps.setFieldValue('driver', driver ? driver.id : '');
                       }}
                       renderInput={(params) => (
                         <TextField
@@ -254,30 +272,16 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
                       )}
                     />
                   </Grid>
-                  {/* <Grid item xs={12} sm={6}>
-                    <TextField
-                      disabled
-                      fullWidth
-                      label={isInput ? 'Entrada' : 'Saída'}
-                      name="register_at"
-                      type="datetime-local"
-                      value={
-                        formikProps.values.register_at || getCurrentDateTime()
-                      }
-                      onChange={formikProps.handleChange}
-                      variant="outlined"
-                      placeholder="Entrada"
-                    />
-                  </Grid> */}
                   <Grid item xs={12} sm={6}>
                     <Autocomplete
                       freeSolo
                       disablePortal
                       id="combo-box-demo"
-                      options={isInput ? prefixLabel.filter(item => item.status == "output") : prefixLabel.filter(item => item.status == "input")}
+                      options={isInput ? vehicleLabel.filter(item => item.status == "output") : vehicleLabel.filter(item => item.status == "input")}
                       // getOptionLabel={(option) => option.label}
                       onChange={(event, vehicle) => {
-                        formikProps.setFieldValue('vehicle', vehicle ? vehicle : '');
+                        //@ts-ignore
+                        formikProps.setFieldValue('vehicle', vehicle ? vehicle.id : '');
                         handleLastOdometer(vehicle);
                       }}
                       renderInput={(params) => (
@@ -286,7 +290,7 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
                           fullWidth
                           label="Prefixo"
                           name="vehicle"
-                          value={formikProps.values.vehicle}
+                          value={formikProps.values.vehicle.id}
                           onChange={formikProps.handleChange}
                           variant="outlined"
                           placeholder="Prefixo"
