@@ -47,7 +47,6 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs, s
   const [vehicles, setVehicles] = useState([]);
   const [lastOdometer, setLastOdometer] = useState<number | null>(null);
 
-  console.log('status no modal')
   const inputOutputInit = {
     driver: '',
     vehicle: '',
@@ -119,6 +118,7 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs, s
 
     values.register_at = getCurrentDateTime();
     
+    console.log('values', values)
     try {
       const response = await saveInputOutput(values);
       if(response!.status == 200){
@@ -181,7 +181,8 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs, s
   
     if (!values.driver) {
       errors.driver = 'Campo obrigatório.';
-    } else if (!/^[A-Za-z]+$/.test(values.driver)) {
+    } else if (!/^[a-zA-Z]+$/.test(values.driver)) {
+      console.log('values.driver', values.driver)
       errors.driver = 'Por favor, insira apenas letras no campo nome.';
     }
   
@@ -254,10 +255,10 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs, s
                       disablePortal 
                       id="combo-box-demo"
                       options={driversLabel}
-                      // getOptionLabel={(option) => option.}
+                      // getOptionLabel={(option) => option.}S
                       onChange={(event, driver) => {
                         //@ts-ignore
-                        formikProps.setFieldValue('driver', driver ? driver.id : '');
+                        formikProps.setFieldValue('driver', driver ? driver.label : '');
                       }}
                       renderInput={(params) => (
                         <TextField
@@ -285,7 +286,7 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs, s
                       // getOptionLabel={(option) => option.label}
                       onChange={(event, vehicle) => {
                         //@ts-ignore
-                        formikProps.setFieldValue('vehicle', vehicle ? vehicle.id : '');
+                        formikProps.setFieldValue('vehicle', vehicle ? vehicle.label : '');
                         handleLastOdometer(vehicle);
                       }}
                       renderInput={(params) => (
