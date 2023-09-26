@@ -23,19 +23,12 @@ import { DriveEtaRounded } from '@mui/icons-material';
 interface InputOutputModalProps {
   handleClose: () => void;
   open: boolean;
+  status: string
   inputOutputs?: IInputOutput[] | null,
-  setInputOutputs: Dispatch<SetStateAction<IInputOutput[] | undefined>>;
+  setInputOutputs: Dispatch<SetStateAction<IInputOutput[] | undefined>>,
 }
 
-const inputOutputInit = {
-  driver: '',
-  vehicle: '',
-  register_at: getCurrentDateTime(),
-  odometer: '',
-  description: '',
-  destination: '',
-  status: 'input',
-}
+
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -48,11 +41,22 @@ const style = {
   p: 4,
 };
 
-export default function InputOutputModal({ handleClose, open, setInputOutputs }: InputOutputModalProps) {
+export default function InputOutputModal({ handleClose, open, setInputOutputs, status }: InputOutputModalProps) {
   const [isInput, setIsInput] = useState(true);
   const [drivers, setDrivers] = useState([]);
   const [vehicles, setVehicles] = useState([]);
   const [lastOdometer, setLastOdometer] = useState<number | null>(null);
+
+  console.log('status no modal')
+  const inputOutputInit = {
+    driver: '',
+    vehicle: '',
+    register_at: getCurrentDateTime(),
+    odometer: '',
+    description: '',
+    destination: '',
+    status: status,
+  }
 
   useEffect(() => {
 
@@ -236,10 +240,10 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
                       }}
                       aria-label="Status"
                     >
-                      <ToggleButton value="input" aria-label="Entrada" color="secondary">
-                        Entrada
+                      <ToggleButton value='input' aria-label="Entrada" color="secondary">
+                        Entrada 
                       </ToggleButton>
-                      <ToggleButton value="output" aria-label="Saída" color="info">
+                      <ToggleButton value='output' aria-label="Saída" color="info">
                         Saída
                       </ToggleButton>
                     </ToggleButtonGroup>
