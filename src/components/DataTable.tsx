@@ -34,6 +34,13 @@ const DataTable = ({rows, columns, columnVisibilityModel}: DataTableProps) => {
         disableRowSelectionOnClick
         columnVisibilityModel={columnVisibilityModel}
         localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
+        sortingOrder={['asc', 'desc']}
+        sortModel={[
+          {
+            field: 'register_at',
+            sort: 'desc',
+          },
+        ]}
       />
     </Box>
   )

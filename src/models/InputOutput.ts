@@ -8,7 +8,7 @@ const inputOutputSchema = new mongoose.Schema({
     register_at: { type: Date },
     odometer: { type: Number, required: true },
     description: { type: String, default: null },
-    destiny: { type: String },
+    destination: { type: String },
     status: { type: String, enum: ["input", "output"], required: true },
     created_at: { type: Date, default: Date.now },
     updated_at: { type: Date, default: null }

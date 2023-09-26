@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
   await connectMongoose();
 
   try {
-    const { driver, vehicle, register_at, odometer, description, destiny, status } = await request.json();
+    const { driver, vehicle, register_at, odometer, description, destination, status } = await request.json();
 
     const inputOutputData = {
       driver,
@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
       register_at,
       odometer,
       description,
-      destiny,
+      destination,
       status,
     };
 

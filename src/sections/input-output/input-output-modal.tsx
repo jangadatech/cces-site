@@ -17,22 +17,15 @@ import 'react-toastify/dist/ReactToastify.css';
 import IDriver from '@/interfaces/IDriver';
 import IVehicle from '@/interfaces/IVehicle';
 import IInputOutput from '@/interfaces/IInputOutput';
+import isObjectId from '@/utils/isObjectIdUtil';
+import { DriveEtaRounded } from '@mui/icons-material';
 
 interface InputOutputModalProps {
   handleClose: () => void;
   open: boolean;
+  status: string
   inputOutputs?: IInputOutput[] | null,
-  setInputOutputs: Dispatch<SetStateAction<IInputOutput[] | undefined>>;
-}
-
-const inputOutputInit = {
-    driver: '',
-    vehicle: '',
-    register_at: getCurrentDateTime(),
-    odometer: '',
-    description: '',
-    destiny: '',
-    status: 'input',
+  setInputOutputs: Dispatch<SetStateAction<IInputOutput[] | undefined>>,
 }
 
 const style = {
@@ -46,11 +39,21 @@ const style = {
   p: 4,
 };
 
-export default function InputOutputModal({ handleClose, open, setInputOutputs }: InputOutputModalProps) {
+export default function InputOutputModal({ handleClose, open, setInputOutputs, status }: InputOutputModalProps) {
   const [isInput, setIsInput] = useState(true);
   const [drivers, setDrivers] = useState([]);
   const [vehicles, setVehicles] = useState([]);
   const [lastOdometer, setLastOdometer] = useState<number | null>(null);
+
+  const inputOutputInit = {
+    driver: '',
+    vehicle: '',
+    register_at: getCurrentDateTime(),
+    odometer: '',
+    description: '',
+    destination: '',
+    status: status,
+  }
 
   useEffect(() => {
 
@@ -74,15 +77,16 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
   }, []);
 
   const driversLabel = drivers.map((driver: IDriver) => {
-    return { label: driver.name, id: driver._id };
+    return { label: driver.name, id: driver._id  };
   });
-  
-  const prefixLabel = vehicles.map((vehicle: IVehicle) => {
+
+  const vehicleLabel = vehicles.map((vehicle: IVehicle) => {
     return { label: vehicle.prefix, id: vehicle._id, status: vehicle.status };
   });
 
   const handleStatusChange = (event: React.MouseEvent<HTMLElement>, newStatus: string, formikProps: any) => {
     setIsInput(!newStatus);
+    newStatus == "input" ? setIsInput(true) : setIsInput(false);
   };
 
   const handleLastOdometer = async (vehicle: any) => {
@@ -97,6 +101,21 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
   }
 
   const handleSaveData = async (values: any) => {
+
+    const {driver, vehicle} = values
+
+    if(!isObjectId(driver)){
+      const driverFound = findDriverId(driver)
+      values.driver = driverFound
+    } 
+
+    if(!isObjectId(vehicle)){
+      const vehicleFound = findVehicleId(vehicle)
+      values.vehicle = vehicleFound
+    } 
+
+    values.register_at = getCurrentDateTime();
+    
     try {
       const response = await saveInputOutput(values);
       if(response!.status == 200){
@@ -119,6 +138,7 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
       toast.error('Erro ao salvar dados!', { theme: "colored" });
     }
   };
+
   
   const saveInputOutput = async (values: any) => {
     try {
@@ -139,6 +159,55 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
     }
   };
 
+  function findDriverId(driverName: string) {
+    const driver = driversLabel.find(
+      (driverItem) => driverItem.label.toLowerCase() === driverName.toLowerCase()
+    );
+    return driver ? driver.id : "not Found";
+  }
+
+  function findVehicleId(vehcileName: string) {
+    const vehicle =  vehicleLabel.find(
+      (vehicleItem) => vehicleItem.label.toLowerCase() === vehcileName.toLowerCase()
+    );
+    return vehicle ? vehicle.id : "not Found";
+  }
+
+  const validateForm = (values: any) => {
+    const errors: any = {};
+  
+    if (!values.driver) {
+      errors.driver = 'Campo obrigatório.';
+    } else if (!/^[a-zA-Z]+$/.test(values.driver)) {
+      console.log('values.driver', values.driver)
+      errors.driver = 'Por favor, insira apenas letras no campo nome.';
+    }
+  
+    if (!values.vehicle) {
+      errors.vehicle = 'Campo obrigatório.';
+    } else if (!/^[0-9]+$/.test(values.vehicle)) {
+      errors.vehicle = 'Por favor, insira apenas números no campo veículo.';
+    }
+  
+    if (!values.odometer) {
+      errors.odometer = 'Campo obrigatório.';
+    } else if (!/^[0-9]+$/.test(values.odometer)) {
+      errors.odometer = 'Por favor, insira apenas números no campo odômetro.';
+    }
+  
+    if (!values.destination) {
+      errors.destination = 'Campo obrigatório.';
+    } else if (!/^[A-Za-z]+$/.test(values.destination)) {
+      errors.destination = 'Por favor, insira apenas letras no campo destino.';
+    }
+  
+    if (!values.status) {
+      errors.status = 'Campo obrigatório.';
+    }
+  
+    return errors;
+  };
+
   return (
     <div>
       <Modal
@@ -153,8 +222,9 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
             onSubmit={(values) => {
               handleSaveData(values);
             }}
+            validate={validateForm}
           >
-            {(formikProps: any) => (
+            {(formikProps: any)=> (
               <Form>
                 <Grid container spacing={2} alignItems="center">
                   <Grid item xs={12}>
@@ -168,22 +238,24 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
                       }}
                       aria-label="Status"
                     >
-                      <ToggleButton value="input" aria-label="Entrada" color="secondary">
-                        Entrada
+                      <ToggleButton value='input' aria-label="Entrada" color="secondary">
+                        Entrada 
                       </ToggleButton>
-                      <ToggleButton value="output" aria-label="Saída" color="info">
+                      <ToggleButton value='output' aria-label="Saída" color="info">
                         Saída
                       </ToggleButton>
                     </ToggleButtonGroup>
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <Autocomplete
-                      disablePortal
+                      freeSolo
+                      disablePortal 
                       id="combo-box-demo"
                       options={driversLabel}
-                      getOptionLabel={(option) => option.label}
+                      // getOptionLabel={(option) => option.}S
                       onChange={(event, driver) => {
-                        formikProps.setFieldValue('driver', driver ? driver.id : '');
+                        //@ts-ignore
+                        formikProps.setFieldValue('driver', driver ? driver.label : '');
                       }}
                       renderInput={(params) => (
                         <TextField
@@ -191,36 +263,27 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
                           fullWidth
                           label="Motorista"
                           name="driver"
+                          type="text"
                           value={formikProps.values.driver}
                           onChange={formikProps.handleChange}
                           variant="outlined"
                           placeholder="Nome"
+                          error={formikProps.touched.driver && Boolean(formikProps.errors.driver)}
+                          helperText={formikProps.touched.driver && formikProps.errors.driver}
                         />
                       )}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
-                    <TextField
-                      fullWidth
-                      label={isInput ? 'Entrada' : 'Saída'}
-                      name="register_at"
-                      type="datetime-local"
-                      value={
-                        formikProps.values.register_at || getCurrentDateTime()
-                      }
-                      onChange={formikProps.handleChange}
-                      variant="outlined"
-                      placeholder="Entrada"
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
                     <Autocomplete
+                      freeSolo
                       disablePortal
                       id="combo-box-demo"
-                      options={isInput ? prefixLabel.filter(item => item.status == "output") : prefixLabel.filter(item => item.status == "input")}
-                      getOptionLabel={(option) => option.label}
+                      options={isInput ? vehicleLabel.filter(item => item.status == "output") : vehicleLabel.filter(item => item.status == "input")}
+                      // getOptionLabel={(option) => option.label}
                       onChange={(event, vehicle) => {
-                        formikProps.setFieldValue('vehicle', vehicle ? vehicle.id : '');
+                        //@ts-ignore
+                        formikProps.setFieldValue('vehicle', vehicle ? vehicle.label : '');
                         handleLastOdometer(vehicle);
                       }}
                       renderInput={(params) => (
@@ -229,10 +292,12 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
                           fullWidth
                           label="Prefixo"
                           name="vehicle"
-                          value={formikProps.values.vehicle}
+                          value={formikProps.values.vehicle.id}
                           onChange={formikProps.handleChange}
                           variant="outlined"
                           placeholder="Prefixo"
+                          error={formikProps.touched.vehicle && Boolean(formikProps.errors.vehicle)}
+                          helperText={formikProps.touched.vehicle && formikProps.errors.vehicle}
                         />
                       )}
                     />
@@ -243,22 +308,24 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
                       disabled={isInput ? false : true}
                       label="Odômetro"
                       name="odometer"
-                      type="text"
                       value={isInput ? formikProps.values.odometer : formikProps.values.odometer = lastOdometer?.toString()}
                       onChange={formikProps.handleChange}
                       variant="outlined"
                       placeholder="Odometer"
+                      error={formikProps.touched.odometer && Boolean(formikProps.errors.odometer)}
+                      helperText={formikProps.touched.odometer && formikProps.errors.odometer}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={12}>
+                  <Grid item xs={12} sm={6}>
                     <TextField
                       fullWidth
                       label="Destino"
-                      name="destiny"
-                      value={formikProps.values.destiny}
+                      name="destination"
+                      value={formikProps.values.destination}
                       onChange={formikProps.handleChange}
                       variant="outlined"
                       placeholder="Destino"
+
                     />
                   </Grid>
                   <Grid item xs={12} sm={12}>
@@ -286,7 +353,7 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs }:
                   <Button
                     type="submit"
                     variant="contained"
-                    color="primary"
+                    color="primary"  
                   >
                     Salvar
                   </Button>

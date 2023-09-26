@@ -24,8 +24,12 @@ const InputOutput = () => {
 
   const [open, setOpen] = useState(false);
   const [inputOutputs, setInputOutputs] = useState<IInputOutput[]>();
+  const [status, setStatus] = useState('');
 
-  const handleClickOpen = () => setOpen(true);
+  const handleClickOpen = (direction: any) => {
+    setStatus(direction);
+    setOpen(true);
+  }
   const handleClose = () => setOpen(false);
 
   useEffect(() => {
@@ -38,8 +42,18 @@ const InputOutput = () => {
   }, [])
   
   useKeyboardShortcut(
-    [ "Shift" ,  "N" ], 
-    () => handleClickOpen(), 
+    [ "Shift" ,  "E" ], 
+    () => handleClickOpen('input'), 
+    {  
+      overrideSystem : false , 
+      ignoreInputFields : false ,  
+      repeatOnHold : false  
+    } 
+  );
+
+  useKeyboardShortcut(
+    [ "Shift" ,  "S" ], 
+    () => handleClickOpen('output'), 
     {  
       overrideSystem : false , 
       ignoreInputFields : false ,  
@@ -99,7 +113,7 @@ const InputOutput = () => {
       }
     },
     {
-      field: 'destiny',
+      field: 'destination',
       headerName: 'Destino',
       minWidth: 100,
       flex: useFlexGrow ? 1 : undefined,
@@ -177,7 +191,7 @@ const InputOutput = () => {
       driver: item.driver?.name,
       vehicle: item.vehicle?.prefix,
       odometer: item.odometer,
-      destiny: item.destiny,
+      destination: item.destination,
       register_at: item.register_at,
       created_at: item.created_at,
       updated_at: item.updated_at
@@ -185,6 +199,7 @@ const InputOutput = () => {
   };
   
   const transformedData = inputOutputs ? transformVehicleData(inputOutputs) : [];
+
 
   return (
     <>
@@ -260,7 +275,7 @@ const InputOutput = () => {
           </Stack>
         </Container>
       </Box>
-      <InputOutputModal open={open} handleClose={handleClose} setInputOutputs={setInputOutputs}/>
+      <InputOutputModal open={open} handleClose={handleClose} setInputOutputs={setInputOutputs} status={status}/>
     </>
   )
 }
