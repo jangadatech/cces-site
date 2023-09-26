@@ -200,7 +200,6 @@ const InputOutput = () => {
   
   const transformedData = inputOutputs ? transformVehicleData(inputOutputs) : [];
 
-  console.log('status', status);
 
   return (
     <>

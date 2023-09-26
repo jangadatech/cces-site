@@ -28,8 +28,6 @@ interface InputOutputModalProps {
   setInputOutputs: Dispatch<SetStateAction<IInputOutput[] | undefined>>,
 }
 
-
-
 const style = {
   position: 'absolute' as 'absolute',
   top: '50%',
@@ -118,7 +116,6 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs, s
 
     values.register_at = getCurrentDateTime();
     
-    console.log('values', values)
     try {
       const response = await saveInputOutput(values);
       if(response!.status == 200){
