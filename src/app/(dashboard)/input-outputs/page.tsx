@@ -24,8 +24,12 @@ const InputOutput = () => {
 
   const [open, setOpen] = useState(false);
   const [inputOutputs, setInputOutputs] = useState<IInputOutput[]>();
+  const [status, setStatus] = useState('');
 
-  const handleClickOpen = () => setOpen(true);
+  const handleClickOpen = (direction: any) => {
+    setStatus(direction);
+    setOpen(true);
+  }
   const handleClose = () => setOpen(false);
 
   useEffect(() => {
@@ -38,8 +42,18 @@ const InputOutput = () => {
   }, [])
   
   useKeyboardShortcut(
-    [ "Shift" ,  "N" ], 
-    () => handleClickOpen(), 
+    [ "Shift" ,  "E" ], 
+    () => handleClickOpen('input'), 
+    {  
+      overrideSystem : false , 
+      ignoreInputFields : false ,  
+      repeatOnHold : false  
+    } 
+  );
+
+  useKeyboardShortcut(
+    [ "Shift" ,  "S" ], 
+    () => handleClickOpen('output'), 
     {  
       overrideSystem : false , 
       ignoreInputFields : false ,  
@@ -186,6 +200,7 @@ const InputOutput = () => {
   
   const transformedData = inputOutputs ? transformVehicleData(inputOutputs) : [];
 
+
   return (
     <>
       <title>
@@ -260,7 +275,7 @@ const InputOutput = () => {
           </Stack>
         </Container>
       </Box>
-      <InputOutputModal open={open} handleClose={handleClose} setInputOutputs={setInputOutputs}/>
+      <InputOutputModal open={open} handleClose={handleClose} setInputOutputs={setInputOutputs} status={status}/>
     </>
   )
 }
