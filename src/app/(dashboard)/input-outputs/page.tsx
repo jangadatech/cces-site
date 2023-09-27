@@ -16,6 +16,8 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { useRouter } from 'next/navigation';
 import { URL } from '@/http/config';
+import { Status } from '@/enum/Status';
+import { ST } from 'next/dist/shared/lib/utils';
 
 const InputOutput = () => {
 
@@ -23,13 +25,15 @@ const InputOutput = () => {
 
   const [open, setOpen] = useState(false);
   const [inputOutputs, setInputOutputs] = useState<IInputOutput[]>();
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState<Status>();
 
-  const handleClickOpen = (direction: any) => {
-    setStatus(direction);
+  const handleClickOpen = (status: Status) => {
+    setStatus(status);
     setOpen(true);
   }
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false)
+  };
 
   useEffect(() => {
     const getInputOutput = async () => {
@@ -42,7 +46,8 @@ const InputOutput = () => {
   
   useKeyboardShortcut(
     [ "Shift" ,  "E" ], 
-    () => handleClickOpen('input'), 
+    
+    () => handleClickOpen(Status.INPUT),
     {  
       overrideSystem : false, 
       ignoreInputFields : false,  
@@ -52,7 +57,8 @@ const InputOutput = () => {
 
   useKeyboardShortcut(
     [ "Shift" ,  "S" ], 
-    () => handleClickOpen('output'), 
+    () => 
+      handleClickOpen(Status.OUTPUT), 
     {  
       overrideSystem : false, 
       ignoreInputFields : false,  
@@ -254,7 +260,7 @@ const InputOutput = () => {
               <Stack>
                 <div>
                   <Button
-                      onClick={handleClickOpen}
+                      onClick={() => handleClickOpen(Status.INPUT)}
                       startIcon={(
                         <SvgIcon fontSize="small">
                           <AddIcon />
@@ -274,7 +280,7 @@ const InputOutput = () => {
           </Stack>
         </Container>
       </Box>
-      <InputOutputModal open={open} handleClose={handleClose} setInputOutputs={setInputOutputs} status={status}/>
+      <InputOutputModal open={open} handleClose={handleClose} setInputOutputs={setInputOutputs} status={status as Status} setStatus={setStatus}/>
     </>
   )
 }

@@ -18,14 +18,15 @@ import IDriver from '@/interfaces/IDriver';
 import IVehicle from '@/interfaces/IVehicle';
 import IInputOutput from '@/interfaces/IInputOutput';
 import isObjectId from '@/utils/isObjectIdUtil';
-import { DriveEtaRounded } from '@mui/icons-material';
+import { Status } from '@/enum/Status';
 
 interface InputOutputModalProps {
   handleClose: () => void;
   open: boolean;
-  status: string
+  status: Status
   inputOutputs?: IInputOutput[] | null,
   setInputOutputs: Dispatch<SetStateAction<IInputOutput[] | undefined>>,
+  setStatus: Dispatch<SetStateAction<Status | undefined>>,
 }
 
 const style = {
@@ -39,8 +40,7 @@ const style = {
   p: 4,
 };
 
-export default function InputOutputModal({ handleClose, open, setInputOutputs, status }: InputOutputModalProps) {
-  const [isInput, setIsInput] = useState(true);
+export default function InputOutputModal({ handleClose, open, setInputOutputs, status, setStatus }: InputOutputModalProps) {
   const [drivers, setDrivers] = useState([]);
   const [vehicles, setVehicles] = useState([]);
   const [lastOdometer, setLastOdometer] = useState<number | null>(null);
@@ -84,9 +84,8 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs, s
     return { label: vehicle.prefix, id: vehicle._id, status: vehicle.status };
   });
 
-  const handleStatusChange = (event: React.MouseEvent<HTMLElement>, newStatus: string, formikProps: any) => {
-    setIsInput(!newStatus);
-    newStatus == "input" ? setIsInput(true) : setIsInput(false);
+  const handleStatusChange = (event: React.MouseEvent<HTMLElement>, newStatus: Status, formikProps: any) => {
+    setStatus(newStatus)
   };
 
   const handleLastOdometer = async (vehicle: any) => {
@@ -279,7 +278,7 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs, s
                       freeSolo
                       disablePortal
                       id="combo-box-demo"
-                      options={isInput ? vehicleLabel.filter(item => item.status == "output") : vehicleLabel.filter(item => item.status == "input")}
+                      options={Status.INPUT ? vehicleLabel.filter(item => item.status == Status.OUTPUT) : vehicleLabel.filter(item => item.status == Status.INPUT)}
                       // getOptionLabel={(option) => option.label}
                       onChange={(event, vehicle) => {
                         //@ts-ignore
@@ -305,10 +304,10 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs, s
                   <Grid item xs={12} sm={6}>
                     <TextField
                       fullWidth
-                      disabled={isInput ? false : true}
+                      disabled={status == Status.INPUT ? false : true}
                       label="Odômetro"
                       name="odometer"
-                      value={isInput ? formikProps.values.odometer : formikProps.values.odometer = lastOdometer?.toString()}
+                      value={status == Status.INPUT ? formikProps.values.odometer : formikProps.values.odometer = lastOdometer?.toString()}
                       onChange={formikProps.handleChange}
                       variant="outlined"
                       placeholder="Odometer"
