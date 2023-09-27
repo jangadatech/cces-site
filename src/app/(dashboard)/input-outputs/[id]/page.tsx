@@ -1,7 +1,6 @@
 'use client'
 
-import React from 'react';
-import useFetch from '@/hook/useFetch';
+import React, { useEffect, useState } from 'react';
 
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -11,6 +10,8 @@ import IInputOutput from '@/interfaces/IInputOutput';
 import FormInputOutput from '@/sections/input-output/FormInputOutput';
 import IDriver from '@/interfaces/IDriver';
 import IVehicle from '@/interfaces/IVehicle';
+import { URL } from '@/http/config';
+import { Status } from '@/enum/Status';
 
 interface SearchParamsURL {
   params: {
@@ -24,7 +25,16 @@ const UpdateInputOutput = (url: SearchParamsURL) => {
   const { id } = params;
   const router = useRouter();
 
-  const { response: inputOutput, loading, error, request } = useFetch<IInputOutput>(`/api/input-outputs/${id}`);
+  const [inputOutput, setInputOutput] = useState<IInputOutput>();
+
+  useEffect(() => {
+    const getInputOutput = async () => {
+      const res = await fetch(`${URL}/api/input-outputs/${id}`);
+      const data = await res.json();
+      setInputOutput(data)
+    }
+    getInputOutput()
+  }, [])
 
   const inputOutputInit: IInputOutput = {
     status: inputOutput?.status as string,
@@ -35,11 +45,36 @@ const UpdateInputOutput = (url: SearchParamsURL) => {
     odometer: inputOutput?.odometer as string,
   };
 
+  const updateInputOutput = async (id: string, values: IInputOutput) => {
+    const requestOptions = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(values),
+    };
+  
+    await fetch(`${URL}/api/input-outputs/${id}`, requestOptions);
+  };
+
+  const updateVehicle = async (vehicle: IVehicle) => {
+    const requestOptions = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(vehicle),
+    };
+  
+    await fetch(`${URL}/api/vehicles/${vehicle._id}`, requestOptions);
+  };
+
   const handleSubmit = async (values: IInputOutput) => {
     try {
-      await request('put', values);
+      const { vehicle, status } = values;
+      vehicle.status = status as Status;
+  
+      await updateInputOutput(id, values);
+      await updateVehicle(vehicle);
+  
       toast.success('Dados Atualizados com sucesso!', { theme: 'colored' });
-      router.push('/users');
+      router.push('/input-outputs');
     } catch (error) {
       console.error(error);
       toast.error('Erro ao Atualizar dados!', { theme: 'colored' });
@@ -68,4 +103,3 @@ const UpdateInputOutput = (url: SearchParamsURL) => {
 };
 
 export default UpdateInputOutput;
-

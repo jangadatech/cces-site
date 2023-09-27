@@ -2,7 +2,8 @@
 
 import CustomCard from "@/components/CustomCard";
 import CustomContainer from "@/components/CustomContainer";
-import IVehicle, { StatusVehicle } from "@/interfaces/IVehicle";
+import { Status } from "@/enum/Status";
+import IVehicle from "@/interfaces/IVehicle";
 import IVehicleTypeMap from "@/interfaces/IVehicleTypeMap";
 import { useEffect, useState } from "react";
 
@@ -24,7 +25,7 @@ export default function Home() {
     fetchVehiclesData();
   }, [])
 
-    const vehiclesFiltered = vehicles.filter(vehicle => vehicle.status === StatusVehicle.INPUT && vehicle.active == true);
+    const vehiclesFiltered = vehicles.filter(vehicle => vehicle.status === Status.INPUT && vehicle.active == true);
 
     const vehicleTypeMap: IVehicleTypeMap = {};
 

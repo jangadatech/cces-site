@@ -9,7 +9,6 @@ import useKeyboardShortcut from 'use-keyboard-shortcut';
 import { ToastContainer } from 'react-toastify';
 import IInputOutput from '@/interfaces/IInputOutput';
 import DataTable from '@/components/DataTable';
-import useFetch from '@/hook/useFetch';
 import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
@@ -45,8 +44,8 @@ const InputOutput = () => {
     [ "Shift" ,  "E" ], 
     () => handleClickOpen('input'), 
     {  
-      overrideSystem : false , 
-      ignoreInputFields : false ,  
+      overrideSystem : false, 
+      ignoreInputFields : false,  
       repeatOnHold : false  
     } 
   );
@@ -55,8 +54,8 @@ const InputOutput = () => {
     [ "Shift" ,  "S" ], 
     () => handleClickOpen('output'), 
     {  
-      overrideSystem : false , 
-      ignoreInputFields : false ,  
+      overrideSystem : false, 
+      ignoreInputFields : false,  
       repeatOnHold : false  
     } 
   );

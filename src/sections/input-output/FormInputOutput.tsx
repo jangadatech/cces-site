@@ -40,7 +40,7 @@ const FormUsers = ({ handleSubmit, typeText, initialValues }: FormInputOutputPro
       setDrivers(driversData)
     }
     fetchAll()
-  })
+  }, [])
 
   const status = [
     { value: 'input', label: 'Entrada' },
