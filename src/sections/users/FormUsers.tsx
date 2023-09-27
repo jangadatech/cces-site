@@ -121,8 +121,10 @@ const status = [
                       <TextField
                         fullWidth
                         label="Senha"
+                        name="password"
                         type="password"
-                        autoComplete="current-password"
+                        value={formikProps.values.password}
+                        onChange={formikProps.handleChange}
                         variant="standard"
                       />
                       <TextField

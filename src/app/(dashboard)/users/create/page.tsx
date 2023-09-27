@@ -14,7 +14,7 @@ const CreateUser = () => {
 
   const router = useRouter();
 
-  const inputOutputInit: IUser = {
+  const user: IUser = {
     full_name: '',
     username: '',
     profile: '',
@@ -22,9 +22,7 @@ const CreateUser = () => {
     active: true
   }
 
-  const [isLoading, setIsLoading] = useState(false);
-  const { response: drivers, loading, error, request } = useFetch<IDriver[]>('/api/users');
-
+  const { response: users, loading, error, request } = useFetch<IDriver[]>('/api/users');
 
   const handleSubmit = async (values: any) => {
     try {
@@ -35,7 +33,6 @@ const CreateUser = () => {
       console.error(error);
       toast.error('Erro ao salvar dados!', { theme: 'colored' });
     }
-    setIsLoading(false);
   };
 
   return (
@@ -43,7 +40,7 @@ const CreateUser = () => {
       <title>
         Cadastrar Usuários | CCES
       </title>
-      <FormUsers handleSubmit={handleSubmit} typeText="Cadastrar" initialValues={inputOutputInit} />;
+      <FormUsers handleSubmit={handleSubmit} typeText="Cadastrar" initialValues={user} />;
     </>
   )
 };
