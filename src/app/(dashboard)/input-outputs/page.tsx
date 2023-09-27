@@ -79,7 +79,8 @@ const InputOutput = () => {
       minWidth: 50,
       flex: useFlexGrow ? 1 : undefined,
       align: 'center',
-      headerAlign: 'center'
+      headerAlign: 'center',
+      hideable: false
     },
     {
       field: 'driver',
@@ -113,7 +114,7 @@ const InputOutput = () => {
       align: 'center',
       headerAlign: 'center',
       renderCell: (params: any) => {
-        const isInput = params.value === "input";
+        const isInput = params.value === Status.INPUT;
         return <Chip icon={isInput ? <KeyboardDoubleArrowRightIcon /> : <KeyboardDoubleArrowLeftIcon />}  label={isInput? "Entrada": "Saída"} variant={"filled"} color={isInput ? "secondary" : "info"} />;
       }
     },
@@ -276,7 +277,7 @@ const InputOutput = () => {
                 </div>
               </Stack>
             </Stack>
-            <DataTable  columns={columns} rows={transformedData} columnVisibilityModel={{ id: false, created_at: false }} />
+            <DataTable  columns={columns} rows={transformedData} />
           </Stack>
         </Container>
       </Box>

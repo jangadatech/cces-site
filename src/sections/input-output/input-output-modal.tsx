@@ -88,9 +88,11 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs, s
     setStatus(newStatus)
   };
 
-  const handleLastOdometer = async (vehicle: any) => {
-    if(vehicle){
-      const response = await fetch(`${URL}/api/input-outputs/last-odometer/${vehicle.id}`);
+  const handleLastOdometer = async (vehicleId: any) => {
+    setLastOdometer(null)
+    
+    if(vehicleId){
+      const response = await fetch(`${URL}/api/input-outputs/last-odometer/${vehicleId}`);
       const data = await response.json()
       setLastOdometer(data.odometer)
     }else{
@@ -251,7 +253,6 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs, s
                       disablePortal 
                       id="combo-box-demo"
                       options={driversLabel}
-                      // getOptionLabel={(option) => option.}S
                       onChange={(event, driver) => {
                         //@ts-ignore
                         formikProps.setFieldValue('driver', driver ? driver.label : '');
@@ -278,12 +279,16 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs, s
                       freeSolo
                       disablePortal
                       id="combo-box-demo"
-                      options={Status.INPUT ? vehicleLabel.filter(item => item.status == Status.OUTPUT) : vehicleLabel.filter(item => item.status == Status.INPUT)}
-                      // getOptionLabel={(option) => option.label}
+                      options={status == Status.INPUT ? vehicleLabel.filter(item => item.status == Status.OUTPUT) : vehicleLabel.filter(item => item.status == Status.INPUT)}
                       onChange={(event, vehicle) => {
                         //@ts-ignore
                         formikProps.setFieldValue('vehicle', vehicle ? vehicle.label : '');
-                        handleLastOdometer(vehicle);
+                        //@ts-ignore
+                        handleLastOdometer(vehicle.id);
+                      }}
+                      onBlur={() => {
+                        const vehicleId = findVehicleId(formikProps.values.vehicle)
+                        handleLastOdometer(vehicleId);
                       }}
                       renderInput={(params) => (
                         <TextField
@@ -305,7 +310,7 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs, s
                     <TextField
                       fullWidth
                       disabled={status == Status.INPUT ? false : true}
-                      label="Odômetro"
+                      label={"Odômetro"}
                       name="odometer"
                       value={status == Status.INPUT ? formikProps.values.odometer : formikProps.values.odometer = lastOdometer?.toString()}
                       onChange={formikProps.handleChange}
@@ -346,7 +351,10 @@ export default function InputOutputModal({ handleClose, open, setInputOutputs, s
                   </Grid>
                 </Grid>
                 <DialogActions>
-                  <Button onClick={handleClose} color="primary">
+                  <Button onClick={() => {
+                    handleClose()
+                    setLastOdometer(null)
+                  }} color="primary">
                     Cancelar
                   </Button>
                   <Button
