@@ -8,7 +8,7 @@ const authOption = {
     CredentialsProvider({
       name: "credentials",
       credentials: {
-        username: { label: "Username", type: "text", placeholder: "jsmith" },
+        username: { label: "Username", type: "text" },
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials, req) {
@@ -22,10 +22,12 @@ const authOption = {
           },
           body: JSON.stringify({ username, password }),
         });
-        
+
         if (loginResponse.ok) {  
           const user = await loginResponse.json();
-          return user;
+          const {_id, username, full_name, profile} = user;
+
+          return { id: _id, name: full_name, username: username, profile: profile };
         } else {
           return null;
         }
