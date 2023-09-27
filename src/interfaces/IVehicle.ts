@@ -1,9 +1,5 @@
+import { Status } from "@/enum/Status";
 import IVehicleType from "./IVehicleType";
-
-export const enum StatusVehicle {
-  INPUT = 'input',
-  OUTPUT = 'output',
-}
 
 export default interface IVehicle {
   _id?: string;
@@ -12,7 +8,7 @@ export default interface IVehicle {
   prefix: string;
   vehicle_type_id?: string;
   vehicle_type?: IVehicleType | null;
-  status?: StatusVehicle;
+  status?: Status;
   updated_at?: string | null;
   created_at?: string;
 }

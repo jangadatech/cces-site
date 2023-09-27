@@ -9,7 +9,6 @@ import useKeyboardShortcut from 'use-keyboard-shortcut';
 import { ToastContainer } from 'react-toastify';
 import IInputOutput from '@/interfaces/IInputOutput';
 import DataTable from '@/components/DataTable';
-import useFetch from '@/hook/useFetch';
 import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
@@ -17,6 +16,8 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { useRouter } from 'next/navigation';
 import { URL } from '@/http/config';
+import { Status } from '@/enum/Status';
+import { ST } from 'next/dist/shared/lib/utils';
 
 const InputOutput = () => {
 
@@ -24,13 +25,15 @@ const InputOutput = () => {
 
   const [open, setOpen] = useState(false);
   const [inputOutputs, setInputOutputs] = useState<IInputOutput[]>();
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState<Status>();
 
-  const handleClickOpen = (direction: any) => {
-    setStatus(direction);
+  const handleClickOpen = (status: Status) => {
+    setStatus(status);
     setOpen(true);
   }
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false)
+  };
 
   useEffect(() => {
     const getInputOutput = async () => {
@@ -43,20 +46,22 @@ const InputOutput = () => {
   
   useKeyboardShortcut(
     [ "Shift" ,  "E" ], 
-    () => handleClickOpen('input'), 
+    
+    () => handleClickOpen(Status.INPUT),
     {  
-      overrideSystem : false , 
-      ignoreInputFields : false ,  
+      overrideSystem : false, 
+      ignoreInputFields : false,  
       repeatOnHold : false  
     } 
   );
 
   useKeyboardShortcut(
     [ "Shift" ,  "S" ], 
-    () => handleClickOpen('output'), 
+    () => 
+      handleClickOpen(Status.OUTPUT), 
     {  
-      overrideSystem : false , 
-      ignoreInputFields : false ,  
+      overrideSystem : false, 
+      ignoreInputFields : false,  
       repeatOnHold : false  
     } 
   );
@@ -74,7 +79,8 @@ const InputOutput = () => {
       minWidth: 50,
       flex: useFlexGrow ? 1 : undefined,
       align: 'center',
-      headerAlign: 'center'
+      headerAlign: 'center',
+      hideable: false
     },
     {
       field: 'driver',
@@ -108,7 +114,7 @@ const InputOutput = () => {
       align: 'center',
       headerAlign: 'center',
       renderCell: (params: any) => {
-        const isInput = params.value === "input";
+        const isInput = params.value === Status.INPUT;
         return <Chip icon={isInput ? <KeyboardDoubleArrowRightIcon /> : <KeyboardDoubleArrowLeftIcon />}  label={isInput? "Entrada": "Saída"} variant={"filled"} color={isInput ? "secondary" : "info"} />;
       }
     },
@@ -255,7 +261,7 @@ const InputOutput = () => {
               <Stack>
                 <div>
                   <Button
-                      onClick={handleClickOpen}
+                      onClick={() => handleClickOpen(Status.INPUT)}
                       startIcon={(
                         <SvgIcon fontSize="small">
                           <AddIcon />
@@ -271,11 +277,11 @@ const InputOutput = () => {
                 </div>
               </Stack>
             </Stack>
-            <DataTable  columns={columns} rows={transformedData} columnVisibilityModel={{ id: false, created_at: false }} />
+            <DataTable  columns={columns} rows={transformedData} />
           </Stack>
         </Container>
       </Box>
-      <InputOutputModal open={open} handleClose={handleClose} setInputOutputs={setInputOutputs} status={status}/>
+      <InputOutputModal open={open} handleClose={handleClose} setInputOutputs={setInputOutputs} status={status as Status} setStatus={setStatus}/>
     </>
   )
 }
