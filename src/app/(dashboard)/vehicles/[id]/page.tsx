@@ -28,6 +28,7 @@ const UpdateDriver = (url: SearchParamsURL) => {
       plate: vehicle?.plate as string,
       active: vehicle?.active as boolean,
       prefix: vehicle?.prefix as string,
+      vehicle_type_id: vehicle?.vehicle_type_id
   };
 
   const handleSubmit = async (values: IVehicle) => {

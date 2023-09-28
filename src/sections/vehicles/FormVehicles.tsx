@@ -1,3 +1,5 @@
+'use client'
+
 import IVehicle from "@/interfaces/IVehicle";
 import { Box, TextField, Button, Container, Typography, Stack, CircularProgress, MenuItem } from "@mui/material";
 import { Formik, Form } from "formik";
@@ -6,6 +8,7 @@ import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { URL } from '@/http/config';
+import IVehicleType from "@/interfaces/IVehicleType";
 
 interface FormVehicleProps {
   handleSubmit: (values: IVehicle) => Promise<void>;
@@ -15,20 +18,20 @@ interface FormVehicleProps {
 
 async function getVehicleTypes() {
   const res = await fetch(`${URL}/api/vehicles-types`)
-  return res.json()
+  return await res.json()
 }
 
 const FormVehicles = ({ handleSubmit, typeText, initialValues }: FormVehicleProps) => {
 
   const [isLoading, setIsLoading] = useState(false);
-  const [vehicleTypeData, setvehicleTypeData] = useState([]);
+  const [vehicleTypeData, setvehicleTypeData] = useState<IVehicleType[]>();
   const router = useRouter();
 
   useEffect(() => {
     async function fetchVehicleTypes() {
       try {
         const response = await getVehicleTypes();
-        setvehicleTypeData(response.data)
+        setvehicleTypeData(response)
       } catch (error) {
         console.log(error)
       }
@@ -114,13 +117,12 @@ const FormVehicles = ({ handleSubmit, typeText, initialValues }: FormVehicleProp
                         onChange={formikProps.handleChange}
                         variant="standard"
                       >
-                        {vehicleTypeData.map((option: any) => (
+                        {vehicleTypeData?.map((option: any) => (
                           <MenuItem key={option._id} value={option._id}>
                             {option.name}
                           </MenuItem>
                         ))}
                       </TextField>
-                      
                       <TextField
                         fullWidth
                         label="Ativo"
